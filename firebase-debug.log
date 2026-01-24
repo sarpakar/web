@@ -1,0 +1,114 @@
+[debug] [2026-01-23T21:25:51.880Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:25:51.881Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:25:51.881Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:25:51.881Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:25:51.881Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:51.881Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:51.881Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:51.881Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:51.881Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:25:51.881Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:25:51.881Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:51.881Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:51.882Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:25:51.882Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:25:51.883Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:25:52.053Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:25:52.053Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:25:52.061Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.061Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.061Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [none]
+[debug] [2026-01-23T21:25:52.061Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com x-goog-quota-user=projects/campusmealsv2-bd20b
+[debug] [2026-01-23T21:25:52.069Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:25:52.069Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:25:52.071Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.071Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.071Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [none]
+[debug] [2026-01-23T21:25:52.071Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com x-goog-quota-user=projects/campusmealsv2-bd20b
+[debug] [2026-01-23T21:25:52.072Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:25:52.072Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:25:52.072Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.072Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.073Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [none]
+[debug] [2026-01-23T21:25:52.073Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com x-goog-quota-user=projects/campusmealsv2-bd20b
+[debug] [2026-01-23T21:25:52.315Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com 403
+[debug] [2026-01-23T21:25:52.315Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [omitted]
+[debug] [2026-01-23T21:25:52.318Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com 403
+[debug] [2026-01-23T21:25:52.318Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [omitted]
+[debug] [2026-01-23T21:25:52.319Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com 403
+[debug] [2026-01-23T21:25:52.320Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [omitted]
+[debug] [2026-01-23T21:25:52.350Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:25:52.350Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:25:52.350Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.350Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.350Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:25:52.352Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:25:52.352Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:25:52.352Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.352Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:25:52.352Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:25:52.430Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:25:52.430Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:25:52.431Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:25:52.431Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:25:52.488Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:25:52.488Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:25:52.490Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:25:52.490Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:26:06.478Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:26:06.479Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:26:06.479Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:26:06.480Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:26:06.480Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.480Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.480Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.480Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.480Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:26:06.480Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:26:06.480Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.480Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.480Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:26:06.481Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:26:06.481Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:26:06.610Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:26:06.610Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:26:06.617Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.617Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.618Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [none]
+[debug] [2026-01-23T21:26:06.618Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com x-goog-quota-user=projects/campusmealsv2-bd20b
+[debug] [2026-01-23T21:26:06.639Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:26:06.639Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:26:06.641Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.641Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.641Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [none]
+[debug] [2026-01-23T21:26:06.641Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com x-goog-quota-user=projects/campusmealsv2-bd20b
+[debug] [2026-01-23T21:26:06.666Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:26:06.666Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:26:06.667Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.667Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.667Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [none]
+[debug] [2026-01-23T21:26:06.667Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com x-goog-quota-user=projects/campusmealsv2-bd20b
+[debug] [2026-01-23T21:26:06.851Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com 403
+[debug] [2026-01-23T21:26:06.851Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [omitted]
+[debug] [2026-01-23T21:26:06.866Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com 403
+[debug] [2026-01-23T21:26:06.867Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [omitted]
+[debug] [2026-01-23T21:26:06.885Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:26:06.885Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:26:06.885Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.886Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.886Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:26:06.891Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com 403
+[debug] [2026-01-23T21:26:06.891Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/campusmealsv2-bd20b/services/firebaseio.com [omitted]
+[debug] [2026-01-23T21:26:06.934Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:26:06.934Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:26:06.934Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.934Z] Checked if tokens are valid: true, expires at: 1769206641893
+[debug] [2026-01-23T21:26:06.934Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo [none]
+[debug] [2026-01-23T21:26:07.011Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:26:07.012Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:26:07.015Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:26:07.015Z] > authorizing via signed-in user (sa9932@nyu.edu)
+[debug] [2026-01-23T21:26:07.020Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo 200
+[debug] [2026-01-23T21:26:07.020Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/campusmealsv2-bd20b/billingInfo {"name":"projects/campusmealsv2-bd20b/billingInfo","projectId":"campusmealsv2-bd20b","billingAccountName":"billingAccounts/018FFF-A58D4A-313268","billingEnabled":true}
+[debug] [2026-01-23T21:26:07.023Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-23T21:26:07.023Z] > authorizing via signed-in user (sa9932@nyu.edu)
