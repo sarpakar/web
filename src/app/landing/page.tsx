@@ -353,7 +353,7 @@ export default function LandingPage() {
       <section id="testimonials" className="w-full py-24 bg-gradient-to-b from-[#FAF9F6] to-white overflow-hidden" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif' }}>
         <div className="max-w-7xl mx-auto px-8">
           {/* Section Header */}
-          <div className="mb-16">
+          <div className="mb-16 text-center">
             <h2 className="text-5xl lg:text-6xl font-bold text-gray-900" style={{ fontWeight: '700' }}>
               Students Love CampusMeals.
             </h2>
