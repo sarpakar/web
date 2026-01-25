@@ -19,7 +19,7 @@ export default function MeetupCard({ meetup, onRSVP }: MeetupCardProps) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
       {/* Venue Image */}
-      <div className="relative h-32 bg-gradient-to-br from-orange-400 to-red-500">
+      <div className="relative h-32 bg-gradient-to-br from-gray-600 to-gray-800">
         {meetup.venueImageURL && (
           <img
             src={meetup.venueImageURL}

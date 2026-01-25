@@ -334,7 +334,7 @@ export default function LogMealPage() {
                   value={calories}
                   onChange={setCalories}
                   unit="cal"
-                  icon={<Flame className="w-5 h-5 text-orange-500" />}
+                  icon={<Flame className="w-5 h-5 text-gray-600" />}
                 />
                 <NutritionInput
                   label="Protein"

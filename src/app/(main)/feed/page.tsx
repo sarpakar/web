@@ -97,7 +97,7 @@ export default function FeedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC]">
       {/* Filter Pills */}
       <FilterPills onFilterChange={handleFilterChange} />
 
@@ -132,13 +132,13 @@ export default function FeedPage() {
       {/* Loading State */}
       {isLoading && (
         <div className="mx-4 mb-4">
-          <div className="bg-white rounded-xl border border-border shadow-card">
+          <div className="backdrop-blur-lg bg-white/60 rounded-[32px] border border-gray-200 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
             <div className="flex flex-col items-center justify-center py-12">
               <div className="relative w-10 h-10">
-                <div className="absolute inset-0 rounded-full border-2 border-border" />
-                <div className="absolute inset-0 rounded-full border-2 border-accent-DEFAULT border-t-transparent animate-spin" />
+                <div className="absolute inset-0 rounded-full border-2 border-gray-200" />
+                <div className="absolute inset-0 rounded-full border-2 border-gray-900 border-t-transparent animate-spin" />
               </div>
-              <p className="mt-3 text-sm text-text-secondary font-medium">Loading posts...</p>
+              <p className="mt-3 text-sm text-gray-600 font-medium">Loading posts...</p>
             </div>
           </div>
         </div>
@@ -147,13 +147,13 @@ export default function FeedPage() {
       {/* Empty state for no posts */}
       {!isLoading && posts.length === 0 && (
         <div className="mx-4 mb-4">
-          <div className="text-center py-16 px-4 bg-white rounded-xl border border-border shadow-card">
+          <div className="text-center py-16 px-4 backdrop-blur-lg bg-white/60 rounded-[32px] border border-gray-200/30 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
           <div className="text-6xl mb-4">📱</div>
-          <h3 className="text-xl font-semibold text-text-primary mb-2">No posts yet</h3>
-          <p className="text-text-secondary mb-6">Be the first to share something with the community</p>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">No posts yet</h3>
+          <p className="text-gray-600 mb-6">Be the first to share something with the community</p>
           <Link
             href="/log-meal"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-accent-DEFAULT text-white rounded-lg font-semibold hover:bg-accent-hover shadow-soft hover:shadow-card transition-all duration-200"
+            className="inline-flex items-center gap-2 px-6 py-3 backdrop-blur-2xl bg-gray-900/95 text-white rounded-[20px] font-semibold hover:bg-gray-900 shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.25)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

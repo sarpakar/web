@@ -25,7 +25,7 @@ export default function VendorCard({ vendor, onClick }: VendorCardProps) {
     switch (status) {
       case 'Confident (No wait)': return 'text-green-600 bg-green-50';
       case 'Short wait (5-10 min)': return 'text-yellow-600 bg-yellow-50';
-      case 'Medium wait (15-20 min)': return 'text-orange-600 bg-orange-50';
+      case 'Medium wait (15-20 min)': return 'text-gray-700 bg-gray-100';
       case 'Long wait (30+ min)': return 'text-red-600 bg-red-50';
       default: return '';
     }

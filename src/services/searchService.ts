@@ -6,7 +6,7 @@
 import { SearchResult } from '@/types';
 
 // API Configuration - Using keys from iOS APIKeys-Info.plist
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || 'AIzaSyAtyNBpQY1f4bOlaTIZTDJxT4ULdXt-PpY';
+const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
 interface GeminiResponse {
   candidates?: {

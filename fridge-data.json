@@ -1,0 +1,239 @@
+[
+  {
+    "id": "dMw3fTlIvIpnXkqe1W4o",
+    "name": "Kek",
+    "ownerId": "PbJtNnnTuDc5HwG3dpY1hhC34652",
+    "type": "shared",
+    "settings": {
+      "theme": "ice-blue",
+      "sharedShoppingList": true,
+      "allowMemberInvites": true,
+      "notifyOnLowStock": false
+    },
+    "inviteCode": "FRGGJR",
+    "createdAt": {
+      "_seconds": 1764029355,
+      "_nanoseconds": 259000000
+    },
+    "schemaVersion": 2,
+    "inviteExpiry": {
+      "_seconds": 1766621355,
+      "_nanoseconds": 259000000
+    },
+    "migratedAt": {
+      "_seconds": 1767773760,
+      "_nanoseconds": 677000000
+    },
+    "updatedAt": {
+      "_seconds": 1767773760,
+      "_nanoseconds": 677000000
+    },
+    "items": [
+      {
+        "id": "0882ff07-02e6-4026-bd04-c66cdaf55d63",
+        "expiryDays": 21,
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/campusmealsv2-bd20b.firebasestorage.app/o/fridge_images%2Fgrapefruit.png?alt=media",
+        "isConsumed": false,
+        "addedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "emoji": "🍊",
+        "addedBy": "PbJtNnnTuDc5HwG3dpY1hhC34652",
+        "fridgeId": "dMw3fTlIvIpnXkqe1W4o",
+        "addedByName": "Sarp",
+        "updatedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "quantity": "2",
+        "expiryDate": {
+          "_seconds": 1770815213,
+          "_nanoseconds": 266672000
+        },
+        "category": "fruit",
+        "name": "Grapefruit"
+      },
+      {
+        "id": "3685ae3c-a63e-439d-8cef-db6359165bf6",
+        "isConsumed": false,
+        "emoji": "🥤",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/campusmealsv2-bd20b.firebasestorage.app/o/fridge_images%2Fpoppi_lemon_lime.png?alt=media",
+        "category": "beverage",
+        "addedBy": "PbJtNnnTuDc5HwG3dpY1hhC34652",
+        "expiryDate": {
+          "_seconds": 1784552813,
+          "_nanoseconds": 266672000
+        },
+        "updatedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "name": "Poppi Lemon Lime",
+        "addedByName": "Sarp",
+        "quantity": "4 pack",
+        "expiryDays": 180,
+        "addedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "fridgeId": "dMw3fTlIvIpnXkqe1W4o"
+      },
+      {
+        "id": "5ea6d534-e947-4f48-8d4a-5d9d3f7c9c94",
+        "addedByName": "Sarp",
+        "addedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "expiryDays": 5,
+        "category": "vegetable",
+        "isConsumed": false,
+        "expiryDate": {
+          "_seconds": 1769432813,
+          "_nanoseconds": 266672000
+        },
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/campusmealsv2-bd20b.firebasestorage.app/o/fridge_images%2Fasparagus.png?alt=media",
+        "fridgeId": "dMw3fTlIvIpnXkqe1W4o",
+        "addedBy": "PbJtNnnTuDc5HwG3dpY1hhC34652",
+        "updatedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "quantity": "1 bunch",
+        "emoji": "🥦",
+        "name": "Asparagus"
+      },
+      {
+        "id": "91a4460f-e24e-4fc1-95fa-3de96be77d49",
+        "name": "Napa Cabbage",
+        "expiryDays": 10,
+        "quantity": "1 head",
+        "addedBy": "PbJtNnnTuDc5HwG3dpY1hhC34652",
+        "fridgeId": "dMw3fTlIvIpnXkqe1W4o",
+        "emoji": "🥬",
+        "expiryDate": {
+          "_seconds": 1769864813,
+          "_nanoseconds": 266672000
+        },
+        "category": "vegetable",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/campusmealsv2-bd20b.firebasestorage.app/o/fridge_images%2Fnapa_cabbage.png?alt=media",
+        "addedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "updatedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "isConsumed": false,
+        "addedByName": "Sarp"
+      },
+      {
+        "id": "dd53e71c-35b6-42fd-ac53-22244f0e54e1",
+        "updatedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "quantity": "1",
+        "fridgeId": "dMw3fTlIvIpnXkqe1W4o",
+        "expiryDate": {
+          "_seconds": 1769432813,
+          "_nanoseconds": 266672000
+        },
+        "category": "fruit",
+        "addedByName": "Sarp",
+        "isConsumed": false,
+        "expiryDays": 5,
+        "name": "Pineapple",
+        "emoji": "🍍",
+        "addedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/campusmealsv2-bd20b.firebasestorage.app/o/fridge_images%2Fpineapple.png?alt=media",
+        "addedBy": "PbJtNnnTuDc5HwG3dpY1hhC34652"
+      },
+      {
+        "id": "e4bd580d-ccfd-406d-a3c1-7074eeb68cec",
+        "expiryDate": {
+          "_seconds": 1774184813,
+          "_nanoseconds": 266672000
+        },
+        "isConsumed": false,
+        "updatedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "category": "dairy",
+        "expiryDays": 60,
+        "emoji": "🧀",
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/campusmealsv2-bd20b.firebasestorage.app/o/fridge_images%2Fparmesan_cheese.png?alt=media",
+        "name": "Parmesan Cheese",
+        "addedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "addedBy": "PbJtNnnTuDc5HwG3dpY1hhC34652",
+        "addedByName": "Sarp",
+        "quantity": "1 wedge",
+        "fridgeId": "dMw3fTlIvIpnXkqe1W4o"
+      },
+      {
+        "id": "fe5c1cbc-72b7-4553-9e96-e64f2b522117",
+        "name": "Blueberries",
+        "isConsumed": false,
+        "addedByName": "Sarp",
+        "addedBy": "PbJtNnnTuDc5HwG3dpY1hhC34652",
+        "emoji": "🫐",
+        "quantity": "1 container",
+        "category": "fruit",
+        "fridgeId": "dMw3fTlIvIpnXkqe1W4o",
+        "updatedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "imageUrl": "https://firebasestorage.googleapis.com/v0/b/campusmealsv2-bd20b.firebasestorage.app/o/fridge_images%2Fblueberries.png?alt=media",
+        "addedAt": {
+          "_seconds": 1769000813,
+          "_nanoseconds": 266672000
+        },
+        "expiryDate": {
+          "_seconds": 1769605613,
+          "_nanoseconds": 266672000
+        },
+        "expiryDays": 7
+      }
+    ],
+    "members": [
+      {
+        "id": "7ebBFn039cNE0Typ0nMcVP652UP2",
+        "userId": "7ebBFn039cNE0Typ0nMcVP652UP2",
+        "email": "sarp.akar@gmail.com",
+        "displayName": "Sarp Akar",
+        "photoURL": "https://lh3.googleusercontent.com/a/ACg8ocJAkukv0FtPJI9J4P3qgKjKJSlpBNJId0TesBRyAAL0cSRxTlA=s96-c",
+        "role": "member",
+        "joinedAt": {
+          "_seconds": 1769306772,
+          "_nanoseconds": 776000000
+        }
+      },
+      {
+        "id": "PbJtNnnTuDc5HwG3dpY1hhC34652",
+        "email": "akarsarp0@gmail.com",
+        "role": "owner",
+        "userId": "PbJtNnnTuDc5HwG3dpY1hhC34652",
+        "photoURL": null,
+        "joinedAt": {
+          "_seconds": 1764029355,
+          "_nanoseconds": 259000000
+        },
+        "displayName": "Me",
+        "migratedAt": {
+          "_seconds": 1767773759,
+          "_nanoseconds": 736000000
+        }
+      }
+    ]
+  }
+]

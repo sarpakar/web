@@ -10,11 +10,11 @@ import {
   Search,
   Earth,
   Bell,
-  Compass,
   User,
   Plus,
   QrCode,
   LogOut,
+  Refrigerator,
 } from 'lucide-react';
 
 // Navigation items
@@ -25,7 +25,7 @@ const primaryNavItems = [
 
 const secondaryNavItems = [
   { name: 'Activity', href: '/challenges', icon: Bell },
-  { name: 'Explore', href: '/explore', icon: Compass },
+  { name: 'Fridge', href: '/fridge', icon: Refrigerator },
   { name: 'Profile', href: '/profile', icon: User },
 ];
 
@@ -60,8 +60,8 @@ export default function Sidebar() {
           onClick={handleNavClick}
           className={`flex items-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 outline-none select-none ${
             isActive
-              ? 'bg-surface text-black'
-              : 'text-text-primary hover:bg-surface'
+              ? 'bg-gray-900/10 text-gray-900 font-semibold'
+              : 'text-gray-700 hover:text-gray-900 hover:font-semibold'
           }`}
           style={{ WebkitTapHighlightColor: 'transparent' }}
         >
@@ -84,7 +84,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`fixed left-0 top-0 h-screen flex flex-col bg-white border-r border-border z-50 transition-[width] duration-200 ease-out ${
+      className={`hidden sm:fixed left-0 top-0 h-screen sm:flex flex-col backdrop-blur-lg bg-white/60 border-r border-gray-200/30 z-50 transition-[width] duration-200 ease-out ${
         isCollapsed ? 'w-[72px]' : 'w-[72px] xl:w-[220px]'
       }`}
     >
@@ -112,8 +112,8 @@ export default function Sidebar() {
               onClick={toggleSearch}
               className={`w-full flex items-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 outline-none select-none ${
                 isSearchOpen
-                  ? 'bg-surface text-black'
-                  : 'text-text-primary hover:bg-surface'
+                  ? 'bg-gray-900/10 text-gray-900 font-semibold'
+                  : 'text-gray-700 hover:text-gray-900 hover:font-semibold'
               }`}
               style={{ WebkitTapHighlightColor: 'transparent' }}
             >
@@ -136,7 +136,7 @@ export default function Sidebar() {
         </ul>
 
         {/* Divider */}
-        <div className="my-2 border-t border-border" />
+        <div className="my-2 border-t border-gray-200/30" />
 
         {/* Secondary Navigation */}
         <ul className="space-y-1.5">
@@ -149,7 +149,7 @@ export default function Sidebar() {
         <Link
           href="/log-meal"
           onClick={handleNavClick}
-          className="flex items-center justify-center gap-2 w-full p-2.5 bg-accent-blue hover:bg-accent-blue-hover text-white rounded-lg font-semibold text-sm shadow-soft hover:shadow-card transition-all duration-200 outline-none select-none"
+          className="flex items-center justify-center gap-2 w-full p-2.5 backdrop-blur-2xl bg-gray-900/95 hover:bg-gray-900 text-white rounded-lg font-semibold text-sm shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] transition-all duration-200 outline-none select-none hover:scale-[1.02] active:scale-[0.98]"
           style={{ WebkitTapHighlightColor: 'transparent' }}
         >
           <Plus size={20} strokeWidth={2.5} className="flex-shrink-0" />
@@ -166,7 +166,7 @@ export default function Sidebar() {
       {/* Get the App */}
       <div className="pb-2 px-4">
         <button
-          className="flex items-center justify-center gap-2 w-full p-2.5 hover:bg-surface border border-border rounded-lg text-sm font-medium text-text-primary transition-all duration-200 outline-none select-none"
+          className="flex items-center justify-center gap-2 w-full p-2.5 hover:bg-gray-900/5 border border-gray-200/40 rounded-lg text-sm font-medium text-gray-700 transition-all duration-200 outline-none select-none"
           style={{ WebkitTapHighlightColor: 'transparent' }}
         >
           <QrCode size={20} strokeWidth={1.75} className="flex-shrink-0" />
@@ -184,7 +184,7 @@ export default function Sidebar() {
       <div className="pb-4 px-4">
         <button
           onClick={handleLogout}
-          className="flex items-center justify-center gap-2 w-full p-2.5 text-text-secondary hover:text-error-DEFAULT hover:bg-error-light rounded-lg text-sm font-medium transition-all duration-200 outline-none select-none"
+          className="flex items-center justify-center gap-2 w-full p-2.5 text-gray-600 hover:text-red-600 hover:bg-red-50/50 rounded-lg text-sm font-medium transition-all duration-200 outline-none select-none"
           style={{ WebkitTapHighlightColor: 'transparent' }}
         >
           <LogOut size={20} strokeWidth={1.75} className="flex-shrink-0" />

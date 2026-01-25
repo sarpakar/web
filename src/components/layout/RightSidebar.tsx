@@ -37,10 +37,10 @@ function CommunityCard({ community }: { community: Community }) {
   return (
     <div
       onClick={handleClick}
-      className="group flex items-start gap-3 px-3 py-3 -mx-3 hover:bg-surface rounded-lg transition-all duration-200 cursor-pointer"
+      className="group flex items-start gap-3 px-3 py-3 -mx-3 hover:bg-gray-900/5 rounded-lg transition-all duration-200 cursor-pointer"
     >
       {/* Thumbnail */}
-      <div className="w-11 h-11 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex-shrink-0 overflow-hidden ring-1 ring-black/[0.04] shadow-soft">
+      <div className="w-11 h-11 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex-shrink-0 overflow-hidden ring-1 ring-gray-200/50 shadow-[0_2px_4px_rgba(0,0,0,0.04)]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={community.logo}
@@ -51,13 +51,13 @@ function CommunityCard({ community }: { community: Community }) {
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium text-text-secondary mb-0.5 truncate">{community.name}</p>
-        <h3 className="text-sm font-semibold text-text-primary line-clamp-2 leading-tight group-hover:text-accent-blue transition-colors">
+        <p className="text-xs font-medium text-gray-600 mb-0.5 truncate">{community.name}</p>
+        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-tight group-hover:text-gray-700 transition-colors">
           {community.title}
         </h3>
-        <div className="flex items-center gap-1.5 text-xs text-text-tertiary mt-1 font-normal">
+        <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1 font-normal">
           <span className="font-medium">{community.members}</span>
-          <span className="text-border-strong">·</span>
+          <span className="text-gray-400">·</span>
           <span>{community.category}</span>
         </div>
       </div>
@@ -65,7 +65,7 @@ function CommunityCard({ community }: { community: Community }) {
       {/* Bookmark */}
       <button
         onClick={(e) => e.stopPropagation()}
-        className="p-1.5 text-text-tertiary hover:text-accent-blue hover:bg-accent-light rounded-md transition-all duration-200 flex-shrink-0"
+        className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-900/10 rounded-md transition-all duration-200 flex-shrink-0"
       >
         <Bookmark size={18} strokeWidth={1.75} />
       </button>
@@ -81,10 +81,10 @@ function FoodGroupCard({ group }: { group: FoodGroup }) {
   return (
     <div
       onClick={handleClick}
-      className="group flex items-start gap-3 px-3 py-3 -mx-3 hover:bg-surface rounded-lg transition-all duration-200 cursor-pointer"
+      className="group flex items-start gap-3 px-3 py-3 -mx-3 hover:bg-gray-900/5 rounded-lg transition-all duration-200 cursor-pointer"
     >
       {/* Thumbnail */}
-      <div className="w-11 h-11 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex-shrink-0 overflow-hidden ring-1 ring-black/[0.04] shadow-soft">
+      <div className="w-11 h-11 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex-shrink-0 overflow-hidden ring-1 ring-gray-200/50 shadow-[0_2px_4px_rgba(0,0,0,0.04)]">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={group.logo}
@@ -95,13 +95,13 @@ function FoodGroupCard({ group }: { group: FoodGroup }) {
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium text-text-secondary mb-0.5 truncate">{group.name}</p>
-        <h3 className="text-sm font-semibold text-text-primary line-clamp-2 leading-tight group-hover:text-accent-blue transition-colors">
+        <p className="text-xs font-medium text-gray-600 mb-0.5 truncate">{group.name}</p>
+        <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 leading-tight group-hover:text-gray-700 transition-colors">
           {group.title}
         </h3>
-        <div className="flex items-center gap-1.5 text-xs text-text-tertiary mt-1 font-normal">
+        <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-1 font-normal">
           <span className="font-medium">{group.posts}</span>
-          <span className="text-border-strong">·</span>
+          <span className="text-gray-400">·</span>
           <span>{group.details}</span>
         </div>
       </div>
@@ -109,7 +109,7 @@ function FoodGroupCard({ group }: { group: FoodGroup }) {
       {/* Bookmark */}
       <button
         onClick={(e) => e.stopPropagation()}
-        className="p-1.5 text-text-tertiary hover:text-accent-blue hover:bg-accent-light rounded-md transition-all duration-200 flex-shrink-0"
+        className="p-1.5 text-gray-500 hover:text-gray-900 hover:bg-gray-900/10 rounded-md transition-all duration-200 flex-shrink-0"
       >
         <Bookmark size={18} strokeWidth={1.75} />
       </button>
@@ -158,24 +158,24 @@ export default function RightSidebar() {
   };
 
   return (
-    <aside className="hidden lg:block fixed right-0 top-0 h-screen w-[320px] bg-white border-l border-border overflow-y-auto">
-      <div className="p-4 space-y-4">
+    <aside className="hidden lg:block fixed right-0 top-0 h-screen w-[320px] backdrop-blur-lg bg-white/60 border-l border-gray-200/30 overflow-y-auto">
+      <div className="p-4 space-y-4 pt-[72px]">
         {/* Popular Communities */}
-        <div className="bg-white rounded-xl shadow-card border border-border overflow-hidden">
-          <div className="px-4 py-3 border-b border-border">
+        <div className="backdrop-blur-lg bg-white/60 rounded-[20px] shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-gray-200 overflow-hidden">
+          <div className="px-4 py-3 border-b border-gray-200/30">
             <Link
               href="/communities"
               className="flex items-center justify-between group"
             >
-              <h2 className="text-base font-semibold text-text-primary">Popular communities</h2>
+              <h2 className="text-base font-semibold text-gray-900">Popular communities</h2>
               <ChevronRight
                 size={18}
                 strokeWidth={2}
-                className="text-text-tertiary group-hover:text-text-secondary transition-colors"
+                className="text-gray-500 group-hover:text-gray-900 transition-colors"
               />
             </Link>
           </div>
-          <div className="px-4 py-2 divide-y divide-border/50">
+          <div className="px-4 py-2 divide-y divide-gray-200/30">
             {communities.map((community) => (
               <CommunityCard key={community.id} community={community} />
             ))}
@@ -183,21 +183,21 @@ export default function RightSidebar() {
         </div>
 
         {/* Food Groups */}
-        <div className="bg-white rounded-xl shadow-card border border-border overflow-hidden">
-          <div className="px-4 py-3 border-b border-border">
+        <div className="backdrop-blur-lg bg-white/60 rounded-[20px] shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-gray-200 overflow-hidden">
+          <div className="px-4 py-3 border-b border-gray-200/30">
             <Link
               href="/explore"
               className="flex items-center justify-between group"
             >
-              <h2 className="text-base font-semibold text-text-primary">Food groups</h2>
+              <h2 className="text-base font-semibold text-gray-900">Food groups</h2>
               <ChevronRight
                 size={18}
                 strokeWidth={2}
-                className="text-text-tertiary group-hover:text-text-secondary transition-colors"
+                className="text-gray-500 group-hover:text-gray-900 transition-colors"
               />
             </Link>
           </div>
-          <div className="px-4 py-2 divide-y divide-border/50">
+          <div className="px-4 py-2 divide-y divide-gray-200/30">
             {foodGroups.map((group) => (
               <FoodGroupCard key={group.id} group={group} />
             ))}
@@ -205,13 +205,13 @@ export default function RightSidebar() {
         </div>
 
         {/* Footer Links */}
-        <div className="text-xs text-text-tertiary space-x-1.5 px-3 font-normal">
-          <a href="#" className="hover:text-text-secondary hover:underline transition-colors">Terms</a>
-          <span className="text-border-strong">·</span>
-          <a href="#" className="hover:text-text-secondary hover:underline transition-colors">Privacy</a>
-          <span className="text-border-strong">·</span>
-          <a href="#" className="hover:text-text-secondary hover:underline transition-colors">Help</a>
-          <span className="text-border-strong">·</span>
+        <div className="text-xs text-gray-500 space-x-1.5 px-3 font-normal">
+          <a href="#" className="hover:text-gray-900 hover:underline transition-colors">Terms</a>
+          <span className="text-gray-400">·</span>
+          <a href="#" className="hover:text-gray-900 hover:underline transition-colors">Privacy</a>
+          <span className="text-gray-400">·</span>
+          <a href="#" className="hover:text-gray-900 hover:underline transition-colors">Help</a>
+          <span className="text-gray-400">·</span>
           <span>© 2024 Campusmeals</span>
         </div>
       </div>

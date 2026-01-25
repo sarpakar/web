@@ -17,10 +17,10 @@ interface NutritionWidgetsProps {
 // Apple-inspired colors for each nutrient
 const nutrientColors = {
   calories: {
-    primary: '#FF9500',
-    secondary: '#FFB340',
-    bg: 'from-orange-500/10 to-orange-400/5',
-    ring: '#FF9500',
+    primary: '#6B7280',
+    secondary: '#9CA3AF',
+    bg: 'from-gray-500/10 to-gray-400/5',
+    ring: '#6B7280',
   },
   protein: {
     primary: '#FF2D55',
@@ -253,7 +253,7 @@ export default function NutritionWidgets({ meals, dailyGoals }: NutritionWidgets
                   {/* Progress indicator text */}
                   <div className="flex items-center gap-1 mt-1">
                     {isOverGoal ? (
-                      <span className="text-[10px] font-medium text-orange-500">
+                      <span className="text-[10px] font-medium text-gray-700">
                         +{Math.round(nutrient.value - nutrient.goal)}{nutrient.unit} over
                       </span>
                     ) : (

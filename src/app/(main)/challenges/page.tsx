@@ -64,28 +64,28 @@ export default function ChallengesPage() {
     <div className="max-w-2xl mx-auto px-4 py-6 pb-24 md:pb-6">
       {/* Header */}
       <header className="mb-6">
-        <h1 className="text-2xl font-bold">Challenges</h1>
-        <p className="text-gray-500 mt-1">Complete challenges and earn rewards</p>
+        <h1 className="text-xl sm:text-2xl font-bold">Challenges</h1>
+        <p className="text-sm sm:text-base text-gray-500 mt-1">Complete challenges and earn rewards</p>
       </header>
 
-      {/* Stats Banner */}
-      <motion.div 
+      {/* Stats Banner - Responsive: stack on mobile, row on tablet+ */}
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-6 mb-6 text-white"
+        className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl p-4 sm:p-6 mb-6 text-white"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
           <div>
             <p className="text-white/80 text-sm">Current Streak</p>
             <div className="flex items-center gap-2 mt-1">
-              <Flame className="w-8 h-8" />
-              <span className="text-4xl font-bold">7</span>
-              <span className="text-white/80">days</span>
+              <Flame className="w-6 sm:w-8 h-6 sm:h-8" />
+              <span className="text-3xl sm:text-4xl font-bold">7</span>
+              <span className="text-white/80 text-sm sm:text-base">days</span>
             </div>
           </div>
-          <div className="text-right">
+          <div className="sm:text-right">
             <p className="text-white/80 text-sm">Total XP</p>
-            <p className="text-3xl font-bold">{userProfile?.totalXP || 0}</p>
+            <p className="text-2xl sm:text-3xl font-bold">{userProfile?.totalXP || 0}</p>
           </div>
         </div>
       </motion.div>
@@ -189,7 +189,7 @@ function ChallengeCard({
           </div>
           {challenge.xpReward && (
             <div className="text-right flex-shrink-0">
-              <div className="font-bold text-orange-500">+{challenge.xpReward}</div>
+              <div className="font-bold text-gray-900">+{challenge.xpReward}</div>
               <div className="text-xs text-gray-500">XP</div>
             </div>
           )}
@@ -215,8 +215,8 @@ function ChallengeCard({
           </div>
         )}
 
-        {/* Stats */}
-        <div className="flex items-center gap-4 text-sm text-gray-500">
+        {/* Stats - Responsive: wrap on mobile */}
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-500">
           <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
             <span>{challenge.participantCount.toLocaleString()} joined</span>

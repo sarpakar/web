@@ -28,7 +28,7 @@ export default function FilterPills({ onFilterChange }: FilterPillsProps) {
   };
 
   return (
-    <div className="bg-surface border-b border-border">
+    <div className="bg-gradient-to-b from-[#FDFCFB] to-[#FCFBFF] border-b border-gray-200/30">
       <div className="flex items-center gap-2 px-4 py-4 overflow-x-auto scrollbar-hide">
         {filterOptions.map((filter) => {
           const isActive = activeFilter === filter.id;
@@ -36,10 +36,10 @@ export default function FilterPills({ onFilterChange }: FilterPillsProps) {
             <button
               key={filter.id}
               onClick={() => handleFilterClick(filter.id)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium transition-all duration-200 ${
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm whitespace-nowrap font-medium transition-all duration-300 ${
                 isActive
-                  ? 'bg-primary-900 text-white shadow-soft'
-                  : 'bg-surface text-text-secondary border border-border-strong hover:bg-surface-hover hover:border-primary-300 hover:text-text-primary'
+                  ? 'backdrop-blur-2xl bg-gray-900/95 text-white shadow-[0_4px_12px_rgba(0,0,0,0.15)]'
+                  : 'backdrop-blur-lg bg-white/60 text-gray-600 border border-gray-200/30 hover:bg-white/80 hover:border-gray-300/50 hover:text-gray-900'
               }`}
             >
               {isActive && <Check size={14} strokeWidth={2.5} />}

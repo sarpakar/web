@@ -44,7 +44,7 @@ export default function CommunityCard({ community, onJoin }: CommunityCardProps)
                 className="h-full w-full object-cover"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-orange-400 to-red-500 text-xl">
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-gray-600 to-gray-800 text-xl">
                 🍽️
               </div>
             )}

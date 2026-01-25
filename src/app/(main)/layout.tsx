@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
 import Sidebar from '@/components/layout/Sidebar';
 import RightSidebar from '@/components/layout/RightSidebar';
 import Header from '@/components/layout/Header';
 import SearchChat from '@/components/search/SearchChat';
+import MobileNav from '@/components/layout/MobileNav';
+import CMlogo from '@/components/ui/CMlogo';
 
 export default function MainLayout({
   children,
@@ -15,19 +17,28 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, loading } = useAuthStore();
   const { isSearchOpen } = useUIStore();
 
+  const isFridgePage = pathname === '/fridge';
+
   useEffect(() => {
     if (!loading && !user) {
-      router.replace('/login');
+      router.replace('/landing');
     }
   }, [user, loading, router]);
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-200 border-t-blue-600" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC]">
+        <div className="animate-logo-float">
+          <CMlogo
+            width={80}
+            height={48}
+            className="animate-logo-pulse"
+          />
+        </div>
       </div>
     );
   }
@@ -37,33 +48,41 @@ export default function MainLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC]">
       {/* Left Sidebar */}
       <Sidebar />
 
       {/* Search/Chat Interface */}
       {isSearchOpen && <SearchChat />}
 
-      {/* Main Content Area */}
+      {/* Top Header - Responsive margins */}
+      <div
+        className={`sticky top-0 z-30 transition-[margin] duration-200 ease-out ${
+          isSearchOpen
+            ? 'ml-0 sm:ml-[72px]'
+            : 'ml-0 sm:ml-[72px] xl:ml-[220px]'
+        }`}
+      >
+        <Header />
+      </div>
+
+      {/* Main Content Area - Mobile first approach */}
       <div
         className={`transition-[margin,opacity] duration-200 ease-out ${
           isSearchOpen
-            ? 'ml-[72px] opacity-0 pointer-events-none'
-            : 'ml-[72px] xl:ml-[220px] lg:mr-[320px] opacity-100'
+            ? 'ml-0 sm:ml-[72px] opacity-0 pointer-events-none'
+            : 'ml-0 sm:ml-[72px] xl:ml-[220px] lg:mr-0 xl:mr-[320px] opacity-100'
         }`}
       >
-        {/* Top Header */}
-        <Header />
-
         {/* Page Content */}
-        <main className="min-h-[calc(100vh-56px)]">
-          <div className="max-w-[600px] mx-auto">
+        <main className="min-h-[calc(100vh-56px)] px-2 sm:px-4 md:px-6">
+          <div className={isFridgePage ? 'w-full' : 'max-w-[600px] mx-auto w-full'}>
             {children}
           </div>
         </main>
       </div>
 
-      {/* Right Sidebar */}
+      {/* Right Sidebar - Hidden on mobile/tablet, show on xl */}
       <div
         className={`transition-opacity duration-200 ease-out ${
           isSearchOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
@@ -71,6 +90,9 @@ export default function MainLayout({
       >
         <RightSidebar />
       </div>
+
+      {/* Mobile Bottom Navigation - Only on mobile */}
+      <MobileNav />
     </div>
   );
 }
