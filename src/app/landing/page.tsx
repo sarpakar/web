@@ -48,31 +48,59 @@ export default function LandingPage() {
   }, [images.length]);
 
   return (
-    <div className="min-h-screen bg-white scroll-smooth">
+    <div
+      className="min-h-screen bg-gradient-to-br from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC] scroll-smooth relative overflow-x-hidden w-full"
+      style={{ clipPath: 'inset(0)', maxWidth: '100%' }}
+    >
+      {/* Global Particles Background */}
+      <Particles
+        className="fixed inset-0 z-0 pointer-events-none"
+        quantity={80}
+        ease={80}
+        staticity={60}
+        color="#3b82f6"
+        size={1}
+      />
 
       {/* Navigation */}
       <nav
-        className="backdrop-blur-xl bg-white/90 border-b border-gray-200/50"
+        className="fixed top-0 left-0 right-0 z-50 w-full"
         style={{
           fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
         }}
       >
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+        {/* Blur background with gradient mask - extends below nav */}
+        <div
+          className="absolute inset-x-0 top-0 backdrop-blur-2xl bg-white/30 pointer-events-none"
+          style={{
+            height: '160%',
+            maskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.5) 75%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.5) 75%, transparent 100%)'
+          }}
+        />
+        <div
+          className="relative z-10 w-full"
+          style={{
+            paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
+            paddingRight: 'clamp(1.5rem, 5vw, 4rem)'
+          }}
+        >
+          <div className="max-w-[1400px] mx-auto">
+          <div className="flex items-center justify-between h-16">
             {/* Left: Logo + Navigation */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-8">
               <button
                 onClick={() => window.location.href = '/landing'}
                 className="flex items-center hover:opacity-80 transition-opacity flex-shrink-0 cursor-pointer"
               >
-                <CMlogo size={52} className="w-11 h-11 sm:w-12 sm:h-12" />
+                <CMlogo size={48} className="w-10 h-10 sm:w-12 sm:h-12" />
               </button>
 
               {/* Desktop Navigation */}
               <div className="hidden lg:flex items-center gap-1">
                 <a
                   href="#about"
-                  className="px-4 py-2 text-lg font-semibold text-gray-700 hover:text-gray-900 whitespace-nowrap transition-colors duration-200"
+                  className="px-4 py-2.5 text-[17px] font-medium text-[#1D1D1F] hover:text-black whitespace-nowrap transition-colors duration-200"
                   style={{
                     fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
                   }}
@@ -81,7 +109,7 @@ export default function LandingPage() {
                 </a>
                 <a
                   href="#features"
-                  className="px-4 py-2 text-lg font-semibold text-gray-700 hover:text-gray-900 whitespace-nowrap transition-colors duration-200"
+                  className="px-4 py-2.5 text-[17px] font-medium text-[#1D1D1F] hover:text-black whitespace-nowrap transition-colors duration-200"
                   style={{
                     fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
                   }}
@@ -90,7 +118,7 @@ export default function LandingPage() {
                 </a>
                 <a
                   href="#testimonials"
-                  className="px-4 py-2 text-lg font-semibold text-gray-700 hover:text-gray-900 whitespace-nowrap transition-colors duration-200"
+                  className="px-4 py-2.5 text-[17px] font-medium text-[#1D1D1F] hover:text-black whitespace-nowrap transition-colors duration-200"
                   style={{
                     fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
                   }}
@@ -101,10 +129,10 @@ export default function LandingPage() {
             </div>
 
             {/* Right: Actions */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="hidden md:inline-flex items-center px-5 py-2.5 backdrop-blur-xl bg-white/60 hover:bg-white/80 text-[#1D1D1F] rounded-full border border-gray-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-200 text-base font-semibold whitespace-nowrap hover:scale-[1.02]"
+                className="hidden md:inline-flex items-center px-6 py-2.5 backdrop-blur-lg bg-white/60 hover:bg-white/80 text-[#1D1D1F] rounded-full border border-gray-200 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-200 text-[15px] font-semibold whitespace-nowrap hover:scale-[1.02]"
                 style={{
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
                 }}
@@ -113,7 +141,7 @@ export default function LandingPage() {
               </button>
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2D2D2D] hover:bg-[#1f1f1f] text-white rounded-full font-semibold text-base shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.25)] transition-all duration-200 outline-none select-none hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
+                className="inline-flex items-center gap-2 px-6 py-2.5 backdrop-blur-2xl bg-gray-900/95 hover:bg-gray-900 text-white rounded-full font-semibold text-[15px] shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] transition-all duration-200 outline-none select-none hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
                 style={{
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
                 }}
@@ -124,10 +152,10 @@ export default function LandingPage() {
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden w-10 h-10 backdrop-blur-xl bg-white/60 rounded-full border border-gray-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:scale-105 transition-all duration-200 flex items-center justify-center text-[#1D1D1F] flex-shrink-0"
+                className="lg:hidden w-12 h-12 backdrop-blur-xl bg-white/60 rounded-full border border-gray-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:scale-105 transition-all duration-200 flex items-center justify-center text-[#1D1D1F] flex-shrink-0"
                 aria-label="Toggle menu"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {mobileMenuOpen ? (
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   ) : (
@@ -138,11 +166,12 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
+        </div>
 
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200/50 bg-white/95 backdrop-blur-xl">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 space-y-1">
+          <div className="lg:hidden border-t border-gray-200/30 bg-white/70 backdrop-blur-xl">
+            <div className="max-w-[1400px] mx-auto py-4 space-y-1" style={{ paddingLeft: 'clamp(1.5rem, 5vw, 4rem)', paddingRight: 'clamp(1.5rem, 5vw, 4rem)' }}>
               <a
                 href="#about"
                 onClick={() => setMobileMenuOpen(false)}
@@ -206,25 +235,19 @@ export default function LandingPage() {
         )}
       </nav>
 
+      {/* Spacer for fixed nav */}
+      <div className="h-16" />
+
       {/* Hero Section - Auto-Cycling iPhone Screens */}
-      <div className="relative">
+      <div className="relative z-10">
         <div
-          className="w-full overflow-hidden relative bg-gradient-to-br from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC]"
+          className="w-full overflow-hidden relative"
           style={{
             display: 'flex',
             flexDirection: 'column',
             minHeight: 'fit-content'
           }}
         >
-          {/* Interactive Particles Background */}
-          <Particles
-            className="absolute inset-0 z-0"
-            quantity={120}
-            ease={60}
-            staticity={50}
-            color="#3b82f6"
-            size={1.2}
-          />
 
           {/* Street Walking Effect - Specific pattern (COMMENTED OUT) */}
 
@@ -290,19 +313,19 @@ export default function LandingPage() {
 
 
           <div
-            className="flex-1 flex items-center justify-center relative z-10 overflow-visible"
+            className="flex-1 flex items-center justify-center relative z-10"
             style={{
               paddingTop: 'clamp(1.5rem, 4vh, 2.5rem)',
               paddingBottom: 'clamp(3rem, 5vh, 4rem)',
-              paddingLeft: 'clamp(1rem, 4vw, 3rem)',
-              paddingRight: 'clamp(1rem, 4vw, 3rem)'
+              paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
+              paddingRight: 'clamp(1.5rem, 5vw, 4rem)'
             }}
           >
 
             {/* Hero Content - Industry standard flexbox centering */}
-            <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between w-full max-w-[1400px] gap-6 md:gap-8 lg:gap-12 relative z-10 overflow-visible">
+            <div className="flex flex-col lg:flex-row items-center justify-center w-full max-w-[1400px] gap-6 md:gap-8 lg:gap-16 relative z-10">
             {/* Left Side - Hero Text */}
-            <div className="flex-1 w-full lg:max-w-3xl text-center lg:text-left overflow-visible">
+            <div className="flex-1 w-full text-center lg:text-left">
               {/* Instagram-style Friend Avatars */}
               <div className="flex items-center justify-center lg:justify-start gap-3 mb-3 sm:mb-4">
                 <div className="flex -space-x-3">
@@ -441,7 +464,7 @@ export default function LandingPage() {
             </div>
 
             {/* Right Side - iPhone with Pagination */}
-            <div className="flex items-center gap-3 md:gap-6 lg:gap-8 relative flex-shrink-0">
+            <div className="flex items-center justify-center lg:justify-end gap-3 md:gap-6 lg:gap-8 relative">
               <div className="relative w-[220px] sm:w-[240px] md:w-[280px] lg:w-[320px] xl:w-[360px] z-10">
                 <img
                   src="/iPhone 17.png"
@@ -503,67 +526,67 @@ export default function LandingPage() {
       </div>
 
       {/* Infinite Scroll Banner - Universities */}
-      <div
-        className="w-full py-6 sm:py-8 md:py-10 overflow-hidden bg-white"
+      <section
+        className="relative z-10 w-full py-4 sm:py-5 md:py-6 lg:py-8"
         style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+          paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
+          paddingRight: 'clamp(1.5rem, 5vw, 4rem)'
         }}
       >
-        <div className="w-full space-y-3 sm:space-y-4 md:space-y-6">
-        {/* First Row - Scrolls Left */}
-        <div className="relative flex">
-          <div className="flex animate-scroll gap-6 sm:gap-8 md:gap-12">
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Northwestern</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Rice</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Stanford</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Spelman</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">SMU</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Emory</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Notre Dame</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Wake Forest</span>
-          </div>
-          <div className="flex animate-scroll gap-6 sm:gap-8 md:gap-12" aria-hidden="true">
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Northwestern</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Rice</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Stanford</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Spelman</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">SMU</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Emory</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Notre Dame</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Wake Forest</span>
-          </div>
-        </div>
+        <div className="w-full max-w-[1400px] mx-auto relative">
+          {/* Edge Fade Overlays */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 bg-gradient-to-r from-[#FDFCFB] to-transparent z-20 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 bg-gradient-to-l from-[#FDFCFB] to-transparent z-20 pointer-events-none" />
 
-        {/* Second Row - Scrolls Right */}
-        <div className="relative flex">
-          <div className="flex animate-scroll-reverse gap-6 sm:gap-8 md:gap-12">
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">UC Berkeley</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">MIT</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Princeton</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Tulane</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Georgetown</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Duke</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Yale</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Howard</span>
-          </div>
-          <div className="flex animate-scroll-reverse gap-6 sm:gap-8 md:gap-12" aria-hidden="true">
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">UC Berkeley</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">MIT</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Princeton</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Tulane</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Georgetown</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Duke</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Yale</span>
-            <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 whitespace-nowrap">Howard</span>
+          <div className="space-y-2 sm:space-y-3 md:space-y-4" style={{ overflow: 'clip' }}>
+            {/* First Row - Scrolls Left */}
+            <div className="relative" style={{ overflow: 'clip' }}>
+              <div className="flex w-max animate-scroll">
+                <div className="flex gap-6 sm:gap-8 md:gap-10 lg:gap-14 pr-6 sm:pr-8 md:pr-10 lg:pr-14">
+                  {['Northwestern', 'Rice', 'Stanford', 'Spelman', 'SMU', 'Emory', 'Notre Dame', 'Wake Forest', 'Columbia', 'Penn', 'Brown', 'Cornell'].map((uni, idx) => (
+                    <span key={`row1-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-800 whitespace-nowrap">
+                      {uni}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-6 sm:gap-8 md:gap-10 lg:gap-14 pr-6 sm:pr-8 md:pr-10 lg:pr-14" aria-hidden="true">
+                  {['Northwestern', 'Rice', 'Stanford', 'Spelman', 'SMU', 'Emory', 'Notre Dame', 'Wake Forest', 'Columbia', 'Penn', 'Brown', 'Cornell'].map((uni, idx) => (
+                    <span key={`row1-dup-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-800 whitespace-nowrap">
+                      {uni}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Second Row - Scrolls Right */}
+            <div className="relative" style={{ overflow: 'clip' }}>
+              <div className="flex w-max animate-scroll-reverse">
+                <div className="flex gap-6 sm:gap-8 md:gap-10 lg:gap-14 pr-6 sm:pr-8 md:pr-10 lg:pr-14">
+                  {['UC Berkeley', 'MIT', 'Princeton', 'Tulane', 'Georgetown', 'Duke', 'Yale', 'Howard', 'Dartmouth', 'Vanderbilt', 'USC', 'NYU'].map((uni, idx) => (
+                    <span key={`row2-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-800 whitespace-nowrap">
+                      {uni}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-6 sm:gap-8 md:gap-10 lg:gap-14 pr-6 sm:pr-8 md:pr-10 lg:pr-14" aria-hidden="true">
+                  {['UC Berkeley', 'MIT', 'Princeton', 'Tulane', 'Georgetown', 'Duke', 'Yale', 'Howard', 'Dartmouth', 'Vanderbilt', 'USC', 'NYU'].map((uni, idx) => (
+                    <span key={`row2-dup-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-800 whitespace-nowrap">
+                      {uni}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        </div>
-      </div>
+      </section>
 
       {/* How It Works Section */}
       <section
         id="about"
-        className="w-full py-12 md:py-16 lg:py-24 overflow-hidden bg-white"
+        className="relative z-10 w-full py-12 md:py-16 lg:py-24 overflow-hidden"
         style={{
           fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           paddingLeft: 'clamp(1rem, 4vw, 3rem)',
@@ -573,7 +596,16 @@ export default function LandingPage() {
         <div className="max-w-[1400px] mx-auto">
           {/* Section Header */}
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900">
+            <h2
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold"
+              style={{
+                background: 'linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                filter: 'drop-shadow(0 4px 16px rgba(0, 0, 0, 0.08)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.06))'
+              }}
+            >
               How It Works
             </h2>
           </div>
@@ -672,7 +704,7 @@ export default function LandingPage() {
       {/* Testimonials Section - Auto-Scrolling Carousel */}
       <section
         id="testimonials"
-        className="w-full py-12 md:py-16 lg:py-24 overflow-hidden bg-white"
+        className="relative z-10 w-full py-12 md:py-16 lg:py-24"
         style={{
           fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           paddingLeft: 'clamp(1rem, 4vw, 3rem)',
@@ -688,7 +720,11 @@ export default function LandingPage() {
           </div>
 
           {/* Auto-Scrolling Testimonials Carousel */}
-          <div className="relative mb-8 sm:mb-10 md:mb-12">
+          <div className="relative mb-8 sm:mb-10 md:mb-12 py-8 -my-8" style={{ overflowX: 'clip', overflowY: 'visible' }}>
+            {/* Edge Fade Overlays */}
+            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 bg-gradient-to-r from-[#FDFCFB] to-transparent z-20 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 bg-gradient-to-l from-[#FDFCFB] to-transparent z-20 pointer-events-none" />
+
             {/* Scrolling Container */}
             <div className="flex gap-6 animate-scroll-testimonials">
               {/* Duplicate testimonials for seamless loop */}
@@ -818,7 +854,7 @@ export default function LandingPage() {
       {/* Features Bento Grid Section - 2026 Design */}
       <section
         id="features"
-        className="w-full py-12 md:py-16 lg:py-24 overflow-hidden bg-white"
+        className="relative z-10 w-full py-12 md:py-16 lg:py-24 overflow-hidden"
         style={{
           fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           paddingLeft: 'clamp(1rem, 4vw, 3rem)',
@@ -1076,7 +1112,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer
-        className="w-full py-10 sm:py-12 border-t border-gray-200 bg-white"
+        className="relative z-10 w-full py-10 sm:py-12 border-t border-gray-200/30"
         style={{
           paddingLeft: 'clamp(1rem, 4vw, 3rem)',
           paddingRight: 'clamp(1rem, 4vw, 3rem)'
