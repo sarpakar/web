@@ -5,6 +5,8 @@ import { usePathname } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useUIStore } from '@/stores/uiStore';
+import { useEffect, useState } from 'react';
+import { socialService } from '@/services/socialService';
 import {
   Home,
   Search,
@@ -29,11 +31,42 @@ const secondaryNavItems = [
   { name: 'Profile', href: '/profile', icon: User },
 ];
 
+interface SavedCommunity {
+  id: string;
+  name: string;
+  logo: string;
+}
+
+// Helper to normalize Firebase Storage URLs
+function normalizeURL(url: string | undefined | null): string {
+  if (!url) return '/logo.png';
+  return url.replace('firebasestorage.googleapis.com:443', 'firebasestorage.googleapis.com');
+}
+
 export default function Sidebar() {
   const pathname = usePathname();
   const { isSearchOpen, toggleSearch, closeSearch } = useUIStore();
+  const [savedCommunities, setSavedCommunities] = useState<SavedCommunity[]>([]);
 
   const isCollapsed = isSearchOpen;
+
+  useEffect(() => {
+    fetchSavedCommunities();
+  }, []);
+
+  const fetchSavedCommunities = async () => {
+    try {
+      const posts = await socialService.fetchFeed(4);
+      const communities: SavedCommunity[] = posts.map((post) => ({
+        id: post.id || '',
+        name: post.restaurantName || 'Community',
+        logo: normalizeURL(post.thumbnailURL),
+      }));
+      setSavedCommunities(communities);
+    } catch (error) {
+      console.error('Error fetching saved communities:', error);
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -102,7 +135,7 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 py-3 px-4">
+      <nav className="flex-1 py-3 px-4 overflow-y-auto">
         <ul className="space-y-1.5">
           {renderNavItem(primaryNavItems[0])}
 
@@ -142,6 +175,79 @@ export default function Sidebar() {
         <ul className="space-y-1.5">
           {secondaryNavItems.map(renderNavItem)}
         </ul>
+
+        {/* Saved Communities */}
+        {savedCommunities.length > 0 && (
+          <>
+            {/* Divider */}
+            <div className="my-3 border-t border-gray-200/30" />
+
+            {/* Section Label */}
+            <p
+              className={`text-xs font-medium text-gray-500 mb-2 px-3 transition-opacity duration-200 ${
+                isCollapsed ? 'opacity-0 hidden' : 'hidden xl:block'
+              }`}
+            >
+              Saved
+            </p>
+
+            {/* Community Circles - Show only first 3 */}
+            <div className={`flex flex-col items-center gap-1 ${isCollapsed ? '' : 'xl:items-start'}`}>
+              {savedCommunities.slice(0, 3).map((community) => (
+                <Link
+                  key={community.id}
+                  href={`/community/${encodeURIComponent(community.name)}`}
+                  onClick={handleNavClick}
+                  className="group flex items-center gap-3 w-full px-3 py-1.5 rounded-lg hover:bg-gray-900/5 transition-all duration-200"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
+                  title={community.name}
+                >
+                  {/* Circle Avatar with White Glow */}
+                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-white shadow-[0_0_12px_rgba(255,255,255,0.8),0_2px_8px_rgba(0,0,0,0.1)] group-hover:shadow-[0_0_20px_rgba(255,255,255,1),0_4px_12px_rgba(0,0,0,0.15)] transition-all duration-300">
+                    <img
+                      src={community.logo}
+                      alt={community.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+
+                  {/* Name (hidden when collapsed) */}
+                  <span
+                    className={`hidden xl:block text-sm font-medium text-gray-700 group-hover:text-gray-900 truncate transition-all duration-200 ${
+                      isCollapsed ? 'xl:opacity-0 xl:w-0 xl:overflow-hidden' : 'xl:opacity-100'
+                    }`}
+                  >
+                    {community.name}
+                  </span>
+                </Link>
+              ))}
+
+              {/* See More Button */}
+              {savedCommunities.length > 3 && (
+                <Link
+                  href="/communities"
+                  onClick={handleNavClick}
+                  className="group flex items-center gap-3 w-full px-3 py-1.5 rounded-lg hover:bg-gray-900/5 transition-all duration-200"
+                  style={{ WebkitTapHighlightColor: 'transparent' }}
+                >
+                  {/* Circle with count */}
+                  <div className="w-10 h-10 rounded-full flex-shrink-0 bg-gray-100 flex items-center justify-center text-xs font-semibold text-gray-600 group-hover:bg-gray-200 transition-all duration-200">
+                    +{savedCommunities.length - 3}
+                  </div>
+
+                  {/* See more text (hidden when collapsed) */}
+                  <span
+                    className={`hidden xl:block text-sm font-medium text-gray-500 group-hover:text-gray-700 transition-all duration-200 ${
+                      isCollapsed ? 'xl:opacity-0 xl:w-0 xl:overflow-hidden' : 'xl:opacity-100'
+                    }`}
+                  >
+                    See more
+                  </span>
+                </Link>
+              )}
+            </div>
+          </>
+        )}
       </nav>
 
       {/* Log Meal Button */}

@@ -106,32 +106,62 @@ export interface Badge {
   description: string;
 }
 
+// MARK: - Link Embed (for sharing articles, recipes, videos)
+export interface LinkEmbed {
+  url: string;
+  title: string;
+  description?: string;
+  imageURL?: string;
+  siteName?: string;
+  favicon?: string;
+  type?: 'article' | 'video' | 'recipe' | 'restaurant' | 'other';
+}
+
+// MARK: - Fridge Item Embed (for sharing fridge items)
+export interface FridgeItemEmbed {
+  itemId: string;
+  fridgeId: string;
+  name: string;
+  emoji: string;
+  category: string;
+  quantity: string;
+  imageUrl?: string;
+  expiryDays?: number;
+  message?: 'available' | 'expiring' | 'trade' | 'recipe_idea';
+}
+
 // MARK: - Post
 export interface Post {
   id?: string;
   userId: string;
   userName: string;
   userPhotoURL?: string;
-  
-  videoURL: string;
+
+  videoURL?: string;
   thumbnailURL?: string;
-  duration: number;
-  
+  duration?: number;
+
   timestamp: Date | Timestamp;
   status: 'processing' | 'ready';
   location?: string;
   caption: string;
   tags: string[];
-  
+
   restaurantName?: string;
   googlePlaceId?: string;
   isRestaurant?: boolean;
   cuisineType?: string;
   restaurant?: EmbeddedRestaurant;
-  
+
   recipeId?: string;
   hasRecipe?: boolean;
-  
+
+  // Link embed support
+  linkEmbed?: LinkEmbed;
+
+  // Fridge item embed support
+  fridgeItemEmbed?: FridgeItemEmbed;
+
   engagement: {
     likes: number;
     views: number;
@@ -139,7 +169,7 @@ export interface Post {
     shares: number;
     score: number;
   };
-  
+
   likedBy?: string[];
   likeCount?: number;
 }

@@ -17,7 +17,7 @@ export default function Header({ activeTab = 'for-you', notificationCount = 3 }:
   const displayName = userProfile?.name || user?.displayName || user?.email?.split('@')[0] || 'User';
 
   return (
-    <header className="backdrop-blur-lg bg-white/80 border-b border-gray-200/30">
+    <header className="bg-white border-b border-gray-200">
       <div className="flex items-center justify-between px-3 sm:px-6 h-16 sm:h-18">
         {/* Left: Tabs - Responsive */}
         <div className="flex items-center">

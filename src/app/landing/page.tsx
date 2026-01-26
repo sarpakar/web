@@ -9,8 +9,8 @@ import paperAirplaneAnimation from '../../../public/Paper airplane.json';
 import { Particles } from '@/components/ui/particles';
 
 // CM Logo Component
-const CMlogo = ({ className = "", size = 40 }: { className?: string; size?: number }) => (
-  <img src="/logo.png" alt="CampusMeals" width={size} height={size * 0.6} className={className} />
+const CMlogo = ({ className = "", size = 40, style = {} }: { className?: string; size?: number; style?: React.CSSProperties }) => (
+  <img src="/logo.png" alt="CampusMeals" width={size} height={size * 0.6} className={className} style={style} />
 );
 
 export default function LandingPage() {
@@ -49,33 +49,24 @@ export default function LandingPage() {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC] scroll-smooth relative overflow-x-hidden w-full"
+      className="min-h-screen bg-white scroll-smooth relative overflow-x-hidden w-full"
       style={{ clipPath: 'inset(0)', maxWidth: '100%' }}
     >
-      {/* Global Particles Background */}
-      <Particles
-        className="fixed inset-0 z-0 pointer-events-none"
-        quantity={80}
-        ease={80}
-        staticity={60}
-        color="#3b82f6"
-        size={1}
-      />
 
       {/* Navigation */}
       <nav
         className="fixed top-0 left-0 right-0 z-50 w-full"
         style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+          fontFamily: '"Geist Sans", -apple-system, BlinkMacSystemFont, sans-serif'
         }}
       >
-        {/* Blur background with gradient mask - extends below nav */}
+        {/* Nav blur with gradual fade */}
         <div
-          className="absolute inset-x-0 top-0 backdrop-blur-2xl bg-white/30 pointer-events-none"
+          className="absolute inset-x-0 top-0 backdrop-blur-2xl bg-white/60 pointer-events-none"
           style={{
-            height: '160%',
-            maskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.5) 75%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 50%, rgba(0,0,0,0.5) 75%, transparent 100%)'
+            height: '160px',
+            maskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
           }}
         />
         <div
@@ -86,42 +77,36 @@ export default function LandingPage() {
           }}
         >
           <div className="max-w-[1400px] mx-auto">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-20">
             {/* Left: Logo + Navigation */}
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-10">
               <button
                 onClick={() => window.location.href = '/landing'}
                 className="flex items-center hover:opacity-80 transition-opacity flex-shrink-0 cursor-pointer"
               >
-                <CMlogo size={48} className="w-10 h-10 sm:w-12 sm:h-12" />
+                <CMlogo size={64} className="w-14 h-14 sm:w-16 sm:h-16" />
               </button>
 
               {/* Desktop Navigation */}
-              <div className="hidden lg:flex items-center gap-1">
+              <div className="hidden lg:flex items-center gap-3">
                 <a
                   href="#about"
-                  className="px-4 py-2.5 text-[17px] font-medium text-[#1D1D1F] hover:text-black whitespace-nowrap transition-colors duration-200"
-                  style={{
-                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-                  }}
+                  className="px-5 py-3 text-[19px] font-semibold leading-6 whitespace-nowrap transition-opacity duration-200 hover:opacity-70"
+                  style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
                 >
                   About
                 </a>
                 <a
                   href="#features"
-                  className="px-4 py-2.5 text-[17px] font-medium text-[#1D1D1F] hover:text-black whitespace-nowrap transition-colors duration-200"
-                  style={{
-                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-                  }}
+                  className="px-5 py-3 text-[19px] font-semibold leading-6 whitespace-nowrap transition-opacity duration-200 hover:opacity-70"
+                  style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
                 >
                   Features
                 </a>
                 <a
                   href="#testimonials"
-                  className="px-4 py-2.5 text-[17px] font-medium text-[#1D1D1F] hover:text-black whitespace-nowrap transition-colors duration-200"
-                  style={{
-                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-                  }}
+                  className="px-5 py-3 text-[19px] font-semibold leading-6 whitespace-nowrap transition-opacity duration-200 hover:opacity-70"
+                  style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
                 >
                   Community
                 </a>
@@ -132,19 +117,15 @@ export default function LandingPage() {
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="hidden md:inline-flex items-center px-6 py-2.5 backdrop-blur-lg bg-white/60 hover:bg-white/80 text-[#1D1D1F] rounded-full border border-gray-200 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] transition-all duration-200 text-[15px] font-semibold whitespace-nowrap hover:scale-[1.02]"
-                style={{
-                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-                }}
+                className="hidden md:inline-flex items-center px-8 py-3.5 backdrop-blur-xl bg-white/90 hover:bg-white rounded-full border border-white/50 shadow-[0_4px_16px_rgba(0,0,0,0.1),0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.8)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-200 text-[19px] font-semibold leading-6 whitespace-nowrap hover:scale-[1.02]"
+                style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
               >
                 Log in
               </button>
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="inline-flex items-center gap-2 px-6 py-2.5 backdrop-blur-2xl bg-gray-900/95 hover:bg-gray-900 text-white rounded-full font-semibold text-[15px] shadow-[0_4px_12px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.25)] transition-all duration-200 outline-none select-none hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
-                style={{
-                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-                }}
+                className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#1a1a1a] hover:bg-[#2a2a2a] text-white rounded-full text-[19px] font-semibold leading-6 shadow-[0_4px_16px_rgba(0,0,0,0.2),0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.25),0_16px_48px_rgba(0,0,0,0.3)] transition-all duration-200 outline-none select-none hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
+                style={{ letterSpacing: '-0.4px' }}
               >
                 Start Free Trial
               </button>
@@ -170,35 +151,29 @@ export default function LandingPage() {
 
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200/30 bg-white/70 backdrop-blur-xl">
+          <div className="lg:hidden border-t border-gray-200/30 bg-white/70 backdrop-blur-xl" style={{ fontFamily: '"Geist Sans", -apple-system, BlinkMacSystemFont, sans-serif' }}>
             <div className="max-w-[1400px] mx-auto py-4 space-y-1" style={{ paddingLeft: 'clamp(1.5rem, 5vw, 4rem)', paddingRight: 'clamp(1.5rem, 5vw, 4rem)' }}>
               <a
                 href="#about"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 text-base font-semibold text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-200"
-                style={{
-                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-                }}
+                className="block px-4 py-3 text-[16px] font-medium leading-6 hover:opacity-70 rounded-lg transition-opacity duration-200"
+                style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
               >
                 About
               </a>
               <a
                 href="#features"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 text-base font-semibold text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-200"
-                style={{
-                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-                }}
+                className="block px-4 py-3 text-[16px] font-medium leading-6 hover:opacity-70 rounded-lg transition-opacity duration-200"
+                style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
               >
                 Features
               </a>
               <a
                 href="#testimonials"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 text-base font-semibold text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors duration-200"
-                style={{
-                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-                }}
+                className="block px-4 py-3 text-[16px] font-medium leading-6 hover:opacity-70 rounded-lg transition-opacity duration-200"
+                style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
               >
                 Community
               </a>
@@ -208,10 +183,8 @@ export default function LandingPage() {
                     setMobileMenuOpen(false);
                     setIsLoginModalOpen(true);
                   }}
-                  className="flex w-full items-center justify-center px-5 py-2.5 backdrop-blur-xl bg-white/60 hover:bg-white/80 text-[#1D1D1F] rounded-full border border-gray-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-200 text-base font-semibold hover:scale-[1.02]"
-                  style={{
-                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif'
-                  }}
+                  className="flex w-full items-center justify-center px-5 py-2.5 backdrop-blur-xl bg-white/60 hover:bg-white/80 rounded-full border border-gray-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-200 text-[16px] font-medium leading-6 hover:scale-[1.02]"
+                  style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
                   aria-label="Log in to CampusMeals"
                 >
                   Log in
@@ -221,10 +194,8 @@ export default function LandingPage() {
                     setMobileMenuOpen(false);
                     setIsLoginModalOpen(true);
                   }}
-                  className="flex w-full items-center justify-center gap-2 px-5 py-2.5 bg-[#2D2D2D] hover:bg-[#1f1f1f] text-white rounded-full text-base font-semibold shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.25)] transition-all duration-200 outline-none select-none hover:scale-[1.02] active:scale-[0.98]"
-                  style={{
-                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif'
-                  }}
+                  className="flex w-full items-center justify-center gap-2 px-5 py-2.5 bg-[#2D2D2D] hover:bg-[#1f1f1f] text-white rounded-full text-[16px] font-medium leading-6 shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.25)] transition-all duration-200 outline-none select-none hover:scale-[1.02] active:scale-[0.98]"
+                  style={{ letterSpacing: '-0.4px' }}
                   aria-label="Start free trial"
                 >
                   Start Free Trial
@@ -236,12 +207,12 @@ export default function LandingPage() {
       </nav>
 
       {/* Spacer for fixed nav */}
-      <div className="h-16" />
+      <div className="h-20" />
 
       {/* Hero Section - Auto-Cycling iPhone Screens */}
       <div className="relative z-10">
         <div
-          className="w-full overflow-hidden relative"
+          className="w-full overflow-visible relative"
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -315,7 +286,7 @@ export default function LandingPage() {
           <div
             className="flex-1 flex items-center justify-center relative z-10"
             style={{
-              paddingTop: 'clamp(1.5rem, 4vh, 2.5rem)',
+              paddingTop: 'clamp(1.5rem, 3vh, 2rem)',
               paddingBottom: 'clamp(3rem, 5vh, 4rem)',
               paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
               paddingRight: 'clamp(1.5rem, 5vw, 4rem)'
@@ -327,7 +298,7 @@ export default function LandingPage() {
             {/* Left Side - Hero Text */}
             <div className="flex-1 w-full text-center lg:text-left">
               {/* Instagram-style Friend Avatars */}
-              <div className="flex items-center justify-center lg:justify-start gap-3 mb-3 sm:mb-4">
+              <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 sm:mb-8">
                 <div className="flex -space-x-3">
                   {/* Avatar 1 - Pops at image index 0 */}
                   <motion.div
@@ -394,7 +365,7 @@ export default function LandingPage() {
 
               {/* Main headline with gradient */}
               <h1
-                className="text-[3rem] leading-[0.9] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[6.5rem] mb-3 sm:mb-4 tracking-[-0.04em] font-bold"
+                className="text-[3rem] leading-[0.9] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[6.5rem] mb-6 sm:mb-8 tracking-[-0.04em] font-bold"
                 style={{
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   background: 'linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%)',
@@ -408,7 +379,7 @@ export default function LandingPage() {
               </h1>
 
               {/* Subheading with gradient */}
-              <div className="relative mb-5 sm:mb-6">
+              <div className="relative mb-8 sm:mb-10">
                 {/* Bright Blue Gradient Blur Background */}
                 <div
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[200%] pointer-events-none"
@@ -419,14 +390,9 @@ export default function LandingPage() {
                   }}
                 />
                 <p
-                  className="relative text-base sm:text-lg md:text-xl lg:text-2xl leading-tight max-w-2xl mx-auto lg:mx-0 font-semibold"
+                  className="relative text-base sm:text-lg md:text-xl lg:text-2xl leading-tight max-w-2xl mx-auto lg:mx-0 font-semibold text-gray-600"
                   style={{
-                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
-                    background: 'linear-gradient(135deg, #4a4a4a 0%, #6a6a6a 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.06)) drop-shadow(0 1px 4px rgba(0, 0, 0, 0.04))'
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif'
                   }}
                 >
                   Discover trending restaurants, share your meals, and connect with students nearby.
@@ -448,10 +414,10 @@ export default function LandingPage() {
                   </button>
                   <Link
                     href="#demo"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 backdrop-blur-xl bg-white/90 hover:bg-white text-gray-900 rounded-full text-sm sm:text-base font-semibold border border-white/40 shadow-[0_20px_50px_rgba(0,0,0,0.15),0_10px_25px_rgba(0,0,0,0.1)] hover:shadow-[0_25px_60px_rgba(0,0,0,0.2),0_15px_30px_rgba(0,0,0,0.15)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 min-h-[44px] sm:min-h-[52px]"
+                    className="inline-flex items-center justify-center px-8 py-4 sm:px-10 sm:py-5 bg-white hover:bg-gray-50 text-[#1c1d22] rounded-full text-sm sm:text-base font-semibold shadow-[0_2px_4px_rgba(0,0,0,0.02),0_4px_8px_rgba(0,0,0,0.04),0_8px_16px_rgba(0,0,0,0.06),0_16px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_8px_rgba(0,0,0,0.04),0_8px_16px_rgba(0,0,0,0.06),0_16px_32px_rgba(0,0,0,0.08),0_24px_48px_rgba(0,0,0,0.06)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 min-h-[44px] sm:min-h-[56px]"
                     style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
                   >
-                    Watch Demo
+                    Book a Demo
                   </Link>
                 </div>
                 <p className="text-xs sm:text-sm text-gray-500 flex items-center justify-center lg:justify-start gap-2" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
@@ -536,8 +502,8 @@ export default function LandingPage() {
       >
         <div className="w-full max-w-[1400px] mx-auto relative">
           {/* Edge Fade Overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 bg-gradient-to-r from-[#FDFCFB] to-transparent z-20 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 bg-gradient-to-l from-[#FDFCFB] to-transparent z-20 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
 
           <div className="space-y-2 sm:space-y-3 md:space-y-4" style={{ overflow: 'clip' }}>
             {/* First Row - Scrolls Left */}
@@ -722,8 +688,8 @@ export default function LandingPage() {
           {/* Auto-Scrolling Testimonials Carousel */}
           <div className="relative mb-8 sm:mb-10 md:mb-12 py-8 -my-8" style={{ overflowX: 'clip', overflowY: 'visible' }}>
             {/* Edge Fade Overlays */}
-            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 bg-gradient-to-r from-[#FDFCFB] to-transparent z-20 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 bg-gradient-to-l from-[#FDFCFB] to-transparent z-20 pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
 
             {/* Scrolling Container */}
             <div className="flex gap-6 animate-scroll-testimonials">
@@ -874,21 +840,89 @@ export default function LandingPage() {
 
           {/* Bento Grid Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 auto-rows-[200px] sm:auto-rows-[220px] md:auto-rows-[240px] lg:auto-rows-[280px]">
-            {/* Card 1 - Share Meals (Tall) */}
-            <div className="group lg:row-span-2 relative overflow-hidden backdrop-blur-xl bg-white/70 rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] hover:bg-white/80 transition-all duration-300 p-6 md:p-8">
+            {/* Card 1 - Source Creators (Tall) */}
+            <div className="group lg:row-span-2 relative rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-300 p-6 md:p-8" style={{ backgroundColor: '#f3f5f7' }}>
               <div className="relative z-10 h-full flex flex-col">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-                  Share Your Meals.
-                </h3>
-                <p className="text-sm sm:text-base text-gray-600 mb-6">
-                  Post what you're eating and inspire thousands of students instantly.
-                </p>
-                <div className="mt-auto flex flex-col gap-3">
-                  <div className="relative w-full h-32 sm:h-40 md:h-48 rounded-2xl overflow-hidden shadow-lg">
-                    <img src="/postsuplaod/8dab728b45f221926d98260bb8b7a3d4.jpg" alt="Meal" className="w-full h-full object-cover" />
+                {/* Header */}
+                <div className="mb-8">
+                  <h3 className="text-2xl sm:text-3xl md:text-[32px] leading-tight">
+                    <span className="font-bold text-gray-900">Source Creators.</span>
+                    <span className="font-normal text-gray-400"> Reach thousands of creators instantly.</span>
+                  </h3>
+                </div>
+
+                {/* Floating Cards Container */}
+                <div className="flex-1 relative overflow-visible">
+                  {/* Background Card - Lourdrick */}
+                  <div className="absolute right-[-10px] top-0 bg-white rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] p-4 z-10" style={{ width: '220px' }}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="/people/10116edf1a14e1fac1d250f09c3f901d.jpg" alt="Lourdrick" className="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900 text-[15px]">Lourdrick Vasote</p>
+                        <p className="text-gray-400 text-sm">Stanford University</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="relative w-full h-32 sm:h-40 md:h-48 rounded-2xl overflow-hidden shadow-lg">
-                    <img src="/postsuplaod/0ac697015792a7c06e949b31bbef9c41.jpg" alt="Meal" className="w-full h-full object-cover" />
+
+                  {/* Boston MA pill */}
+                  <div className="absolute right-0 top-[100px] bg-white rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.06)] px-4 py-2 flex items-center gap-2 z-10">
+                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <circle cx="12" cy="10" r="3" strokeWidth={2}/>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 21c-4-4-8-7.5-8-11a8 8 0 1116 0c0 3.5-4 7-8 11z" />
+                    </svg>
+                    <span className="text-sm text-gray-600 font-medium">Boston, MA</span>
+                  </div>
+
+                  {/* Main Card - Danita */}
+                  <div className="absolute left-[-10px] top-16 bg-white rounded-[20px] shadow-[0_8px_40px_rgba(0,0,0,0.12)] p-5 z-20" style={{ width: '280px' }}>
+                    <div className="flex items-start gap-3 mb-5">
+                      <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="/people/269ea14ae1b312e9d73cc8a1acb868aa.jpg" alt="Danita" className="w-full h-full object-cover" />
+                      </div>
+                      <div className="pt-1">
+                        <p className="font-semibold text-gray-900 text-lg">Danita Nagara</p>
+                        <p className="text-gray-400 text-[15px] leading-snug">San Diego State University</p>
+                      </div>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex gap-2.5 mb-5">
+                      <span className="px-4 py-1.5 rounded-full border-2 border-green-400 text-green-500 text-sm font-medium">Marketing</span>
+                      <span className="px-4 py-1.5 rounded-full border-2 border-blue-400 text-blue-500 text-sm font-medium">Senior</span>
+                    </div>
+
+                    {/* Bottom row */}
+                    <div className="flex items-center gap-2">
+                      {/* Social Icons */}
+                      <div className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center">
+                        <svg className="w-[18px] h-[18px] text-gray-700" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                        </svg>
+                      </div>
+                      <div className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center">
+                        <svg className="w-[18px] h-[18px] text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                      </div>
+                      <div className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center">
+                        <svg className="w-[18px] h-[18px] text-gray-700" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                      </div>
+
+                      {/* Location */}
+                      <div className="flex items-center gap-1.5 bg-gray-100 px-3 py-2 rounded-full ml-1">
+                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <circle cx="12" cy="10" r="3" strokeWidth={2}/>
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 21c-4-4-8-7.5-8-11a8 8 0 1116 0c0 3.5-4 7-8 11z" />
+                        </svg>
+                        <span className="text-sm text-gray-600 font-medium">Peoria, AZ</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

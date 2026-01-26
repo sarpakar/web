@@ -11,10 +11,6 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Campusmeals - Track Your Food Journey',
   description: 'Log meals, discover restaurants, and connect with fellow food lovers.',
-  icons: {
-    icon: '/logo.png',
-    apple: '/logo.png',
-  },
 };
 
 export default function RootLayout({

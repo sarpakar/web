@@ -57,7 +57,7 @@ export default function MainLayout({
 
       {/* Top Header - Responsive margins */}
       <div
-        className={`sticky top-0 z-30 transition-[margin] duration-200 ease-out ${
+        className={`transition-[margin] duration-200 ease-out ${
           isSearchOpen
             ? 'ml-0 sm:ml-[72px]'
             : 'ml-0 sm:ml-[72px] xl:ml-[220px]'
