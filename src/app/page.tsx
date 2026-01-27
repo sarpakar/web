@@ -20,10 +20,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-white">
-      <div className="flex flex-col items-center gap-4">
-        <div className="text-5xl font-bold tracking-tight animate-pulse">🍽️</div>
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
-      </div>
+      <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
     </main>
   );
 }

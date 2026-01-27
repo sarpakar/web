@@ -9,7 +9,6 @@ import RightSidebar from '@/components/layout/RightSidebar';
 import Header from '@/components/layout/Header';
 import SearchChat from '@/components/search/SearchChat';
 import MobileNav from '@/components/layout/MobileNav';
-import CMlogo from '@/components/ui/CMlogo';
 
 export default function MainLayout({
   children,
@@ -32,13 +31,7 @@ export default function MainLayout({
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC]">
-        <div className="animate-logo-float">
-          <CMlogo
-            width={80}
-            height={48}
-            className="animate-logo-pulse"
-          />
-        </div>
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
       </div>
     );
   }

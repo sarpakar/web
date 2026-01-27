@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
 import Modal from '@/components/ui/Modal';
-import CMlogo from '@/components/ui/CMlogo';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -62,13 +61,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50"
         >
           {isLoading ? (
-            <div className="animate-logo-float py-1">
-              <CMlogo
-                width={40}
-                height={24}
-                className="animate-logo-pulse"
-              />
-            </div>
+            <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
           ) : (
             <>
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -145,13 +138,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50"
           >
             {isLoading ? (
-              <div className="animate-logo-float">
-                <CMlogo
-                  width={32}
-                  height={19}
-                  className="animate-logo-pulse brightness-0 invert"
-                />
-              </div>
+              <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-400 border-t-white" />
             ) : (
               <>
                 <span className="font-medium">{isSignUp ? 'Create Account' : 'Sign In'}</span>

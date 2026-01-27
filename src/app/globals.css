@@ -916,6 +916,192 @@ body {
   }
 }
 
+/* Bento Card Animations - Track Performance EKG */
+@keyframes ekg-trace {
+  0% {
+    stroke-dashoffset: 600;
+  }
+  100% {
+    stroke-dashoffset: -600;
+  }
+}
+
+@keyframes ekg-dot-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* Restaurant reveal animations - staggered based on dot position */
+@keyframes reveal-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  60% {
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes reveal-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-ekg-trace {
+  animation: ekg-trace 4s linear infinite;
+}
+
+.animate-ekg-dot {
+  filter: drop-shadow(0 0 6px rgba(26, 26, 26, 0.4));
+}
+
+/* Ripple animation - synced with 3s dot animation */
+@keyframes ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple 3s ease-out infinite;
+}
+
+/* Instagram-style heart explosion animation - smooth continuous scatter */
+@keyframes heart-float-1 {
+  0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+  10% { transform: translate(-2px, -4px) scale(0.7) rotate(-5deg); opacity: 0.6; }
+  25% { transform: translate(-6px, -15px) scale(1) rotate(-12deg); opacity: 1; }
+  50% { transform: translate(-12px, -30px) scale(0.8) rotate(-20deg); opacity: 0.8; }
+  75% { transform: translate(-17px, -42px) scale(0.5) rotate(-26deg); opacity: 0.4; }
+  100% { transform: translate(-22px, -55px) scale(0.2) rotate(-32deg); opacity: 0; }
+}
+
+@keyframes heart-float-2 {
+  0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+  10% { transform: translate(3px, -5px) scale(0.6) rotate(6deg); opacity: 0.6; }
+  25% { transform: translate(8px, -14px) scale(0.9) rotate(14deg); opacity: 1; }
+  50% { transform: translate(15px, -28px) scale(0.7) rotate(24deg); opacity: 0.8; }
+  75% { transform: translate(21px, -40px) scale(0.45) rotate(34deg); opacity: 0.4; }
+  100% { transform: translate(28px, -52px) scale(0.15) rotate(45deg); opacity: 0; }
+}
+
+@keyframes heart-float-3 {
+  0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+  10% { transform: translate(-1px, -6px) scale(0.6) rotate(-3deg); opacity: 0.6; }
+  25% { transform: translate(-3px, -18px) scale(0.85) rotate(-8deg); opacity: 1; }
+  50% { transform: translate(-5px, -36px) scale(0.65) rotate(-14deg); opacity: 0.8; }
+  75% { transform: translate(-7px, -50px) scale(0.45) rotate(-18deg); opacity: 0.4; }
+  100% { transform: translate(-10px, -65px) scale(0.2) rotate(-22deg); opacity: 0; }
+}
+
+@keyframes heart-float-4 {
+  0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+  10% { transform: translate(2px, -3px) scale(0.65) rotate(4deg); opacity: 0.6; }
+  25% { transform: translate(6px, -12px) scale(0.95) rotate(10deg); opacity: 1; }
+  50% { transform: translate(11px, -28px) scale(0.75) rotate(20deg); opacity: 0.8; }
+  75% { transform: translate(15px, -42px) scale(0.5) rotate(28deg); opacity: 0.4; }
+  100% { transform: translate(20px, -58px) scale(0.2) rotate(36deg); opacity: 0; }
+}
+
+@keyframes heart-float-5 {
+  0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+  10% { transform: translate(-3px, -2px) scale(0.55) rotate(-8deg); opacity: 0.6; }
+  25% { transform: translate(-7px, -10px) scale(0.8) rotate(-18deg); opacity: 1; }
+  50% { transform: translate(-11px, -22px) scale(0.6) rotate(-30deg); opacity: 0.8; }
+  75% { transform: translate(-14px, -32px) scale(0.4) rotate(-40deg); opacity: 0.4; }
+  100% { transform: translate(-18px, -45px) scale(0.2) rotate(-50deg); opacity: 0; }
+}
+
+@keyframes heart-float-6 {
+  0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+  10% { transform: translate(1px, -7px) scale(0.7) rotate(2deg); opacity: 0.6; }
+  25% { transform: translate(3px, -20px) scale(1) rotate(6deg); opacity: 1; }
+  50% { transform: translate(6px, -38px) scale(0.75) rotate(10deg); opacity: 0.8; }
+  75% { transform: translate(8px, -52px) scale(0.45) rotate(13deg); opacity: 0.4; }
+  100% { transform: translate(12px, -68px) scale(0.15) rotate(16deg); opacity: 0; }
+}
+
+.animate-heart-burst-1 {
+  animation: heart-float-1 2.2s ease-in-out infinite;
+}
+
+.animate-heart-burst-2 {
+  animation: heart-float-2 2.4s ease-in-out infinite;
+  animation-delay: 0.2s;
+}
+
+.animate-heart-burst-3 {
+  animation: heart-float-3 2.3s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+
+.animate-heart-burst-4 {
+  animation: heart-float-4 2.1s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+
+.animate-heart-burst-5 {
+  animation: heart-float-5 2.5s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+.animate-heart-burst-6 {
+  animation: heart-float-6 2.2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* Restaurant images reveal with staggered timing */
+.animate-reveal-1 {
+  opacity: 0;
+  animation: reveal-pop 0.6s ease-out 0.5s forwards, reveal-float 3s ease-in-out 1.1s infinite;
+}
+
+.animate-reveal-2 {
+  opacity: 0;
+  animation: reveal-pop 0.6s ease-out 1.5s forwards, reveal-float 3s ease-in-out 2.1s infinite;
+}
+
+.animate-reveal-3 {
+  opacity: 0;
+  animation: reveal-pop 0.6s ease-out 2.5s forwards, reveal-float 3s ease-in-out 3.1s infinite;
+}
+
+.animate-reveal-4 {
+  opacity: 0;
+  animation: reveal-pop 0.6s ease-out 3.5s forwards, reveal-float 3s ease-in-out 4.1s infinite;
+}
+
 /* Utility animation classes */
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out forwards;

@@ -6,6 +6,13 @@ import { motion, useScroll, useTransform, useMotionTemplate, useSpring } from 'f
 import LoginModal from '@/components/auth/LoginModal';
 import { Particles } from '@/components/ui/particles';
 import { RainbowButton } from '@/components/ui/rainbow-button';
+import dynamic from 'next/dynamic';
+
+// Dynamic import for Globe to avoid SSR issues
+const Globe = dynamic(() => import('@/components/ui/Globe'), { ssr: false });
+
+import { Ripple } from '@/registry/magicui/ripple';
+
 
 // CM Logo Component
 const CMlogo = ({ className = "", size = 40, style = {} }: { className?: string; size?: number; style?: React.CSSProperties }) => (
@@ -73,13 +80,6 @@ export default function LandingPage() {
   const sectionSubheadingColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(75,85,99)', 'rgb(75,85,99)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(75,85,99)', 'rgb(75,85,99)']);
   const fadeFromColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(0,0,0)', 'rgb(0,0,0)', 'rgb(255,255,255)', 'rgb(255,255,255)']);
 
-  // Testimonial card color transitions
-  const testimonialCardBg = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(255,255,255,0.9)', 'rgba(255,255,255,0.9)', 'rgba(38,38,38,0.9)', 'rgba(38,38,38,0.9)', 'rgba(255,255,255,0.9)', 'rgba(255,255,255,0.9)']);
-  const testimonialBorderColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(229,231,235,0.2)', 'rgba(229,231,235,0.2)', 'rgba(75,85,99,0.3)', 'rgba(75,85,99,0.3)', 'rgba(229,231,235,0.2)', 'rgba(229,231,235,0.2)']);
-  const testimonialTextColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(55,65,81)', 'rgb(55,65,81)', 'rgb(209,213,219)', 'rgb(209,213,219)', 'rgb(55,65,81)', 'rgb(55,65,81)']);
-  const testimonialNameColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(17,24,39)', 'rgb(17,24,39)', 'rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(17,24,39)', 'rgb(17,24,39)']);
-  const testimonialRoleColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
-
   // Blur intensity - use smoothProgress with instant snap keyframes for perfect sync
   // Blur off exactly when colors start, back on exactly when colors finish
   const blurAmount = useTransform(
@@ -103,12 +103,15 @@ export default function LandingPage() {
     [1, 1, 0, 0, 1, 1, 0, 0, 1, 1]
   );
 
-  // Nav blur overlay opacity - hide completely during transitions to avoid artifacts
-  const navBlurOpacity = useTransform(
-    smoothProgress,
-    [0, 0.119, 0.12, 0.28, 0.281, 0.719, 0.72, 0.88, 0.881, 1],
-    [1, 1, 0, 0, 1, 1, 0, 0, 1, 1]
-  );
+  // Logo invert filter for dark mode - makes logo white
+  const logoInvert = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], [0, 0, 1, 1, 0, 0]);
+  const logoFilter = useMotionTemplate`invert(${logoInvert})`;
+
+  // Parallax movement for floating iPhones - moves with scroll
+  // iPhone 1 (front, closer) - larger parallax movement
+  const iphone1Y = useTransform(smoothProgress, [0, 0.5, 1], [80, 0, -80]);
+  // iPhone 2 (back, further) - different parallax speed for depth
+  const iphone2Y = useTransform(smoothProgress, [0, 0.5, 1], [120, 0, -120]);
 
   // Static images array to prevent recreation on every render
   const images = ['/img/IMG_6866.PNG', '/img/IMG_6867.PNG', '/img/IMG_6868.PNG'];
@@ -149,7 +152,7 @@ export default function LandingPage() {
         className="fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20"
         style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
       >
-        {/* Nav blur with gradual fade - adapts to dark mode - blur disabled during transitions */}
+        {/* Nav blur with gradual fade - adapts to dark mode */}
         <motion.div
           className="absolute inset-x-0 top-0 pointer-events-none"
           style={{
@@ -159,7 +162,6 @@ export default function LandingPage() {
             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
             backdropFilter: navBlurFilter,
             WebkitBackdropFilter: navBlurFilter,
-            opacity: navBlurOpacity,
           }}
         />
         <div className="relative z-10 w-full">
@@ -170,7 +172,9 @@ export default function LandingPage() {
                 onClick={() => window.location.href = '/landing'}
                 className="flex items-center hover:opacity-80 transition-opacity cursor-pointer z-10"
               >
-                <CMlogo size={48} className="w-12 h-12" />
+                <motion.div style={{ filter: logoFilter, WebkitFilter: logoFilter }}>
+                  <CMlogo size={48} className="w-12 h-12" />
+                </motion.div>
               </button>
 
               {/* Center: Navigation - Absolute center */}
@@ -447,7 +451,7 @@ export default function LandingPage() {
               {/* iPhone - Centered below text like Flighty */}
               <div className="relative w-[260px] sm:w-[280px] md:w-[320px] lg:w-[340px] z-10">
                 <img
-                  src="/iPhone 17.png"
+                  src="/iPhone 17mockup.png"
                   alt="iPhone"
                   className="w-full h-auto relative z-20"
                   style={{
@@ -586,12 +590,13 @@ export default function LandingPage() {
           <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
             {/* Dedicated Container - Flighty Style Card */}
             <motion.div
-              className="relative rounded-[40px] md:rounded-[56px] border shadow-[0_20px_80px_rgba(255,255,255,0.06),0_8px_32px_rgba(255,255,255,0.04)] overflow-hidden"
+              className="relative rounded-[40px] md:rounded-[56px] border overflow-hidden"
               style={{
                 backgroundColor: cardBgColor,
                 borderColor: cardBorderColor,
                 backdropFilter: cardBlurFilter,
                 WebkitBackdropFilter: cardBlurFilter,
+                boxShadow: '0 25px 100px -12px rgba(0, 0, 0, 0.25)',
               }}
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0">
@@ -601,32 +606,33 @@ export default function LandingPage() {
                     className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] font-bold leading-[1.08] tracking-tight mb-5"
                     style={{ color: headingColor }}
                   >
-                    Never wonder, "what should I eat?" ever again.
+                    Never wonder, &ldquo;what should I eat?&rdquo; ever again.
                   </motion.h2>
                   <motion.p
                     className="text-lg sm:text-xl leading-relaxed max-w-md"
                     style={{ color: paragraphColor }}
                   >
-                    Choose who you want to share your meals with. They can see what you're eating, where you're dining, get recommendations, and more.
+                    Choose who you want to share your meals with. They can see what you&apos;re eating, where you&apos;re dining, get recommendations, and more.
                   </motion.p>
                 </div>
 
               {/* Right - Floating iPhones Container - Exact Flighty Layout */}
               <div className="relative h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-visible">
-                {/* iPhone 1 - Front/Bottom-Left - Main Focus */}
+                {/* iPhone 1 - Front/Bottom-Left - Main Focus with Parallax */}
                 <motion.div
                   className="absolute left-[8%] sm:left-[12%] md:left-[15%] bottom-[8%] sm:bottom-[10%] z-20"
-                  initial={{ opacity: 0, y: 80, rotate: -8 }}
-                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                  initial={{ opacity: 0, rotate: -8 }}
+                  whileInView={{ opacity: 1, rotate: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ y: iphone1Y }}
                 >
                   <div
                     className="relative w-[200px] sm:w-[230px] md:w-[260px] lg:w-[280px]"
                     style={{ transform: 'rotate(-6deg)' }}
                   >
                     <img
-                      src="/iPhone 17.png"
+                      src="/iPhone 17mockup.png"
                       alt="iPhone"
                       className="w-full h-auto relative z-10 drop-shadow-2xl"
                     />
@@ -650,20 +656,21 @@ export default function LandingPage() {
                   </div>
                 </motion.div>
 
-                {/* iPhone 2 - Back/Top-Right - Overlapping & Extending */}
+                {/* iPhone 2 - Back/Top-Right - Overlapping & Extending with Parallax */}
                 <motion.div
                   className="absolute right-[-12%] sm:right-[-8%] md:right-[-5%] lg:right-[-10%] top-[5%] sm:top-[8%] z-10"
-                  initial={{ opacity: 0, y: 80, rotate: 12 }}
-                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                  initial={{ opacity: 0, rotate: 12 }}
+                  whileInView={{ opacity: 1, rotate: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ y: iphone2Y }}
                 >
                   <div
                     className="relative w-[200px] sm:w-[230px] md:w-[260px] lg:w-[280px]"
                     style={{ transform: 'rotate(10deg)' }}
                   >
                     <img
-                      src="/iPhone 17.png"
+                      src="/iPhone 17mockup.png"
                       alt="iPhone"
                       className="w-full h-auto relative z-10 drop-shadow-2xl"
                     />
@@ -693,169 +700,6 @@ export default function LandingPage() {
       </section>
       </div>
 
-      {/* Testimonials Section - Auto-Scrolling Carousel */}
-      <section
-        id="testimonials"
-        className="relative z-10 w-full py-12 md:py-16 lg:py-24"
-        style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
-        }}
-      >
-        <div className="max-w-[1400px] mx-auto">
-          {/* Section Header */}
-          <div className="mb-10 sm:mb-12 md:mb-16">
-            <motion.h2
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold"
-              style={{ color: sectionHeadingColor }}
-            >
-              Students Love CampusMeals.
-            </motion.h2>
-          </div>
-
-          {/* Auto-Scrolling Testimonials Carousel */}
-          <div className="relative mb-8 sm:mb-10 md:mb-12 py-8 -my-8" style={{ overflowX: 'clip', overflowY: 'visible' }}>
-            {/* Edge Fade Overlays - Adapt to dark mode, hidden during transition */}
-            <motion.div
-              className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 z-20 pointer-events-none"
-              style={{
-                background: useMotionTemplate`linear-gradient(to right, ${fadeFromColor}, transparent)`,
-                opacity: fadeOverlayOpacity
-              }}
-            />
-            <motion.div
-              className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 z-20 pointer-events-none"
-              style={{
-                background: useMotionTemplate`linear-gradient(to left, ${fadeFromColor}, transparent)`,
-                opacity: fadeOverlayOpacity
-              }}
-            />
-
-            {/* Scrolling Container */}
-            <div className="flex gap-6 animate-scroll-testimonials">
-              {/* Duplicate testimonials for seamless loop */}
-              {[...Array(2)].map((_, setIndex) => (
-                <div key={setIndex} className="flex gap-6 flex-shrink-0">
-                  {/* Testimonial 1 */}
-                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
-                    <div className="flex items-center mb-6">
-                      <img
-                        src="/people/10116edf1a14e1fac1d250f09c3f901d.jpg"
-                        alt="Student"
-                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg"
-                      />
-                    </div>
-                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
-                      "CampusMeals has completely changed how I discover food on campus. I never eat alone anymore!"
-                    </motion.p>
-                    <div>
-                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Sarah Chen</motion.p>
-                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Junior, Northwestern</motion.p>
-                    </div>
-                  </motion.div>
-
-                  {/* Testimonial 2 */}
-                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
-                    <div className="flex items-center mb-6">
-                      <img
-                        src="/people/269ea14ae1b312e9d73cc8a1acb868aa.jpg"
-                        alt="Student"
-                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg"
-                      />
-                    </div>
-                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
-                      "The AI recommendations are spot on. It's like having a personal food guide that knows exactly what I like."
-                    </motion.p>
-                    <div>
-                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Marcus Johnson</motion.p>
-                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Sophomore, Stanford</motion.p>
-                    </div>
-                  </motion.div>
-
-                  {/* Testimonial 3 */}
-                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
-                    <div className="flex items-center mb-6">
-                      <img
-                        src="/people/569b3d16006db1361d8940a524993c52.jpg"
-                        alt="Student"
-                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg"
-                      />
-                    </div>
-                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
-                      "Best way to find out where everyone's eating. I've discovered so many hidden gems around campus."
-                    </motion.p>
-                    <div>
-                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Emily Rodriguez</motion.p>
-                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Senior, MIT</motion.p>
-                    </div>
-                  </motion.div>
-
-                  {/* Testimonial 4 */}
-                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
-                    <div className="flex items-center mb-6">
-                      <img
-                        src="/people/816230758da3649866b5f4f7c6110456.jpg"
-                        alt="Student"
-                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg"
-                      />
-                    </div>
-                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
-                      "Finally, a way to track my nutrition and connect with friends over food. It's brilliant!"
-                    </motion.p>
-                    <div>
-                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Alex Kim</motion.p>
-                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Freshman, Duke</motion.p>
-                    </div>
-                  </motion.div>
-
-                  {/* Testimonial 5 */}
-                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
-                    <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-xl sm:text-2xl">
-                        J
-                      </div>
-                    </div>
-                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
-                      "The social features make campus dining so much more fun. Love seeing what my friends are eating!"
-                    </motion.p>
-                    <div>
-                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Jessica Park</motion.p>
-                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Senior, Yale</motion.p>
-                    </div>
-                  </motion.div>
-
-                  {/* Testimonial 6 */}
-                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
-                    <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-xl sm:text-2xl">
-                        M
-                      </div>
-                    </div>
-                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
-                      "As an international student, CampusMeals helped me discover authentic food from my culture. Game changer!"
-                    </motion.p>
-                    <div>
-                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Miguel Santos</motion.p>
-                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Junior, UC Berkeley</motion.p>
-                    </div>
-                  </motion.div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* CTA Button */}
-          <div className="flex justify-center mt-4 sm:mt-6">
-            <button
-              onClick={() => setIsLoginModalOpen(true)}
-              className="inline-flex items-center gap-2.5 px-6 py-3 sm:px-8 sm:py-4 bg-[#2D2D2D] hover:bg-[#1f1f1f] text-white rounded-full text-sm sm:text-base font-semibold shadow-[0_20px_50px_rgba(0,0,0,0.3),0_10px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_25px_60px_rgba(0,0,0,0.35),0_15px_30px_rgba(0,0,0,0.25)] transition-all duration-300 outline-none select-none hover:scale-[1.02] active:scale-[0.98]"
-              style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
-            >
-              Join CampusMeals Today
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Features Bento Grid Section - 2026 Design */}
       <section
         id="features"
@@ -883,87 +727,88 @@ export default function LandingPage() {
 
           {/* Bento Grid Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 auto-rows-[200px] sm:auto-rows-[220px] md:auto-rows-[240px] lg:auto-rows-[280px]">
-            {/* Card 1 - Source Creators (Tall) */}
+            {/* Card 1 - Discover Friends' Meals (Tall) */}
             <div className="group lg:row-span-2 relative rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-300 p-6 md:p-8" style={{ backgroundColor: '#f3f5f7' }}>
               <div className="relative z-10 h-full flex flex-col">
                 {/* Header */}
                 <div className="mb-8">
                   <h3 className="text-2xl sm:text-3xl md:text-[32px] leading-tight">
-                    <span className="font-bold text-gray-900">Source Creators.</span>
-                    <span className="font-normal text-gray-400"> Reach thousands of creators instantly.</span>
+                    <span className="font-bold text-gray-900">See What Friends Eat.</span>
+                    <span className="font-normal text-gray-400"> Discover meals from your campus community.</span>
                   </h3>
                 </div>
 
                 {/* Floating Cards Container */}
                 <div className="flex-1 relative overflow-visible">
-                  {/* Background Card - Lourdrick */}
-                  <div className="absolute right-[-10px] top-0 bg-white rounded-[20px] shadow-[0_4px_24px_rgba(0,0,0,0.08)] p-4 z-10" style={{ width: '220px' }}>
-                    <div className="flex items-center gap-3">
-                      <div className="w-14 h-14 rounded-full overflow-hidden flex-shrink-0">
-                        <img src="/people/10116edf1a14e1fac1d250f09c3f901d.jpg" alt="Lourdrick" className="w-full h-full object-cover" />
+                  {/* Background Card - Friend's meal post */}
+                  <div className="absolute right-[-10px] top-0 backdrop-blur-lg bg-white/60 rounded-[32px] border border-gray-200 shadow-[0_8px_30px_rgba(0,0,0,0.04)] p-3 z-10" style={{ width: '200px' }}>
+                    <img src="/bagel.jpg" alt="Meal" className="w-full h-32 rounded-2xl mb-3 object-cover" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-sm">
+                        <img src="/people/269ea14ae1b312e9d73cc8a1acb868aa.jpg" alt="User" className="w-full h-full object-cover" />
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-900 text-[15px]">Lourdrick Vasote</p>
-                        <p className="text-gray-400 text-sm">Stanford University</p>
+                        <p className="font-semibold text-gray-900 text-sm">Mia Chen</p>
+                        <p className="text-gray-500 text-xs">Dining Hall • 2h ago</p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Boston MA pill */}
-                  <div className="absolute right-0 top-[100px] bg-white rounded-full shadow-[0_2px_12px_rgba(0,0,0,0.06)] px-4 py-2 flex items-center gap-2 z-10">
-                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <circle cx="12" cy="10" r="3" strokeWidth={2}/>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 21c-4-4-8-7.5-8-11a8 8 0 1116 0c0 3.5-4 7-8 11z" />
-                    </svg>
-                    <span className="text-sm text-gray-600 font-medium">Boston, MA</span>
-                  </div>
-
-                  {/* Main Card - Danita */}
-                  <div className="absolute left-[-10px] top-16 bg-white rounded-[20px] shadow-[0_8px_40px_rgba(0,0,0,0.12)] p-5 z-20" style={{ width: '280px' }}>
-                    <div className="flex items-start gap-3 mb-5">
-                      <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                        <img src="/people/269ea14ae1b312e9d73cc8a1acb868aa.jpg" alt="Danita" className="w-full h-full object-cover" />
+                  {/* Main Card - Meal Post */}
+                  <div className="absolute left-[-10px] top-16 backdrop-blur-lg bg-white/60 rounded-[32px] border border-gray-200 shadow-[0_8px_30px_rgba(0,0,0,0.04)] p-4 z-20" style={{ width: '260px' }}>
+                    <img src="/burger.jpg" alt="Meal" className="w-full h-36 rounded-2xl mb-3 object-cover" />
+                    {/* User info */}
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-sm">
+                        <img src="/people/10116edf1a14e1fac1d250f09c3f901d.jpg" alt="User" className="w-full h-full object-cover" />
                       </div>
-                      <div className="pt-1">
-                        <p className="font-semibold text-gray-900 text-lg">Danita Nagara</p>
-                        <p className="text-gray-400 text-[15px] leading-snug">San Diego State University</p>
+                      <div>
+                        <p className="font-semibold text-gray-900 text-[15px]">Noah Rivera</p>
+                        <p className="text-gray-500 text-xs">NYU • Just now</p>
                       </div>
                     </div>
 
-                    {/* Tags */}
-                    <div className="flex gap-2.5 mb-5">
-                      <span className="px-4 py-1.5 rounded-full border-2 border-green-400 text-green-500 text-sm font-medium">Marketing</span>
-                      <span className="px-4 py-1.5 rounded-full border-2 border-blue-400 text-blue-500 text-sm font-medium">Senior</span>
-                    </div>
-
-                    {/* Bottom row */}
-                    <div className="flex items-center gap-2">
-                      {/* Social Icons */}
-                      <div className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center">
-                        <svg className="w-[18px] h-[18px] text-gray-700" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                    {/* Bottom row - engagement */}
+                    <div className="flex items-center gap-4 text-gray-500">
+                      <div className="flex items-center gap-1 relative">
+                        {/* Exploding hearts */}
+                        <div className="absolute -top-1 left-0">
+                          <svg className="w-3 h-3 text-red-500 absolute animate-heart-burst-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                          </svg>
+                          <svg className="w-2 h-2 text-pink-500 absolute animate-heart-burst-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                          </svg>
+                          <svg className="w-2.5 h-2.5 text-red-400 absolute animate-heart-burst-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                          </svg>
+                          <svg className="w-2 h-2 text-rose-500 absolute animate-heart-burst-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                          </svg>
+                          <svg className="w-1.5 h-1.5 text-red-300 absolute animate-heart-burst-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                          </svg>
+                          <svg className="w-2 h-2 text-rose-400 absolute animate-heart-burst-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                          </svg>
+                        </div>
+                        <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                         </svg>
+                        <span className="text-xs font-medium">234</span>
                       </div>
-                      <div className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center">
-                        <svg className="w-[18px] h-[18px] text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-                          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
-                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                      <div className="flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                         </svg>
+                        <span className="text-xs font-medium">18</span>
                       </div>
-                      <div className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center">
-                        <svg className="w-[18px] h-[18px] text-gray-700" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                      <div className="flex items-center gap-1 ml-auto">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                      </div>
-
-                      {/* Location */}
-                      <div className="flex items-center gap-1.5 bg-gray-100 px-3 py-2 rounded-full ml-1">
-                        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <circle cx="12" cy="10" r="3" strokeWidth={2}/>
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 21c-4-4-8-7.5-8-11a8 8 0 1116 0c0 3.5-4 7-8 11z" />
-                        </svg>
-                        <span className="text-sm text-gray-600 font-medium">Peoria, AZ</span>
+                        <span className="text-xs font-medium">0.3 mi</span>
                       </div>
                     </div>
                   </div>
@@ -971,58 +816,125 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Card 2 - Track Analytics */}
-            <div className="group lg:col-span-2 relative overflow-hidden backdrop-blur-xl bg-white/70 rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] hover:bg-white/80 transition-all duration-300 p-6 md:p-8">
+            {/* Card 2 - Track Analytics with EKG Line Animation */}
+            <div className="group lg:col-span-2 relative overflow-hidden rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-300 p-6 md:p-8" style={{ backgroundColor: '#f8fafc' }}>
+              {/* Background Ripple */}
+              <Ripple />
+
               <div className="relative z-10 h-full flex flex-col">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2 sm:mb-3">
-                  Track Performance.
+                <h3 className="text-2xl sm:text-3xl md:text-[32px] leading-tight mb-4">
+                  <span className="font-bold text-gray-900">Track Performance.</span>
+                  <span className="font-normal text-gray-400"> See your meal views and engagement in real time.</span>
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
-                  See your meal views, engagement, and connections in real time.
-                </p>
-                <div className="grid grid-cols-2 lg:grid-cols-4 items-center gap-4 sm:gap-6 md:gap-8 mt-auto">
+
+                {/* Simple Sine Wave Line & Moving Dot */}
+                <div className="flex-1 relative min-h-[160px] flex items-center">
+                  {/* SVG with static sine wave and animated dot */}
+                  <svg className="absolute w-full h-full z-10" viewBox="0 0 500 120" preserveAspectRatio="none">
+                    {/* Static black smooth sine wave with one peak */}
+                    <path
+                      d="M0,90 C80,90 120,20 250,20 C380,20 420,90 500,90"
+                      fill="none"
+                      stroke="#1a1a1a"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    {/* Moving dot - smaller */}
+                    <circle r="5" fill="#1a1a1a">
+                      <animateMotion
+                        dur="3s"
+                        repeatCount="indefinite"
+                        path="M0,90 C80,90 120,20 250,20 C380,20 420,90 500,90"
+                        calcMode="spline"
+                        keySplines="0.42 0 0.58 1; 0.42 0 0.58 1"
+                        keyTimes="0; 0.5; 1"
+                      />
+                    </circle>
+                  </svg>
+
+                  {/* Restaurant Images that reveal as dot passes */}
+                  <div className="absolute left-[8%] top-[20%] w-14 h-14 rounded-2xl overflow-hidden shadow-xl border-2 border-white animate-reveal-1">
+                    <img src="/img/IMG_6866.PNG" alt="Restaurant" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute left-[35%] bottom-[5%] w-12 h-12 rounded-2xl overflow-hidden shadow-xl border-2 border-white animate-reveal-2">
+                    <img src="/img/IMG_6867.PNG" alt="Restaurant" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute right-[30%] top-[15%] w-11 h-11 rounded-2xl overflow-hidden shadow-xl border-2 border-white animate-reveal-3">
+                    <img src="/img/IMG_6868.PNG" alt="Restaurant" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="absolute right-[8%] top-[25%] rounded-2xl overflow-hidden shadow-xl border-2 border-white animate-reveal-4" style={{ width: '52px', height: '52px' }}>
+                    <img src="/img/IMG_6866.PNG" alt="Restaurant" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+
+                {/* Stats Row */}
+                <div className="grid grid-cols-4 gap-3 mt-4">
                   <div className="text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">14.9M</div>
-                    <div className="text-xs sm:text-sm text-gray-500 mt-1">Views</div>
+                    <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">14.9M</div>
+                    <div className="text-[10px] sm:text-xs text-green-500 font-medium">Views</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">2.0M</div>
-                    <div className="text-xs sm:text-sm text-gray-500 mt-1">Engagement</div>
+                    <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">2.0M</div>
+                    <div className="text-[10px] sm:text-xs text-orange-500 font-medium">Engagement</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">0.8M</div>
-                    <div className="text-xs sm:text-sm text-gray-500 mt-1">Likes</div>
+                    <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">0.8M</div>
+                    <div className="text-[10px] sm:text-xs text-red-500 font-medium">Likes</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900">433K</div>
-                    <div className="text-xs sm:text-sm text-gray-500 mt-1">Comments</div>
+                    <div className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">433K</div>
+                    <div className="text-[10px] sm:text-xs text-purple-500 font-medium">Comments</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Card 4 - Connect with Students */}
-            <div className="group lg:col-span-1 relative overflow-hidden backdrop-blur-xl bg-white/70 rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] hover:bg-white/80 transition-all duration-300 p-6 md:p-8">
+            {/* Card 3 - Community Tweet */}
+            <div className="group relative overflow-hidden rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-300 bg-white p-5 md:p-6">
               <div className="relative z-10 h-full flex flex-col">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2 sm:mb-3">
-                  Connect with Students.
-                </h3>
-                <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
-                  Find students eating at the same spots.
+                {/* Tweet Header */}
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-full overflow-hidden bg-gray-100">
+                      <img src="/people/269ea14ae1b312e9d73cc8a1acb868aa.jpg" alt="User" className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1">
+                        <span className="font-semibold text-gray-900 text-[15px]">Sarah</span>
+                        <svg className="w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z" />
+                        </svg>
+                      </div>
+                      <span className="text-gray-500 text-sm">@sarahfoodie</span>
+                    </div>
+                  </div>
+                  <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </div>
+                {/* Tweet Content */}
+                <p className="text-gray-900 text-[15px] leading-relaxed flex-1">
+                  just discovered @campusmeals and it&apos;s literally changed how i find food on campus!! seeing what my friends are eating is so fun
                 </p>
-                <div className="mt-auto flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white shadow-lg flex-shrink-0">
-                    <img src="/people/569b3d16006db1361d8940a524993c52.jpg" alt="Student" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white shadow-lg flex-shrink-0">
-                    <img src="/people/816230758da3649866b5f4f7c6110456.jpg" alt="Student" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white shadow-lg flex-shrink-0">
-                    <img src="/people/10116edf1a14e1fac1d250f09c3f901d.jpg" alt="Student" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full backdrop-blur-lg bg-gray-900/90 text-white font-bold text-sm sm:text-base md:text-lg shadow-lg border border-gray-200/20 flex-shrink-0">
-                    +42
-                  </div>
+                {/* Tweet Footer */}
+                <div className="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100">
+                  <span className="text-xs text-gray-400">2:34 PM · Jan 15, 2026</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4 - Global Campus Network with Globe */}
+            <div className="group relative overflow-hidden rounded-[24px] border border-gray-800/50 shadow-[0_8px_32px_rgba(0,0,0,0.2)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.3)] transition-all duration-300 p-5 md:p-6" style={{ backgroundColor: '#0a0a0a' }}>
+              <div className="relative z-10 h-full flex flex-col">
+                <h3 className="text-lg sm:text-xl font-bold text-white mb-1">
+                  Connect Across Campuses.
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-400 mb-2">
+                  Students at 20+ universities sharing meals.
+                </p>
+                {/* Globe Container */}
+                <div className="flex-1 relative flex items-center justify-center min-h-[120px]">
+                  <Globe className="w-full max-w-[160px]" />
                 </div>
               </div>
             </div>
