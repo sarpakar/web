@@ -80,6 +80,10 @@ export default function LandingPage() {
   const testimonialNameColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(17,24,39)', 'rgb(17,24,39)', 'rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(17,24,39)', 'rgb(17,24,39)']);
   const testimonialRoleColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
 
+  // Parallax effect for iPhones - different speeds create depth
+  const iPhone1Y = useTransform(smoothProgress, [0, 1], [100, -60]); // Front iPhone moves slower
+  const iPhone2Y = useTransform(smoothProgress, [0, 1], [150, -100]); // Back iPhone moves faster (more parallax)
+
   // Static images array to prevent recreation on every render
   const images = ['/img/IMG_6866.PNG', '/img/IMG_6867.PNG', '/img/IMG_6868.PNG'];
 
@@ -578,13 +582,14 @@ export default function LandingPage() {
 
               {/* Right - Floating iPhones Container - Exact Flighty Layout */}
               <div className="relative h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-visible">
-                {/* iPhone 1 - Front/Bottom-Left - Main Focus */}
+                {/* iPhone 1 - Front/Bottom-Left - Main Focus with Parallax */}
                 <motion.div
                   className="absolute left-[8%] sm:left-[12%] md:left-[15%] bottom-[8%] sm:bottom-[10%] z-20"
-                  initial={{ opacity: 0, y: 80, rotate: -8 }}
-                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                  initial={{ opacity: 0, rotate: -8 }}
+                  whileInView={{ opacity: 1, rotate: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ y: iPhone1Y }}
                 >
                   <div
                     className="relative w-[200px] sm:w-[230px] md:w-[260px] lg:w-[280px]"
@@ -615,13 +620,14 @@ export default function LandingPage() {
                   </div>
                 </motion.div>
 
-                {/* iPhone 2 - Back/Top-Right - Overlapping & Extending */}
+                {/* iPhone 2 - Back/Top-Right - Overlapping & Extending with Parallax */}
                 <motion.div
                   className="absolute right-[-12%] sm:right-[-8%] md:right-[-5%] lg:right-[-10%] top-[5%] sm:top-[8%] z-10"
-                  initial={{ opacity: 0, y: 80, rotate: 12 }}
-                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                  initial={{ opacity: 0, rotate: 12 }}
+                  whileInView={{ opacity: 1, rotate: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ y: iPhone2Y }}
                 >
                   <div
                     className="relative w-[200px] sm:w-[230px] md:w-[260px] lg:w-[280px]"
@@ -934,164 +940,7 @@ export default function LandingPage() {
               </div>
             </div>
 
-            {/* Card 2 - Universities with Moving Pills (Wide & Tall) */}
-            <div className="group lg:col-span-2 lg:row-span-2 relative overflow-hidden backdrop-blur-xl bg-white/70 rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] hover:bg-white/80 transition-all duration-300 p-6 md:p-8">
-              <div className="relative z-10 h-full flex flex-col">
-                <div className="mb-4">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-1">
-                    5,000+ Students
-                  </h3>
-                  <p className="text-xs sm:text-sm md:text-base text-gray-600 font-medium">
-                    Actively eating
-                  </p>
-                </div>
-
-                {/* Moving Pills Container - Fill entire space */}
-                <div className="flex-1 flex flex-col justify-evenly overflow-hidden -mx-6 md:-mx-8">
-                  {/* Row 1 - Scrolls Left */}
-                  <div className="relative flex">
-                    <div className="flex animate-scroll gap-2">
-                      {['Northwestern', 'Rice', 'Stanford', 'Spelman', 'SMU', 'Emory', 'Notre Dame', 'Wake Forest'].map((uni, idx) => (
-                        <div
-                          key={`pill-row1-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex animate-scroll gap-2" aria-hidden="true">
-                      {['Northwestern', 'Rice', 'Stanford', 'Spelman', 'SMU', 'Emory', 'Notre Dame', 'Wake Forest'].map((uni, idx) => (
-                        <div
-                          key={`pill-row1-dup-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Row 2 - Scrolls Right */}
-                  <div className="relative flex">
-                    <div className="flex animate-scroll-reverse gap-2">
-                      {['UC Berkeley', 'MIT', 'Princeton', 'Tulane', 'Georgetown', 'Duke', 'Yale', 'Howard'].map((uni, idx) => (
-                        <div
-                          key={`pill-row2-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex animate-scroll-reverse gap-2" aria-hidden="true">
-                      {['UC Berkeley', 'MIT', 'Princeton', 'Tulane', 'Georgetown', 'Duke', 'Yale', 'Howard'].map((uni, idx) => (
-                        <div
-                          key={`pill-row2-dup-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Row 3 - Scrolls Left */}
-                  <div className="relative flex">
-                    <div className="flex animate-scroll gap-2">
-                      {['Columbia', 'Penn', 'Brown', 'Cornell', 'Dartmouth', 'Vanderbilt', 'USC', 'NYU'].map((uni, idx) => (
-                        <div
-                          key={`pill-row3-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex animate-scroll gap-2" aria-hidden="true">
-                      {['Columbia', 'Penn', 'Brown', 'Cornell', 'Dartmouth', 'Vanderbilt', 'USC', 'NYU'].map((uni, idx) => (
-                        <div
-                          key={`pill-row3-dup-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Row 4 - Scrolls Right */}
-                  <div className="relative flex">
-                    <div className="flex animate-scroll-reverse gap-2">
-                      {['Boston U', 'Northeastern', 'Tufts', 'UCLA', 'Michigan', 'UVA', 'W&M', 'UChicago'].map((uni, idx) => (
-                        <div
-                          key={`pill-row4-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex animate-scroll-reverse gap-2" aria-hidden="true">
-                      {['Boston U', 'Northeastern', 'Tufts', 'UCLA', 'Michigan', 'UVA', 'W&M', 'UChicago'].map((uni, idx) => (
-                        <div
-                          key={`pill-row4-dup-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Row 5 - Scrolls Left */}
-                  <div className="relative flex">
-                    <div className="flex animate-scroll gap-2">
-                      {['Texas A&M', 'UNC', 'UGA', 'Florida', 'Alabama', 'LSU', 'Auburn', 'Tennessee'].map((uni, idx) => (
-                        <div
-                          key={`pill-row5-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex animate-scroll gap-2" aria-hidden="true">
-                      {['Texas A&M', 'UNC', 'UGA', 'Florida', 'Alabama', 'LSU', 'Auburn', 'Tennessee'].map((uni, idx) => (
-                        <div
-                          key={`pill-row5-dup-${idx}`}
-                          className="flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 backdrop-blur-md bg-white/30 rounded-full border border-gray-200/20 shadow-[0_1px_3px_rgba(0,0,0,0.02)] hover:bg-white/50 hover:border-gray-200/30 transition-all duration-300"
-                        >
-                          <span className="text-[10px] sm:text-xs md:text-sm font-medium text-gray-400 whitespace-nowrap">
-                            {uni}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3 - Track Analytics */}
+            {/* Card 2 - Track Analytics */}
             <div className="group lg:col-span-2 relative overflow-hidden backdrop-blur-xl bg-white/70 rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] hover:bg-white/80 transition-all duration-300 p-6 md:p-8">
               <div className="relative z-10 h-full flex flex-col">
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-2 sm:mb-3">
