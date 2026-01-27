@@ -35,23 +35,23 @@ export default function LandingPage() {
     restDelta: 0.001
   });
 
-  // Transform smoothed progress: snap transition to avoid ugly gray mid-tones
-  // Tight keyframes [0.18, 0.22] make the switch fast enough to hide interpolation
-  const darkBgOpacity = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], [0, 0, 1, 1, 0, 0]);
+  // Transform smoothed progress: longer, smoother transition
+  // Wider keyframes [0.12, 0.28] for buttery smooth color change
+  const darkBgOpacity = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], [0, 0, 1, 1, 0, 0]);
 
-  // Card and text color transitions - fast snap to avoid muddy grays
-  const cardBgColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)', 'rgba(30,30,30,0.9)', 'rgba(30,30,30,0.9)', 'rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)']);
-  const cardBorderColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)', 'rgba(60,60,60,0.6)', 'rgba(60,60,60,0.6)', 'rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)']);
-  const headingColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['#000000', '#000000', '#ffffff', '#ffffff', '#000000', '#000000']);
-  const paragraphColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
+  // Card and text color transitions - smooth gradual change
+  const cardBgColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)', 'rgba(30,30,30,0.9)', 'rgba(30,30,30,0.9)', 'rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)']);
+  const cardBorderColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)', 'rgba(60,60,60,0.6)', 'rgba(60,60,60,0.6)', 'rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)']);
+  const headingColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['#000000', '#000000', '#ffffff', '#ffffff', '#000000', '#000000']);
+  const paragraphColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
 
   // Navbar color transitions for dark mode
-  const navBgColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(255,255,255,0.6)', 'rgba(255,255,255,0.6)', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.6)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.6)']);
-  const navTextColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['#000000', '#000000', '#ffffff', '#ffffff', '#000000', '#000000']);
-  const navBorderColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(243,244,246,1)', 'rgba(243,244,246,1)', 'rgba(55,65,81,1)', 'rgba(55,65,81,1)', 'rgba(243,244,246,1)', 'rgba(243,244,246,1)']);
+  const navBgColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(255,255,255,0.6)', 'rgba(255,255,255,0.6)', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.6)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.6)']);
+  const navTextColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['#000000', '#000000', '#ffffff', '#ffffff', '#000000', '#000000']);
+  const navBorderColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(243,244,246,1)', 'rgba(243,244,246,1)', 'rgba(55,65,81,1)', 'rgba(55,65,81,1)', 'rgba(243,244,246,1)', 'rgba(243,244,246,1)']);
 
   // iPhone shadow transitions - more visible on dark background
-  const iphoneShadow1 = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], [
+  const iphoneShadow1 = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], [
     'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)',
     'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)',
     'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)',
@@ -59,7 +59,7 @@ export default function LandingPage() {
     'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)',
     'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)'
   ]);
-  const iphoneShadow2 = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], [
+  const iphoneShadow2 = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], [
     'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, transparent 100%)',
     'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, transparent 100%)',
     'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)',
@@ -69,20 +69,46 @@ export default function LandingPage() {
   ]);
 
   // Section text color transitions for other sections visible during dark mode
-  const sectionHeadingColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(17,24,39)', 'rgb(17,24,39)', 'rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(17,24,39)', 'rgb(17,24,39)']);
-  const sectionSubheadingColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(75,85,99)', 'rgb(75,85,99)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(75,85,99)', 'rgb(75,85,99)']);
-  const fadeFromColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(0,0,0)', 'rgb(0,0,0)', 'rgb(255,255,255)', 'rgb(255,255,255)']);
+  const sectionHeadingColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(17,24,39)', 'rgb(17,24,39)', 'rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(17,24,39)', 'rgb(17,24,39)']);
+  const sectionSubheadingColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(75,85,99)', 'rgb(75,85,99)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(75,85,99)', 'rgb(75,85,99)']);
+  const fadeFromColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(0,0,0)', 'rgb(0,0,0)', 'rgb(255,255,255)', 'rgb(255,255,255)']);
 
   // Testimonial card color transitions
-  const testimonialCardBg = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(255,255,255,0.9)', 'rgba(255,255,255,0.9)', 'rgba(38,38,38,0.9)', 'rgba(38,38,38,0.9)', 'rgba(255,255,255,0.9)', 'rgba(255,255,255,0.9)']);
-  const testimonialBorderColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(229,231,235,0.2)', 'rgba(229,231,235,0.2)', 'rgba(75,85,99,0.3)', 'rgba(75,85,99,0.3)', 'rgba(229,231,235,0.2)', 'rgba(229,231,235,0.2)']);
-  const testimonialTextColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(55,65,81)', 'rgb(55,65,81)', 'rgb(209,213,219)', 'rgb(209,213,219)', 'rgb(55,65,81)', 'rgb(55,65,81)']);
-  const testimonialNameColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(17,24,39)', 'rgb(17,24,39)', 'rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(17,24,39)', 'rgb(17,24,39)']);
-  const testimonialRoleColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
+  const testimonialCardBg = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(255,255,255,0.9)', 'rgba(255,255,255,0.9)', 'rgba(38,38,38,0.9)', 'rgba(38,38,38,0.9)', 'rgba(255,255,255,0.9)', 'rgba(255,255,255,0.9)']);
+  const testimonialBorderColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(229,231,235,0.2)', 'rgba(229,231,235,0.2)', 'rgba(75,85,99,0.3)', 'rgba(75,85,99,0.3)', 'rgba(229,231,235,0.2)', 'rgba(229,231,235,0.2)']);
+  const testimonialTextColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(55,65,81)', 'rgb(55,65,81)', 'rgb(209,213,219)', 'rgb(209,213,219)', 'rgb(55,65,81)', 'rgb(55,65,81)']);
+  const testimonialNameColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(17,24,39)', 'rgb(17,24,39)', 'rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(17,24,39)', 'rgb(17,24,39)']);
+  const testimonialRoleColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
 
-  // Parallax effect for iPhones - different speeds create depth
-  const iPhone1Y = useTransform(smoothProgress, [0, 1], [100, -60]); // Front iPhone moves slower
-  const iPhone2Y = useTransform(smoothProgress, [0, 1], [150, -100]); // Back iPhone moves faster (more parallax)
+  // Blur intensity - use smoothProgress with instant snap keyframes for perfect sync
+  // Blur off exactly when colors start, back on exactly when colors finish
+  const blurAmount = useTransform(
+    smoothProgress,
+    [0, 0.119, 0.12, 0.28, 0.281, 0.719, 0.72, 0.88, 0.881, 1],
+    [24, 24, 0, 0, 24, 24, 0, 0, 24, 24]
+  );
+  const navBlurFilter = useMotionTemplate`blur(${blurAmount}px)`;
+  const cardBlurAmount = useTransform(
+    smoothProgress,
+    [0, 0.119, 0.12, 0.28, 0.281, 0.719, 0.72, 0.88, 0.881, 1],
+    [12, 12, 0, 0, 12, 12, 0, 0, 12, 12]
+  );
+  const cardBlurFilter = useMotionTemplate`blur(${cardBlurAmount}px)`;
+
+  // Fade overlay opacity - use smoothProgress but with instant snap (no gray interpolation)
+  // Hide exactly when colors start changing, show exactly when colors finish
+  const fadeOverlayOpacity = useTransform(
+    smoothProgress,
+    [0, 0.119, 0.12, 0.28, 0.281, 0.719, 0.72, 0.88, 0.881, 1],
+    [1, 1, 0, 0, 1, 1, 0, 0, 1, 1]
+  );
+
+  // Nav blur overlay opacity - hide completely during transitions to avoid artifacts
+  const navBlurOpacity = useTransform(
+    smoothProgress,
+    [0, 0.119, 0.12, 0.28, 0.281, 0.719, 0.72, 0.88, 0.881, 1],
+    [1, 1, 0, 0, 1, 1, 0, 0, 1, 1]
+  );
 
   // Static images array to prevent recreation on every render
   const images = ['/img/IMG_6866.PNG', '/img/IMG_6867.PNG', '/img/IMG_6868.PNG'];
@@ -123,14 +149,17 @@ export default function LandingPage() {
         className="fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20"
         style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
       >
-        {/* Nav blur with gradual fade - adapts to dark mode */}
+        {/* Nav blur with gradual fade - adapts to dark mode - blur disabled during transitions */}
         <motion.div
-          className="absolute inset-x-0 top-0 backdrop-blur-2xl pointer-events-none"
+          className="absolute inset-x-0 top-0 pointer-events-none"
           style={{
             backgroundColor: navBgColor,
             height: '120px',
             maskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
+            backdropFilter: navBlurFilter,
+            WebkitBackdropFilter: navBlurFilter,
+            opacity: navBlurOpacity,
           }}
         />
         <div className="relative z-10 w-full">
@@ -483,14 +512,14 @@ export default function LandingPage() {
         }}
       >
         <div className="w-full max-w-[1400px] mx-auto relative">
-          {/* Edge Fade Overlays - Adapt to dark mode */}
+          {/* Edge Fade Overlays - Adapt to dark mode, hidden during transition */}
           <motion.div
             className="absolute left-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 z-20 pointer-events-none"
-            style={{ background: useMotionTemplate`linear-gradient(to right, ${fadeFromColor}, transparent)` }}
+            style={{ background: useMotionTemplate`linear-gradient(to right, ${fadeFromColor}, transparent)`, opacity: fadeOverlayOpacity }}
           />
           <motion.div
             className="absolute right-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 z-20 pointer-events-none"
-            style={{ background: useMotionTemplate`linear-gradient(to left, ${fadeFromColor}, transparent)` }}
+            style={{ background: useMotionTemplate`linear-gradient(to left, ${fadeFromColor}, transparent)`, opacity: fadeOverlayOpacity }}
           />
 
           <div className="space-y-2 sm:space-y-3 md:space-y-4" style={{ overflow: 'clip' }}>
@@ -557,10 +586,12 @@ export default function LandingPage() {
           <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
             {/* Dedicated Container - Flighty Style Card */}
             <motion.div
-              className="relative backdrop-blur-xl rounded-[40px] md:rounded-[56px] border shadow-[0_20px_80px_rgba(255,255,255,0.06),0_8px_32px_rgba(255,255,255,0.04)] overflow-hidden"
+              className="relative rounded-[40px] md:rounded-[56px] border shadow-[0_20px_80px_rgba(255,255,255,0.06),0_8px_32px_rgba(255,255,255,0.04)] overflow-hidden"
               style={{
                 backgroundColor: cardBgColor,
                 borderColor: cardBorderColor,
+                backdropFilter: cardBlurFilter,
+                WebkitBackdropFilter: cardBlurFilter,
               }}
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0">
@@ -582,14 +613,13 @@ export default function LandingPage() {
 
               {/* Right - Floating iPhones Container - Exact Flighty Layout */}
               <div className="relative h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-visible">
-                {/* iPhone 1 - Front/Bottom-Left - Main Focus with Parallax */}
+                {/* iPhone 1 - Front/Bottom-Left - Main Focus */}
                 <motion.div
                   className="absolute left-[8%] sm:left-[12%] md:left-[15%] bottom-[8%] sm:bottom-[10%] z-20"
-                  initial={{ opacity: 0, rotate: -8 }}
-                  whileInView={{ opacity: 1, rotate: 0 }}
+                  initial={{ opacity: 0, y: 80, rotate: -8 }}
+                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ y: iPhone1Y }}
                 >
                   <div
                     className="relative w-[200px] sm:w-[230px] md:w-[260px] lg:w-[280px]"
@@ -620,14 +650,13 @@ export default function LandingPage() {
                   </div>
                 </motion.div>
 
-                {/* iPhone 2 - Back/Top-Right - Overlapping & Extending with Parallax */}
+                {/* iPhone 2 - Back/Top-Right - Overlapping & Extending */}
                 <motion.div
                   className="absolute right-[-12%] sm:right-[-8%] md:right-[-5%] lg:right-[-10%] top-[5%] sm:top-[8%] z-10"
-                  initial={{ opacity: 0, rotate: 12 }}
-                  whileInView={{ opacity: 1, rotate: 0 }}
+                  initial={{ opacity: 0, y: 80, rotate: 12 }}
+                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ y: iPhone2Y }}
                 >
                   <div
                     className="relative w-[200px] sm:w-[230px] md:w-[260px] lg:w-[280px]"
@@ -685,17 +714,19 @@ export default function LandingPage() {
 
           {/* Auto-Scrolling Testimonials Carousel */}
           <div className="relative mb-8 sm:mb-10 md:mb-12 py-8 -my-8" style={{ overflowX: 'clip', overflowY: 'visible' }}>
-            {/* Edge Fade Overlays - Adapt to dark mode */}
+            {/* Edge Fade Overlays - Adapt to dark mode, hidden during transition */}
             <motion.div
               className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 z-20 pointer-events-none"
               style={{
-                background: useMotionTemplate`linear-gradient(to right, ${fadeFromColor}, transparent)`
+                background: useMotionTemplate`linear-gradient(to right, ${fadeFromColor}, transparent)`,
+                opacity: fadeOverlayOpacity
               }}
             />
             <motion.div
               className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 z-20 pointer-events-none"
               style={{
-                background: useMotionTemplate`linear-gradient(to left, ${fadeFromColor}, transparent)`
+                background: useMotionTemplate`linear-gradient(to left, ${fadeFromColor}, transparent)`,
+                opacity: fadeOverlayOpacity
               }}
             />
 
@@ -705,7 +736,7 @@ export default function LandingPage() {
               {[...Array(2)].map((_, setIndex) => (
                 <div key={setIndex} className="flex gap-6 flex-shrink-0">
                   {/* Testimonial 1 */}
-                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
+                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
                     <div className="flex items-center mb-6">
                       <img
                         src="/people/10116edf1a14e1fac1d250f09c3f901d.jpg"
@@ -723,7 +754,7 @@ export default function LandingPage() {
                   </motion.div>
 
                   {/* Testimonial 2 */}
-                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
+                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
                     <div className="flex items-center mb-6">
                       <img
                         src="/people/269ea14ae1b312e9d73cc8a1acb868aa.jpg"
@@ -741,7 +772,7 @@ export default function LandingPage() {
                   </motion.div>
 
                   {/* Testimonial 3 */}
-                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
+                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
                     <div className="flex items-center mb-6">
                       <img
                         src="/people/569b3d16006db1361d8940a524993c52.jpg"
@@ -759,7 +790,7 @@ export default function LandingPage() {
                   </motion.div>
 
                   {/* Testimonial 4 */}
-                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
+                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
                     <div className="flex items-center mb-6">
                       <img
                         src="/people/816230758da3649866b5f4f7c6110456.jpg"
@@ -777,7 +808,7 @@ export default function LandingPage() {
                   </motion.div>
 
                   {/* Testimonial 5 */}
-                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
+                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
                     <div className="flex items-center mb-6">
                       <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-xl sm:text-2xl">
                         J
@@ -793,7 +824,7 @@ export default function LandingPage() {
                   </motion.div>
 
                   {/* Testimonial 6 */}
-                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
+                  <motion.div className="group relative rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor, backdropFilter: cardBlurFilter, WebkitBackdropFilter: cardBlurFilter }}>
                     <div className="flex items-center mb-6">
                       <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-xl sm:text-2xl">
                         M
