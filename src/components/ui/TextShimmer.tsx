@@ -1,11 +1,10 @@
 'use client';
-import React, { useMemo, type JSX } from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 export type TextShimmerProps = {
   children: string;
-  as?: React.ElementType;
   className?: string;
   duration?: number;
   spread?: number;
@@ -15,7 +14,6 @@ export type TextShimmerProps = {
 
 function TextShimmerComponent({
   children,
-  as: Component = 'p',
   className,
   duration = 2,
   spread = 2,
@@ -26,14 +24,12 @@ function TextShimmerComponent({
     return children.length * spread;
   }, [children, spread]);
 
-  const MotionComponent = motion[Component as keyof typeof motion] || motion.span;
-
   const backgroundImageValue = baseGradient
     ? `var(--bg), ${baseGradient}`
     : `var(--bg), linear-gradient(var(--base-color), var(--base-color))`;
 
   return (
-    <MotionComponent
+    <motion.span
       className={cn(
         'relative inline-block bg-[length:250%_100%,auto] bg-clip-text',
         'text-transparent [--base-color:#a1a1aa] [--base-gradient-color:#000]',
@@ -57,7 +53,7 @@ function TextShimmerComponent({
       }
     >
       {children}
-    </MotionComponent>
+    </motion.span>
   );
 }
 

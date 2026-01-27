@@ -72,7 +72,7 @@ export default function ChallengesPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl p-4 sm:p-6 mb-6 text-white"
+        className="bg-black rounded-2xl p-4 sm:p-6 mb-6 text-white"
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0">
           <div>

@@ -76,7 +76,13 @@ export default function CommunityPage() {
       if (isLiked) {
         await socialService.unlikePost(postId, user.uid);
       } else {
-        await socialService.likePost(postId, user.uid);
+        await socialService.likePost(
+          postId,
+          user.uid,
+          user.displayName || 'Anonymous',
+          user.photoURL || undefined,
+          post.userId
+        );
       }
 
       setPosts(prev => prev.map(p => {

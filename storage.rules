@@ -1,0 +1,89 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isUnder10MB() {
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // User profile images
+    match /users/{userId}/{allPaths=**} {
+      // Anyone can read user images (for avatars)
+      allow read: if true;
+
+      // Users can upload their own images
+      allow create: if isAuthenticated() &&
+                      isOwner(userId) &&
+                      isImage() &&
+                      isUnder10MB();
+
+      // Users can update their own images
+      allow update: if isAuthenticated() &&
+                      isOwner(userId) &&
+                      isImage() &&
+                      isUnder10MB();
+
+      // Users can delete their own images
+      allow delete: if isAuthenticated() && isOwner(userId);
+    }
+
+    // Post media (food images)
+    match /media/{userId}/{allPaths=**} {
+      // Anyone can read public media
+      allow read: if true;
+
+      // Users can upload their own media
+      allow create: if isAuthenticated() &&
+                      isOwner(userId) &&
+                      isImage() &&
+                      isUnder10MB();
+
+      // Users can update their own media
+      allow update: if isAuthenticated() &&
+                      isOwner(userId) &&
+                      isImage() &&
+                      isUnder10MB();
+
+      // Users can delete their own media
+      allow delete: if isAuthenticated() && isOwner(userId);
+    }
+
+    // Community images
+    match /communities/{communityId}/{allPaths=**} {
+      allow read: if true;
+      // Allow authenticated users to create community images
+      allow create: if isAuthenticated() && isImage() && isUnder10MB();
+      // Prevent unauthorized updates - use Admin SDK for updates
+      allow update: if false;
+      allow delete: if false; // Admin only
+    }
+
+    // Fridge images
+    match /fridges/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated() && isOwner(userId);
+      allow create: if isAuthenticated() &&
+                      isOwner(userId) &&
+                      isImage() &&
+                      isUnder10MB();
+      allow update: if isAuthenticated() &&
+                      isOwner(userId) &&
+                      isImage() &&
+                      isUnder10MB();
+      allow delete: if isAuthenticated() && isOwner(userId);
+    }
+  }
+}

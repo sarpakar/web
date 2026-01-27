@@ -6,9 +6,9 @@ import { socialService } from '@/services/socialService';
 import { fridgeService, FridgeItem } from '@/services/fridgeService';
 import { Post, FridgeItemEmbed } from '@/types';
 import Link from 'next/link';
-import FilterPills from '@/components/feed/FilterPills';
 import PostComposer from '@/components/feed/PostComposer';
 import FeedPost from '@/components/feed/FeedPost';
+import MacroCircles from '@/components/feed/MacroCircles';
 
 // Helper to normalize Firebase Storage URLs
 function normalizeURL(url: string | undefined | null): string | undefined {
@@ -258,7 +258,6 @@ export default function FeedPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [fridgeItemPosts, setFridgeItemPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeFilter, setActiveFilter] = useState('all');
 
   useEffect(() => {
     loadPosts();
@@ -364,10 +363,6 @@ export default function FeedPage() {
     }
   };
 
-  const handleFilterChange = (filterId: string) => {
-    setActiveFilter(filterId);
-  };
-
   const handleLike = async (postId: string) => {
     if (!user || !userProfile) return;
     const post = posts.find(p => p.id === postId);
@@ -442,8 +437,8 @@ export default function FeedPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC]">
-      {/* Filter Pills */}
-      <FilterPills onFilterChange={handleFilterChange} />
+      {/* Macro Nutrient Circles */}
+      <MacroCircles />
 
       {/* Post Composer */}
       <PostComposer />

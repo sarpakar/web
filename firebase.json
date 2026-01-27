@@ -1,0 +1,94 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "hosting": {
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.git/**",
+      "**/.github/**",
+      "**/.vscode/**",
+      "**/node_modules/**",
+      "scripts/**",
+      "serviceAccountKey.json",
+      "**/README.md",
+      "**/CLAUDE.md",
+      "**/*.md",
+      "Dockerfile",
+      "docker-compose*.yml",
+      ".dockerignore",
+      ".gitignore",
+      "cloudbuild.yaml"
+    ],
+    "frameworksBackend": {
+      "region": "us-central1",
+      "minInstances": 0,
+      "maxInstances": 100,
+      "memory": "1GiB",
+      "cpu": 1,
+      "concurrency": 80
+    },
+    "headers": [
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|svg|webp|ico|woff2|woff|ttf|eot)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "X-Content-Type-Options",
+            "value": "nosniff"
+          },
+          {
+            "key": "X-Frame-Options",
+            "value": "DENY"
+          },
+          {
+            "key": "X-XSS-Protection",
+            "value": "1; mode=block"
+          },
+          {
+            "key": "Referrer-Policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "key": "Permissions-Policy",
+            "value": "camera=(), microphone=(), geolocation=(self)"
+          }
+        ]
+      }
+    ],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "/landing",
+        "type": 302
+      },
+      {
+        "source": "/home",
+        "destination": "/feed",
+        "type": 301
+      }
+    ]
+  }
+}

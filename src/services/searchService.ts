@@ -1,101 +1,76 @@
 // ============================================================================
 // AI Search Service - Matching iOS PineconeSearchService
-// Uses Gemini AI for embeddings and natural language understanding
+// Uses server-side API routes for Gemini AI to protect API keys
 // ============================================================================
 
 import { SearchResult } from '@/types';
+import { auth } from '@/lib/firebase';
+import logger from '@/lib/logger';
 
-// API Configuration - Using keys from iOS APIKeys-Info.plist
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-
-interface GeminiResponse {
-  candidates?: {
-    content?: {
-      parts?: { text?: string }[];
-    };
-  }[];
+/**
+ * Get the current user's Firebase ID token for API authentication
+ */
+async function getAuthToken(): Promise<string | null> {
+  const user = auth.currentUser;
+  if (!user) return null;
+  try {
+    return await user.getIdToken();
+  } catch (error) {
+    logger.error('Failed to get auth token:', error);
+    return null;
+  }
 }
 
 export const searchService = {
   /**
-   * AI-powered food search using Gemini
+   * AI-powered food search using server-side Gemini API
    * Matches iOS PineconeSearchService functionality
    */
   async search(query: string): Promise<{ results: SearchResult[]; aiResponse: string }> {
-    console.log('🔍 Starting AI search for:', query);
+    logger.log('🔍 Starting AI search for:', query);
 
-    if (!GEMINI_API_KEY) {
-      console.warn('⚠️ Gemini API key not configured');
-      return { results: [], aiResponse: 'Search service not configured.' };
+    const token = await getAuthToken();
+    if (!token) {
+      logger.warn('⚠️ User not authenticated');
+      return { results: [], aiResponse: 'Please sign in to search.' };
     }
 
     try {
-      // Use Gemini to understand the query and generate recommendations
-      const prompt = `You are a helpful food assistant. A user is searching for: "${query}"
-
-Generate a JSON response with food recommendations. Return ONLY valid JSON:
-{
-  "summary": "A brief, helpful recommendation mentioning specific dishes and venues",
-  "recommendations": [
-    {
-      "id": "1",
-      "name": "Dish Name",
-      "description": "Brief description",
-      "price": 12.99,
-      "venueName": "Restaurant Name",
-      "category": "Category",
-      "isVegetarian": false,
-      "isVegan": false,
-      "score": 0.95,
-      "latitude": 40.7128,
-      "longitude": -74.0060
-    }
-  ]
-}
-
-Generate 3-5 realistic food recommendations based on the query. Be creative with venue names and dishes that would match "${query}".`;
-
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-            generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 1000,
-              responseMimeType: 'application/json'
-            }
-          })
-        }
-      );
+      const response = await fetch('/api/ai/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ query, type: 'search' })
+      });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('API error:', response.status, errorText);
-        throw new Error(`API error: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        logger.error('API error:', response.status, errorData);
+        throw new Error(errorData.error || `API error: ${response.status}`);
       }
 
-      const data: GeminiResponse = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const data = await response.json();
 
-      // Parse the JSON response
-      const parsed = JSON.parse(text);
-      const results: SearchResult[] = (parsed.recommendations || []).map((rec: SearchResult, index: number) => ({
+      // Parse recommendations from response
+      const results: SearchResult[] = (data.recommendations || []).map((rec: SearchResult, index: number) => ({
         ...rec,
         id: rec.id || String(index + 1),
         score: rec.score || 0.9 - index * 0.1
       }));
 
-      console.log('✅ Search completed with', results.length, 'results');
-      return { results, aiResponse: parsed.summary || 'Here are some recommendations for you.' };
+      logger.log('✅ Search completed with', results.length, 'results');
+      return {
+        results,
+        aiResponse: data.summary || 'Here are some recommendations for you.'
+      };
 
     } catch (error) {
-      console.error('❌ Search error:', error);
-      return { 
-        results: [], 
-        aiResponse: 'I had trouble searching. Please try again.' 
+      logger.error('❌ Search error:', error);
+      return {
+        results: [],
+        aiResponse: 'I had trouble searching. Please try again.'
       };
     }
   },
@@ -117,34 +92,66 @@ Generate 3-5 realistic food recommendations based on the query. Be creative with
   },
 
   /**
-   * Analyze food image using Gemini Vision
+   * Analyze food image using server-side Gemini Vision API
    */
   async analyzeImage(imageBase64: string): Promise<string> {
-    if (!GEMINI_API_KEY) {
-      return 'Image analysis not available';
+    const token = await getAuthToken();
+    if (!token) {
+      return 'Please sign in to analyze images.';
     }
 
     try {
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [
-                { text: 'What food do you see in this image? Describe it briefly in 2-3 sentences.' },
-                { inline_data: { mime_type: 'image/jpeg', data: imageBase64 } }
-              ]
-            }]
-          })
-        }
-      );
+      const response = await fetch('/api/ai/analyze-image', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ imageBase64 })
+      });
 
-      const data: GeminiResponse = await response.json();
-      return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Could not analyze image';
-    } catch {
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.analysis || 'Could not analyze image';
+    } catch (error) {
+      logger.error('Image analysis error:', error);
       return 'Error analyzing image';
+    }
+  },
+
+  /**
+   * Generate text embeddings using server-side API
+   * Used for vector search functionality
+   */
+  async generateEmbedding(text: string): Promise<number[]> {
+    const token = await getAuthToken();
+    if (!token) {
+      logger.warn('User not authenticated for embedding generation');
+      return [];
+    }
+
+    try {
+      const response = await fetch('/api/ai/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ query: text, type: 'embedding' })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Embedding API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.embedding || [];
+    } catch (error) {
+      logger.error('Embedding generation error:', error);
+      return [];
     }
   }
 };

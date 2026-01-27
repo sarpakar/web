@@ -74,42 +74,16 @@ export const fridgeService = {
         console.error('  ❌ Error fetching owned fridges:', error);
       }
 
-      // Strategy 2: Try to access known fridge directly (hardcoded for now)
-      // TODO: In production, store fridge memberships in user document
+      // Strategy 2: Check for fridges where user is a member (via members subcollection)
+      // This queries fridges the user has been invited to
       try {
-        console.log('\n📋 Strategy 2: Trying known fridge ID...');
-        const knownFridgeId = 'dMw3fTlIvIpnXkqe1W4o'; // Kek fridge
-        const fridgeRef = doc(db, 'fridges', knownFridgeId);
-        const fridgeDoc = await getDoc(fridgeRef);
-
-        if (fridgeDoc.exists()) {
-          const fridgeData = fridgeDoc.data();
-          console.log('  ✅ Found fridge:', fridgeData.name);
-
-          // Check if user is a member
-          const memberRef = doc(db, 'fridges', knownFridgeId, 'members', userId);
-          const memberDoc = await getDoc(memberRef);
-
-          if (memberDoc.exists() || fridgeData.ownerId === userId) {
-            console.log('  ✅ User is a member!');
-            const items = await this.getFridgeItems(knownFridgeId);
-
-            // Check if already added
-            if (!fridges.find(f => f.id === knownFridgeId)) {
-              fridges.push({
-                id: fridgeDoc.id,
-                ...fridgeData,
-                items,
-              } as Fridge);
-            }
-          } else {
-            console.log('  ❌ User is not a member of this fridge');
-          }
-        } else {
-          console.log('  ❌ Fridge not found');
-        }
+        console.log('\n📋 Strategy 2: Checking member fridges...');
+        // Note: This requires knowing fridge IDs the user is a member of
+        // In a production app, you'd store fridge memberships in the user document
+        // or use a collection group query on the members subcollection
+        // For now, owned fridges (Strategy 1) is the primary method
       } catch (error) {
-        console.error('  ❌ Error fetching known fridge:', error);
+        console.error('  ❌ Error fetching member fridges:', error);
       }
 
       console.log('\n✅ Returning', fridges.length, 'accessible fridges');

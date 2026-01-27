@@ -159,6 +159,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const result = await signInWithPopup(auth, googleProvider);
       set({ user: result.user, isAuthenticated: true });
       await get().fetchUserProfile(result.user.uid);
+
+      // Create session cookie for server-side route protection
+      const idToken = await result.user.getIdToken();
+      await fetch('/api/auth/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken })
+      });
+
       set({ isLoading: false });
     } catch (error: any) {
       set({ error: error.message, isLoading: false });
@@ -172,6 +181,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const result = await signInWithEmailAndPassword(auth, email, password);
       set({ user: result.user, isAuthenticated: true });
       await get().fetchUserProfile(result.user.uid);
+
+      // Create session cookie for server-side route protection
+      const idToken = await result.user.getIdToken();
+      await fetch('/api/auth/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken })
+      });
+
       set({ isLoading: false });
     } catch (error: any) {
       set({ error: error.message, isLoading: false });
@@ -188,6 +206,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
       set({ user: result.user, isAuthenticated: true });
       await get().fetchUserProfile(result.user.uid);
+
+      // Create session cookie for server-side route protection
+      const idToken = await result.user.getIdToken();
+      await fetch('/api/auth/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken })
+      });
+
       set({ isLoading: false });
     } catch (error: any) {
       set({ error: error.message, isLoading: false });
@@ -198,6 +225,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   logout: async () => {
     set({ isLoading: true });
     try {
+      // Clear session cookie first
+      await fetch('/api/auth/session', { method: 'DELETE' });
+
       await signOut(auth);
       set({ user: null, userProfile: null, isAuthenticated: false, isLoading: false });
     } catch (error: any) {

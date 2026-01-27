@@ -259,13 +259,13 @@ export default function SearchChat() {
               <button className="flex flex-col items-start p-5 backdrop-blur-lg bg-white/60 rounded-[32px] border border-gray-200 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] text-left hover:scale-[1.02] transition-all duration-200 group">
                 <div className="flex -space-x-2 mb-4">
                   <div className="w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden ring-2 ring-emerald-100 group-hover:ring-emerald-300 transition-all duration-200">
-                    <img src="/postsuplaod/8dab728b45f221926d98260bb8b7a3d4.jpg" alt="Food" className="w-full h-full object-cover" />
+                    <img src="/img/apollo bagel.jpg" alt="Food" className="w-full h-full object-cover" />
                   </div>
                   <div className="w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden ring-2 ring-emerald-100 group-hover:ring-emerald-300 transition-all duration-200">
-                    <img src="/postsuplaod/0ac697015792a7c06e949b31bbef9c41.jpg" alt="Food" className="w-full h-full object-cover" />
+                    <img src="/img/Lindustrie Pizza.jpg" alt="Food" className="w-full h-full object-cover" />
                   </div>
                   <div className="w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden ring-2 ring-emerald-100 group-hover:ring-emerald-300 transition-all duration-200">
-                    <img src="/postsuplaod/8dab728b45f221926d98260bb8b7a3d4.jpg" alt="Food" className="w-full h-full object-cover" />
+                    <img src="/img/Red Hook Tavern.jpg.webp" alt="Food" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 <h3 className="text-base font-semibold text-[#1D1D1F] mb-1">Track your nutrition</h3>
@@ -276,13 +276,13 @@ export default function SearchChat() {
               <button className="flex flex-col items-start p-5 backdrop-blur-lg bg-white/60 rounded-[32px] border border-gray-200 shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] text-left hover:scale-[1.02] transition-all duration-200 group">
                 <div className="flex -space-x-2 mb-4">
                   <div className="w-10 h-10 rounded-2xl border-2 border-white shadow-md overflow-hidden ring-2 ring-gray-100 group-hover:ring-gray-300 transition-all duration-200">
-                    <img src="/postsuplaod/0ac697015792a7c06e949b31bbef9c41.jpg" alt="Food" className="w-full h-full object-cover" />
+                    <img src="/img/Lindustrie Pizza.jpg" alt="Food" className="w-full h-full object-cover" />
                   </div>
                   <div className="w-10 h-10 rounded-2xl border-2 border-white shadow-md overflow-hidden ring-2 ring-gray-100 group-hover:ring-gray-300 transition-all duration-200">
-                    <img src="/postsuplaod/8dab728b45f221926d98260bb8b7a3d4.jpg" alt="Food" className="w-full h-full object-cover" />
+                    <img src="/img/apollo bagel.jpg" alt="Food" className="w-full h-full object-cover" />
                   </div>
                   <div className="w-10 h-10 rounded-2xl border-2 border-white shadow-md overflow-hidden ring-2 ring-gray-100 group-hover:ring-gray-300 transition-all duration-200">
-                    <img src="/postsuplaod/0ac697015792a7c06e949b31bbef9c41.jpg" alt="Food" className="w-full h-full object-cover" />
+                    <img src="/img/Red Hook Tavern.jpg.webp" alt="Food" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 <h3 className="text-base font-semibold text-[#1D1D1F] mb-1">Trending</h3>

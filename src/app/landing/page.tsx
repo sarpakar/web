@@ -2,11 +2,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { motion, useScroll, useTransform, useMotionTemplate } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionTemplate, useSpring } from 'framer-motion';
 import LoginModal from '@/components/auth/LoginModal';
-import Lottie from 'lottie-react';
-import paperAirplaneAnimation from '../../../public/Paper airplane.json';
 import { Particles } from '@/components/ui/particles';
+import { RainbowButton } from '@/components/ui/rainbow-button';
 
 // CM Logo Component
 const CMlogo = ({ className = "", size = 40, style = {} }: { className?: string; size?: number; style?: React.CSSProperties }) => (
@@ -19,8 +18,70 @@ export default function LandingPage() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Ref for the dark section scroll tracking
+  const darkSectionRef = useRef<HTMLDivElement>(null);
+
+  // Scroll-based background transition - Natural, organic feel
+  const { scrollYProgress: rawProgress } = useScroll({
+    target: darkSectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  // Smooth the scroll progress with spring physics for natural, organic feel
+  // This prevents the mechanical 1:1 mapping and adds physical inertia
+  const smoothProgress = useSpring(rawProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  // Transform smoothed progress: snap transition to avoid ugly gray mid-tones
+  // Tight keyframes [0.18, 0.22] make the switch fast enough to hide interpolation
+  const darkBgOpacity = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], [0, 0, 1, 1, 0, 0]);
+
+  // Card and text color transitions - fast snap to avoid muddy grays
+  const cardBgColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)', 'rgba(30,30,30,0.9)', 'rgba(30,30,30,0.9)', 'rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)']);
+  const cardBorderColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)', 'rgba(60,60,60,0.6)', 'rgba(60,60,60,0.6)', 'rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)']);
+  const headingColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['#000000', '#000000', '#ffffff', '#ffffff', '#000000', '#000000']);
+  const paragraphColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
+
+  // Navbar color transitions for dark mode
+  const navBgColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(255,255,255,0.6)', 'rgba(255,255,255,0.6)', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.6)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.6)']);
+  const navTextColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['#000000', '#000000', '#ffffff', '#ffffff', '#000000', '#000000']);
+  const navBorderColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(243,244,246,1)', 'rgba(243,244,246,1)', 'rgba(55,65,81,1)', 'rgba(55,65,81,1)', 'rgba(243,244,246,1)', 'rgba(243,244,246,1)']);
+
+  // iPhone shadow transitions - more visible on dark background
+  const iphoneShadow1 = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], [
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.08) 50%, transparent 100%)'
+  ]);
+  const iphoneShadow2 = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], [
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, transparent 100%)',
+    'radial-gradient(ellipse 100% 100% at 50% 0%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.05) 50%, transparent 100%)'
+  ]);
+
+  // Section text color transitions for other sections visible during dark mode
+  const sectionHeadingColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(17,24,39)', 'rgb(17,24,39)', 'rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(17,24,39)', 'rgb(17,24,39)']);
+  const sectionSubheadingColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(75,85,99)', 'rgb(75,85,99)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(75,85,99)', 'rgb(75,85,99)']);
+  const fadeFromColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(0,0,0)', 'rgb(0,0,0)', 'rgb(255,255,255)', 'rgb(255,255,255)']);
+
+  // Testimonial card color transitions
+  const testimonialCardBg = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(255,255,255,0.9)', 'rgba(255,255,255,0.9)', 'rgba(38,38,38,0.9)', 'rgba(38,38,38,0.9)', 'rgba(255,255,255,0.9)', 'rgba(255,255,255,0.9)']);
+  const testimonialBorderColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgba(229,231,235,0.2)', 'rgba(229,231,235,0.2)', 'rgba(75,85,99,0.3)', 'rgba(75,85,99,0.3)', 'rgba(229,231,235,0.2)', 'rgba(229,231,235,0.2)']);
+  const testimonialTextColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(55,65,81)', 'rgb(55,65,81)', 'rgb(209,213,219)', 'rgb(209,213,219)', 'rgb(55,65,81)', 'rgb(55,65,81)']);
+  const testimonialNameColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(17,24,39)', 'rgb(17,24,39)', 'rgb(255,255,255)', 'rgb(255,255,255)', 'rgb(17,24,39)', 'rgb(17,24,39)']);
+  const testimonialRoleColor = useTransform(smoothProgress, [0, 0.18, 0.22, 0.78, 0.82, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
+
   // Static images array to prevent recreation on every render
-  const images = ['/img/IMG_6841.PNG', '/img/IMG_6842.PNG', '/img/IMG_6843.PNG'];
+  const images = ['/img/IMG_6866.PNG', '/img/IMG_6867.PNG', '/img/IMG_6868.PNG'];
 
   // Preload images for smooth transitions
   useEffect(() => {
@@ -49,165 +110,135 @@ export default function LandingPage() {
 
   return (
     <div
-      className="min-h-screen bg-white scroll-smooth relative overflow-x-hidden w-full"
+      className="min-h-screen bg-white scroll-smooth relative overflow-x-hidden w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20"
       style={{ clipPath: 'inset(0)', maxWidth: '100%' }}
     >
 
       {/* Navigation */}
       <nav
-        className="fixed top-0 left-0 right-0 z-50 w-full"
-        style={{
-          fontFamily: '"Geist Sans", -apple-system, BlinkMacSystemFont, sans-serif'
-        }}
+        className="fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20"
+        style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
       >
-        {/* Nav blur with gradual fade */}
-        <div
-          className="absolute inset-x-0 top-0 backdrop-blur-2xl bg-white/60 pointer-events-none"
+        {/* Nav blur with gradual fade - adapts to dark mode */}
+        <motion.div
+          className="absolute inset-x-0 top-0 backdrop-blur-2xl pointer-events-none"
           style={{
-            height: '160px',
+            backgroundColor: navBgColor,
+            height: '120px',
             maskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 40%, transparent 100%)',
           }}
         />
-        <div
-          className="relative z-10 w-full"
-          style={{
-            paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
-            paddingRight: 'clamp(1.5rem, 5vw, 4rem)'
-          }}
-        >
+        <div className="relative z-10 w-full">
           <div className="max-w-[1400px] mx-auto">
-          <div className="flex items-center justify-between h-20">
-            {/* Left: Logo + Navigation */}
-            <div className="flex items-center gap-10">
+            <div className="flex items-center justify-between h-14 relative">
+              {/* Left: Logo */}
               <button
                 onClick={() => window.location.href = '/landing'}
-                className="flex items-center hover:opacity-80 transition-opacity flex-shrink-0 cursor-pointer"
+                className="flex items-center hover:opacity-80 transition-opacity cursor-pointer z-10"
               >
-                <CMlogo size={64} className="w-14 h-14 sm:w-16 sm:h-16" />
+                <CMlogo size={48} className="w-12 h-12" />
               </button>
 
-              {/* Desktop Navigation */}
-              <div className="hidden lg:flex items-center gap-3">
-                <a
-                  href="#about"
-                  className="px-5 py-3 text-[19px] font-semibold leading-6 whitespace-nowrap transition-opacity duration-200 hover:opacity-70"
-                  style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
-                >
-                  About
-                </a>
-                <a
-                  href="#features"
-                  className="px-5 py-3 text-[19px] font-semibold leading-6 whitespace-nowrap transition-opacity duration-200 hover:opacity-70"
-                  style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
-                >
+              {/* Center: Navigation - Absolute center */}
+              <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+                <motion.a href="#features" className="text-[15px] font-medium hover:opacity-60 transition-opacity" style={{ color: navTextColor }}>
                   Features
-                </a>
-                <a
-                  href="#testimonials"
-                  className="px-5 py-3 text-[19px] font-semibold leading-6 whitespace-nowrap transition-opacity duration-200 hover:opacity-70"
-                  style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
-                >
+                </motion.a>
+                <motion.a href="#about" className="text-[15px] font-medium hover:opacity-60 transition-opacity" style={{ color: navTextColor }}>
+                  About
+                </motion.a>
+                <motion.a href="#testimonials" className="text-[15px] font-medium hover:opacity-60 transition-opacity" style={{ color: navTextColor }}>
                   Community
-                </a>
+                </motion.a>
               </div>
-            </div>
 
-            {/* Right: Actions */}
-            <div className="flex items-center gap-4">
-              <button
+              {/* Right: Get the app */}
+              <RainbowButton
                 onClick={() => setIsLoginModalOpen(true)}
-                className="hidden md:inline-flex items-center px-8 py-3.5 backdrop-blur-xl bg-white/90 hover:bg-white rounded-full border border-white/50 shadow-[0_4px_16px_rgba(0,0,0,0.1),0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.8)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12),0_16px_48px_rgba(0,0,0,0.1)] transition-all duration-200 text-[19px] font-semibold leading-6 whitespace-nowrap hover:scale-[1.02]"
-                style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
+                variant="outline"
+                className="hidden sm:flex z-10 rounded-full"
+                style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
               >
-                Log in
-              </button>
-              <button
-                onClick={() => setIsLoginModalOpen(true)}
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#1a1a1a] hover:bg-[#2a2a2a] text-white rounded-full text-[19px] font-semibold leading-6 shadow-[0_4px_16px_rgba(0,0,0,0.2),0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.1)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.25),0_16px_48px_rgba(0,0,0,0.3)] transition-all duration-200 outline-none select-none hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
-                style={{ letterSpacing: '-0.4px' }}
-              >
-                Start Free Trial
-              </button>
+                Get the app
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                </svg>
+              </RainbowButton>
 
               {/* Mobile Menu Button */}
-              <button
+              <motion.button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden w-12 h-12 backdrop-blur-xl bg-white/60 rounded-full border border-gray-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] hover:scale-105 transition-all duration-200 flex items-center justify-center text-[#1D1D1F] flex-shrink-0"
+                className="md:hidden w-9 h-9 flex items-center justify-center"
+                style={{ color: navTextColor }}
                 aria-label="Toggle menu"
               >
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   {mobileMenuOpen ? (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
                   ) : (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" />
                   )}
                 </svg>
-              </button>
+              </motion.button>
             </div>
           </div>
-        </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Menu Dropdown - Adapts to dark mode */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200/30 bg-white/70 backdrop-blur-xl" style={{ fontFamily: '"Geist Sans", -apple-system, BlinkMacSystemFont, sans-serif' }}>
-            <div className="max-w-[1400px] mx-auto py-4 space-y-1" style={{ paddingLeft: 'clamp(1.5rem, 5vw, 4rem)', paddingRight: 'clamp(1.5rem, 5vw, 4rem)' }}>
-              <a
-                href="#about"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 text-[16px] font-medium leading-6 hover:opacity-70 rounded-lg transition-opacity duration-200"
-                style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
-              >
-                About
-              </a>
-              <a
+          <motion.div
+            className="md:hidden border-t px-6"
+            style={{
+              backgroundColor: navBgColor,
+              borderColor: navBorderColor,
+            }}
+          >
+            <div className="py-4 space-y-1">
+              <motion.a
                 href="#features"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 text-[16px] font-medium leading-6 hover:opacity-70 rounded-lg transition-opacity duration-200"
-                style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
+                className="block py-2 text-[15px] font-medium hover:opacity-60 transition-opacity"
+                style={{ color: navTextColor }}
               >
                 Features
-              </a>
-              <a
+              </motion.a>
+              <motion.a
+                href="#about"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 text-[15px] font-medium hover:opacity-60 transition-opacity"
+                style={{ color: navTextColor }}
+              >
+                About
+              </motion.a>
+              <motion.a
                 href="#testimonials"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-4 py-3 text-[16px] font-medium leading-6 hover:opacity-70 rounded-lg transition-opacity duration-200"
-                style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
+                className="block py-2 text-[15px] font-medium hover:opacity-60 transition-opacity"
+                style={{ color: navTextColor }}
               >
                 Community
-              </a>
-              <div className="pt-3 space-y-2">
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setIsLoginModalOpen(true);
-                  }}
-                  className="flex w-full items-center justify-center px-5 py-2.5 backdrop-blur-xl bg-white/60 hover:bg-white/80 rounded-full border border-gray-200/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-200 text-[16px] font-medium leading-6 hover:scale-[1.02]"
-                  style={{ letterSpacing: '-0.4px', color: 'rgb(28, 29, 34)' }}
-                  aria-label="Log in to CampusMeals"
-                >
-                  Log in
-                </button>
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setIsLoginModalOpen(true);
-                  }}
-                  className="flex w-full items-center justify-center gap-2 px-5 py-2.5 bg-[#2D2D2D] hover:bg-[#1f1f1f] text-white rounded-full text-[16px] font-medium leading-6 shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.25)] transition-all duration-200 outline-none select-none hover:scale-[1.02] active:scale-[0.98]"
-                  style={{ letterSpacing: '-0.4px' }}
-                  aria-label="Start free trial"
-                >
-                  Start Free Trial
-                </button>
-              </div>
+              </motion.a>
+              <RainbowButton
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setIsLoginModalOpen(true);
+                }}
+                variant="outline"
+                className="w-full justify-start rounded-full"
+              >
+                Get the app
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                </svg>
+              </RainbowButton>
             </div>
-          </div>
+          </motion.div>
         )}
       </nav>
 
       {/* Spacer for fixed nav */}
-      <div className="h-20" />
+      <div className="h-14" />
 
       {/* Hero Section - Auto-Cycling iPhone Screens */}
       <div className="relative z-10">
@@ -287,157 +318,107 @@ export default function LandingPage() {
             className="flex-1 flex items-center justify-center relative z-10"
             style={{
               paddingTop: 'clamp(1.5rem, 3vh, 2rem)',
-              paddingBottom: 'clamp(3rem, 5vh, 4rem)',
-              paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
-              paddingRight: 'clamp(1.5rem, 5vw, 4rem)'
+              paddingBottom: 'clamp(3rem, 5vh, 4rem)'
             }}
           >
 
-            {/* Hero Content - Industry standard flexbox centering */}
-            <div className="flex flex-col lg:flex-row items-center justify-center w-full max-w-[1400px] gap-6 md:gap-8 lg:gap-16 relative z-10">
-            {/* Left Side - Hero Text */}
-            <div className="flex-1 w-full text-center lg:text-left">
-              {/* Instagram-style Friend Avatars */}
-              <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 sm:mb-8">
-                <div className="flex -space-x-3">
-                  {/* Avatar 1 - Pops at image index 0 */}
+            {/* Hero Content - Flighty-style centered layout */}
+            <div className="flex flex-col items-center justify-center w-full max-w-[1000px] relative z-10">
+
+              {/* Promo pill */}
+              <button
+                onClick={() => setIsLoginModalOpen(true)}
+                className="flex items-center gap-1.5 px-4 py-2 bg-blue-50 hover:bg-blue-100 rounded-full mb-6 transition-colors"
+                style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+              >
+                <span className="text-sm font-medium text-blue-600">Students get 6 months free</span>
+                <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* Main headline - clean, bold, centered */}
+              <motion.h1
+                className="text-[2.5rem] sm:text-[3rem] md:text-[3.5rem] lg:text-[4rem] xl:text-[4.5rem] leading-[1.05] mb-6 tracking-[-0.02em] font-bold text-center"
+                style={{ color: navTextColor }}
+              >
+                Discover what to eat with{' '}
+                <span className="relative inline-block isolate">
+                  {/* Blue glow effect behind text */}
+                  <span
+                    className="absolute inset-0 -inset-x-4 -inset-y-2 pointer-events-none"
+                    style={{
+                      background: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.3) 0%, rgba(96, 165, 250, 0.15) 40%, transparent 70%)',
+                      filter: 'blur(20px)',
+                      zIndex: -1,
+                    }}
+                  />
+                  <span className="relative z-10">Campusmeals.</span>
+                </span>
+              </motion.h1>
+
+              {/* Description - centered, gray */}
+              <motion.p
+                className="text-base sm:text-lg md:text-xl leading-relaxed text-center max-w-2xl mb-8"
+                style={{ color: paragraphColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
+              >
+                The app that shows you what your friends are eating nearby.
+              </motion.p>
+
+              {/* Social proof - Friend avatars centered with animation */}
+              <div className="flex items-center justify-center gap-3 mb-10">
+                <div className="flex -space-x-2">
                   <motion.div
-                    className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-white shadow-[0_4px_16px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden ring-2 ring-gray-200"
+                    className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-white shadow-sm overflow-hidden"
                     animate={{
                       scale: currentImageIndex === 0 ? 1.2 : 1,
-                      y: currentImageIndex === 0 ? -12 : 0,
+                      y: currentImageIndex === 0 ? -8 : 0,
                       zIndex: currentImageIndex === 0 ? 10 : 1
                     }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 20
-                    }}
+                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
                   >
-                    <img src="/people/10116edf1a14e1fac1d250f09c3f901d.jpg" alt="Student sharing meal on CampusMeals" className="w-full h-full object-cover" />
+                    <img src="/people/10116edf1a14e1fac1d250f09c3f901d.jpg" alt="User" className="w-full h-full object-cover" />
                   </motion.div>
-
-                  {/* Avatar 2 - Pops at image index 1 */}
                   <motion.div
-                    className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-white shadow-[0_4px_16px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden ring-2 ring-gray-200"
+                    className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-white shadow-sm overflow-hidden"
                     animate={{
                       scale: currentImageIndex === 1 ? 1.2 : 1,
-                      y: currentImageIndex === 1 ? -12 : 0,
+                      y: currentImageIndex === 1 ? -8 : 0,
                       zIndex: currentImageIndex === 1 ? 10 : 1
                     }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 20
-                    }}
+                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
                   >
-                    <img src="/people/269ea14ae1b312e9d73cc8a1acb868aa.jpg" alt="Student sharing meal on CampusMeals" className="w-full h-full object-cover" />
+                    <img src="/people/269ea14ae1b312e9d73cc8a1acb868aa.jpg" alt="User" className="w-full h-full object-cover" />
                   </motion.div>
-
-                  {/* Avatar 3 - Pops at image index 2 */}
                   <motion.div
-                    className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-white shadow-[0_4px_16px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden ring-2 ring-gray-200"
+                    className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-white shadow-sm overflow-hidden"
                     animate={{
                       scale: currentImageIndex === 2 ? 1.2 : 1,
-                      y: currentImageIndex === 2 ? -12 : 0,
+                      y: currentImageIndex === 2 ? -8 : 0,
                       zIndex: currentImageIndex === 2 ? 10 : 1
                     }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 20
-                    }}
+                    transition={{ type: "spring", stiffness: 500, damping: 25 }}
                   >
-                    <img src="/people/569b3d16006db1361d8940a524993c52.jpg" alt="Student sharing meal on CampusMeals" className="w-full h-full object-cover" />
+                    <img src="/people/569b3d16006db1361d8940a524993c52.jpg" alt="User" className="w-full h-full object-cover" />
                   </motion.div>
-
-                  <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-white shadow-[0_4px_16px_rgba(0,0,0,0.12),0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden ring-2 ring-gray-200">
-                    <img src="/people/816230758da3649866b5f4f7c6110456.jpg" alt="Student sharing meal on CampusMeals" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 border-white shadow-[0_4px_16px_rgba(0,0,0,0.15),0_2px_8px_rgba(0,0,0,0.1)] overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
-                    <span className="text-white text-xs sm:text-sm font-semibold" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>+12</span>
+                  <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-white shadow-sm overflow-hidden">
+                    <img src="/people/816230758da3649866b5f4f7c6110456.jpg" alt="User" className="w-full h-full object-cover" />
                   </div>
                 </div>
-                <p className="text-sm sm:text-base md:text-lg font-semibold bg-gradient-to-r from-gray-600 to-gray-800 bg-clip-text text-transparent" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif', filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.06))' }}>
-                  12,847 meals shared today
+                <p className="text-sm text-gray-500" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+                  1,200+ students
                 </p>
               </div>
 
-              {/* Main headline with gradient */}
-              <h1
-                className="text-[3rem] leading-[0.9] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[6.5rem] mb-6 sm:mb-8 tracking-[-0.04em] font-bold"
-                style={{
-                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-                  background: 'linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: 'drop-shadow(0 4px 16px rgba(0, 0, 0, 0.08)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.06))'
-                }}
-              >
-                What to eat? Ask Campusmeals
-              </h1>
 
-              {/* Subheading with gradient */}
-              <div className="relative mb-8 sm:mb-10">
-                {/* Bright Blue Gradient Blur Background */}
-                <div
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[200%] pointer-events-none"
-                  style={{
-                    background: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.25) 0%, rgba(96, 165, 250, 0.15) 25%, rgba(147, 197, 253, 0.08) 50%, transparent 70%)',
-                    filter: 'blur(40px)',
-                    zIndex: -1
-                  }}
-                />
-                <p
-                  className="relative text-base sm:text-lg md:text-xl lg:text-2xl leading-tight max-w-2xl mx-auto lg:mx-0 font-semibold text-gray-600"
-                  style={{
-                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif'
-                  }}
-                >
-                  Discover trending restaurants, share your meals, and connect with students nearby.
-                </p>
-              </div>
-
-              {/* CTA with enhanced glassmorphism */}
-              <div className="flex flex-col items-stretch sm:items-center lg:items-start gap-3 sm:gap-4">
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-                  <button
-                    onClick={() => setIsLoginModalOpen(true)}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-[#2D2D2D] hover:bg-[#1f1f1f] text-white rounded-full text-sm sm:text-base font-semibold shadow-[0_20px_50px_rgba(0,0,0,0.3),0_10px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_25px_60px_rgba(0,0,0,0.35),0_15px_30px_rgba(0,0,0,0.25)] transition-all duration-300 outline-none select-none hover:scale-[1.02] active:scale-[0.98] min-h-[44px] sm:min-h-[52px]"
-                    style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
-                  >
-                    Join Free with .edu Email
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </button>
-                  <Link
-                    href="#demo"
-                    className="inline-flex items-center justify-center px-8 py-4 sm:px-10 sm:py-5 bg-white hover:bg-gray-50 text-[#1c1d22] rounded-full text-sm sm:text-base font-semibold shadow-[0_2px_4px_rgba(0,0,0,0.02),0_4px_8px_rgba(0,0,0,0.04),0_8px_16px_rgba(0,0,0,0.06),0_16px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_8px_rgba(0,0,0,0.04),0_8px_16px_rgba(0,0,0,0.06),0_16px_32px_rgba(0,0,0,0.08),0_24px_48px_rgba(0,0,0,0.06)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 min-h-[44px] sm:min-h-[56px]"
-                    style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
-                  >
-                    Book a Demo
-                  </Link>
-                </div>
-                <p className="text-xs sm:text-sm text-gray-500 flex items-center justify-center lg:justify-start gap-2" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
-                  <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  <span className="text-center lg:text-left">Free forever • No credit card required</span>
-                </p>
-              </div>
-            </div>
-
-            {/* Right Side - iPhone with Pagination */}
-            <div className="flex items-center justify-center lg:justify-end gap-3 md:gap-6 lg:gap-8 relative">
-              <div className="relative w-[220px] sm:w-[240px] md:w-[280px] lg:w-[320px] xl:w-[360px] z-10">
+              {/* iPhone - Centered below text like Flighty */}
+              <div className="relative w-[260px] sm:w-[280px] md:w-[320px] lg:w-[340px] z-10">
                 <img
                   src="/iPhone 17.png"
                   alt="iPhone"
                   className="w-full h-auto relative z-20"
                   style={{
-                    filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.15)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.1)) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.08))'
+                    filter: 'drop-shadow(0 30px 60px rgba(0, 0, 0, 0.15)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.1))'
                   }}
                 />
                 {/* Screen Content with Animated Transitions */}
@@ -470,23 +451,22 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Pagination Indicators - Right Side */}
-              <div className="hidden sm:flex flex-col gap-2 items-center justify-center">
+              {/* Pagination Indicators - Below iPhone */}
+              <div className="flex gap-2 items-center justify-center mt-6">
                 {images.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
-                    className={`w-1.5 rounded-full transition-all duration-300 ${
+                    className={`rounded-full transition-all duration-300 ${
                       index === currentImageIndex
-                        ? 'h-8 sm:h-10 bg-gray-900'
-                        : 'h-1.5 bg-gray-300 hover:bg-gray-400'
+                        ? 'w-8 h-1.5 bg-gray-900'
+                        : 'w-1.5 h-1.5 bg-gray-300 hover:bg-gray-400'
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
@@ -495,15 +475,19 @@ export default function LandingPage() {
       <section
         className="relative z-10 w-full py-4 sm:py-5 md:py-6 lg:py-8"
         style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-          paddingLeft: 'clamp(1.5rem, 5vw, 4rem)',
-          paddingRight: 'clamp(1.5rem, 5vw, 4rem)'
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
         }}
       >
         <div className="w-full max-w-[1400px] mx-auto relative">
-          {/* Edge Fade Overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
+          {/* Edge Fade Overlays - Adapt to dark mode */}
+          <motion.div
+            className="absolute left-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 z-20 pointer-events-none"
+            style={{ background: useMotionTemplate`linear-gradient(to right, ${fadeFromColor}, transparent)` }}
+          />
+          <motion.div
+            className="absolute right-0 top-0 bottom-0 w-20 sm:w-28 md:w-36 lg:w-52 z-20 pointer-events-none"
+            style={{ background: useMotionTemplate`linear-gradient(to left, ${fadeFromColor}, transparent)` }}
+          />
 
           <div className="space-y-2 sm:space-y-3 md:space-y-4" style={{ overflow: 'clip' }}>
             {/* First Row - Scrolls Left */}
@@ -511,16 +495,16 @@ export default function LandingPage() {
               <div className="flex w-max animate-scroll">
                 <div className="flex gap-6 sm:gap-8 md:gap-10 lg:gap-14 pr-6 sm:pr-8 md:pr-10 lg:pr-14">
                   {['Northwestern', 'Rice', 'Stanford', 'Spelman', 'SMU', 'Emory', 'Notre Dame', 'Wake Forest', 'Columbia', 'Penn', 'Brown', 'Cornell'].map((uni, idx) => (
-                    <span key={`row1-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-800 whitespace-nowrap">
+                    <motion.span key={`row1-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold whitespace-nowrap" style={{ color: navTextColor }}>
                       {uni}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
                 <div className="flex gap-6 sm:gap-8 md:gap-10 lg:gap-14 pr-6 sm:pr-8 md:pr-10 lg:pr-14" aria-hidden="true">
                   {['Northwestern', 'Rice', 'Stanford', 'Spelman', 'SMU', 'Emory', 'Notre Dame', 'Wake Forest', 'Columbia', 'Penn', 'Brown', 'Cornell'].map((uni, idx) => (
-                    <span key={`row1-dup-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-800 whitespace-nowrap">
+                    <motion.span key={`row1-dup-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold whitespace-nowrap" style={{ color: navTextColor }}>
                       {uni}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
@@ -531,16 +515,16 @@ export default function LandingPage() {
               <div className="flex w-max animate-scroll-reverse">
                 <div className="flex gap-6 sm:gap-8 md:gap-10 lg:gap-14 pr-6 sm:pr-8 md:pr-10 lg:pr-14">
                   {['UC Berkeley', 'MIT', 'Princeton', 'Tulane', 'Georgetown', 'Duke', 'Yale', 'Howard', 'Dartmouth', 'Vanderbilt', 'USC', 'NYU'].map((uni, idx) => (
-                    <span key={`row2-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-800 whitespace-nowrap">
+                    <motion.span key={`row2-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold whitespace-nowrap" style={{ color: navTextColor }}>
                       {uni}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
                 <div className="flex gap-6 sm:gap-8 md:gap-10 lg:gap-14 pr-6 sm:pr-8 md:pr-10 lg:pr-14" aria-hidden="true">
                   {['UC Berkeley', 'MIT', 'Princeton', 'Tulane', 'Georgetown', 'Duke', 'Yale', 'Howard', 'Dartmouth', 'Vanderbilt', 'USC', 'NYU'].map((uni, idx) => (
-                    <span key={`row2-dup-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold text-gray-800 whitespace-nowrap">
+                    <motion.span key={`row2-dup-${idx}`} className="flex-shrink-0 text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold whitespace-nowrap" style={{ color: navTextColor }}>
                       {uni}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
@@ -549,147 +533,165 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section
-        id="about"
-        className="relative z-10 w-full py-12 md:py-16 lg:py-24 overflow-hidden"
-        style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-          paddingLeft: 'clamp(1rem, 4vw, 3rem)',
-          paddingRight: 'clamp(1rem, 4vw, 3rem)'
-        }}
-      >
-        <div className="max-w-[1400px] mx-auto">
-          {/* Section Header */}
-          <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            <h2
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold"
+      {/* Floating iPhones Section - Flighty Style with Full Page Black Background Transition */}
+      <div ref={darkSectionRef} className="relative">
+        {/* Full-width Black Background Overlay */}
+        <motion.div
+          className="fixed inset-0 bg-black pointer-events-none"
+          style={{
+            opacity: darkBgOpacity,
+            zIndex: 0,
+          }}
+        />
+
+        <section
+          className="relative z-10 w-full py-16 md:py-24 lg:py-32"
+          style={{
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
+          }}
+        >
+          <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+            {/* Dedicated Container - Flighty Style Card */}
+            <motion.div
+              className="relative backdrop-blur-xl rounded-[40px] md:rounded-[56px] border shadow-[0_20px_80px_rgba(255,255,255,0.06),0_8px_32px_rgba(255,255,255,0.04)] overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                filter: 'drop-shadow(0 4px 16px rgba(0, 0, 0, 0.08)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.06))'
+                backgroundColor: cardBgColor,
+                borderColor: cardBorderColor,
               }}
             >
-              How It Works
-            </h2>
-          </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0">
+                {/* Left Content */}
+                <div className="flex flex-col justify-center p-8 sm:p-10 md:p-12 lg:p-16 xl:p-20">
+                  <motion.h2
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] font-bold leading-[1.08] tracking-tight mb-5"
+                    style={{ color: headingColor }}
+                  >
+                    Never wonder, "what should I eat?" ever again.
+                  </motion.h2>
+                  <motion.p
+                    className="text-lg sm:text-xl leading-relaxed max-w-md"
+                    style={{ color: paragraphColor }}
+                  >
+                    Choose who you want to share your meals with. They can see what you're eating, where you're dining, get recommendations, and more.
+                  </motion.p>
+                </div>
 
-          {/* Grid of 3 Large Video Containers */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
-            {/* Container 1 - Share What You Eat */}
-            <div className="relative overflow-hidden backdrop-blur-xl bg-white/70 rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] hover:bg-white/80 transition-all duration-300 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px] flex flex-col items-start justify-start p-6 sm:p-8 md:p-10">
-              {/* Video Background */}
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[95%] h-[95%] object-contain z-0"
-              >
-                <source src="/test (online-video-cutter.com).mp4" type="video/mp4" />
-              </video>
+              {/* Right - Floating iPhones Container - Exact Flighty Layout */}
+              <div className="relative h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-visible">
+                {/* iPhone 1 - Front/Bottom-Left - Main Focus */}
+                <motion.div
+                  className="absolute left-[8%] sm:left-[12%] md:left-[15%] bottom-[8%] sm:bottom-[10%] z-20"
+                  initial={{ opacity: 0, y: 80, rotate: -8 }}
+                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <div
+                    className="relative w-[200px] sm:w-[230px] md:w-[260px] lg:w-[280px]"
+                    style={{ transform: 'rotate(-6deg)' }}
+                  >
+                    <img
+                      src="/iPhone 17.png"
+                      alt="iPhone"
+                      className="w-full h-auto relative z-10 drop-shadow-2xl"
+                    />
+                    {/* Screen Content */}
+                    <div className="absolute top-[2.5%] left-[5.5%] right-[5.5%] bottom-[2.5%] rounded-[2.5rem] overflow-hidden z-0">
+                      <img
+                        src="/img/IMG_6866.PNG"
+                        alt="App screen"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    {/* Soft Drop Shadow - Adapts to dark mode */}
+                    <motion.div
+                      className="absolute -bottom-8 left-1/2 w-[75%] h-[40px]"
+                      style={{
+                        transform: 'translateX(-50%)',
+                        background: iphoneShadow1,
+                        filter: 'blur(12px)',
+                      }}
+                    />
+                  </div>
+                </motion.div>
 
-              {/* Text Overlay */}
-              <h3 className="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight max-w-[280px] sm:max-w-none">
-                Share what you eat.
-              </h3>
-
-              {/* Paper Airplane Animation */}
-              <div className="relative z-10 mt-auto w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px]">
-                <Lottie
-                  animationData={paperAirplaneAnimation}
-                  loop={true}
-                  className="w-full h-auto"
-                />
+                {/* iPhone 2 - Back/Top-Right - Overlapping & Extending */}
+                <motion.div
+                  className="absolute right-[-12%] sm:right-[-8%] md:right-[-5%] lg:right-[-10%] top-[5%] sm:top-[8%] z-10"
+                  initial={{ opacity: 0, y: 80, rotate: 12 }}
+                  whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  <div
+                    className="relative w-[200px] sm:w-[230px] md:w-[260px] lg:w-[280px]"
+                    style={{ transform: 'rotate(10deg)' }}
+                  >
+                    <img
+                      src="/iPhone 17.png"
+                      alt="iPhone"
+                      className="w-full h-auto relative z-10 drop-shadow-2xl"
+                    />
+                    {/* Screen Content */}
+                    <div className="absolute top-[2.5%] left-[5.5%] right-[5.5%] bottom-[2.5%] rounded-[2.5rem] overflow-hidden z-0">
+                      <img
+                        src="/img/IMG_6867.PNG"
+                        alt="App screen"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    {/* Soft Drop Shadow - Adapts to dark mode */}
+                    <motion.div
+                      className="absolute -bottom-10 left-1/2 w-[70%] h-[35px]"
+                      style={{
+                        transform: 'translateX(-50%)',
+                        background: iphoneShadow2,
+                        filter: 'blur(14px)',
+                      }}
+                    />
+                  </div>
+                </motion.div>
               </div>
             </div>
-
-            {/* Container 2 - Ask for Recommendations */}
-            <div className="relative overflow-hidden backdrop-blur-xl bg-white/70 rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] hover:bg-white/80 transition-all duration-300 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px] flex flex-col items-start justify-start p-6 sm:p-8 md:p-10">
-              {/* Video Background */}
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                aria-label="Demo video showing AI recommendations feature"
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[95%] h-[95%] object-contain z-0"
-              >
-                <source src="/test (online-video-cutter.com).mp4" type="video/mp4" />
-              </video>
-
-              {/* Text Overlay */}
-              <h3 className="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight max-w-[280px] sm:max-w-none">
-                Ask for recommendations.
-              </h3>
-
-              {/* Paper Airplane Animation */}
-              <div className="relative z-10 mt-auto w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px]">
-                <Lottie
-                  animationData={paperAirplaneAnimation}
-                  loop={true}
-                  className="w-full h-auto"
-                />
-              </div>
-            </div>
-
-            {/* Container 3 - Track Your Goals */}
-            <div className="relative overflow-hidden backdrop-blur-xl bg-white/70 rounded-[24px] border border-gray-200/50 shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)] hover:bg-white/80 transition-all duration-300 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px] flex flex-col items-start justify-start p-6 sm:p-8 md:p-10">
-              {/* Video Background */}
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                aria-label="Demo video showing nutrition tracking feature"
-                className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[95%] h-[95%] object-contain z-0"
-              >
-                <source src="/test (online-video-cutter.com).mp4" type="video/mp4" />
-              </video>
-
-              {/* Text Overlay */}
-              <h3 className="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight max-w-[280px] sm:max-w-none">
-                Track your goals.
-              </h3>
-
-              {/* Paper Airplane Animation */}
-              <div className="relative z-10 mt-auto w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px]">
-                <Lottie
-                  animationData={paperAirplaneAnimation}
-                  loop={true}
-                  className="w-full h-auto"
-                />
-              </div>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </section>
+      </div>
 
       {/* Testimonials Section - Auto-Scrolling Carousel */}
       <section
         id="testimonials"
         className="relative z-10 w-full py-12 md:py-16 lg:py-24"
         style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-          paddingLeft: 'clamp(1rem, 4vw, 3rem)',
-          paddingRight: 'clamp(1rem, 4vw, 3rem)'
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
         }}
       >
         <div className="max-w-[1400px] mx-auto">
           {/* Section Header */}
-          <div className="mb-10 sm:mb-12 md:mb-16 text-center">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900">
+          <div className="mb-10 sm:mb-12 md:mb-16">
+            <motion.h2
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold"
+              style={{ color: sectionHeadingColor }}
+            >
               Students Love CampusMeals.
-            </h2>
+            </motion.h2>
           </div>
 
           {/* Auto-Scrolling Testimonials Carousel */}
           <div className="relative mb-8 sm:mb-10 md:mb-12 py-8 -my-8" style={{ overflowX: 'clip', overflowY: 'visible' }}>
-            {/* Edge Fade Overlays */}
-            <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
+            {/* Edge Fade Overlays - Adapt to dark mode */}
+            <motion.div
+              className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 z-20 pointer-events-none"
+              style={{
+                background: useMotionTemplate`linear-gradient(to right, ${fadeFromColor}, transparent)`
+              }}
+            />
+            <motion.div
+              className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 md:w-32 lg:w-48 z-20 pointer-events-none"
+              style={{
+                background: useMotionTemplate`linear-gradient(to left, ${fadeFromColor}, transparent)`
+              }}
+            />
 
             {/* Scrolling Container */}
             <div className="flex gap-6 animate-scroll-testimonials">
@@ -697,108 +699,108 @@ export default function LandingPage() {
               {[...Array(2)].map((_, setIndex) => (
                 <div key={setIndex} className="flex gap-6 flex-shrink-0">
                   {/* Testimonial 1 */}
-                  <div className="group relative backdrop-blur-xl bg-white/90 rounded-[28px] p-6 md:p-8 border border-gray-200/20 shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0">
+                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
                     <div className="flex items-center mb-6">
                       <img
                         src="/people/10116edf1a14e1fac1d250f09c3f901d.jpg"
                         alt="Student"
-                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white shadow-lg"
+                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg"
                       />
                     </div>
-                    <p className="text-gray-700 text-sm sm:text-base mb-8 leading-relaxed" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
                       "CampusMeals has completely changed how I discover food on campus. I never eat alone anymore!"
-                    </p>
+                    </motion.p>
                     <div>
-                      <p className="font-semibold text-gray-900 text-base sm:text-lg">Sarah Chen</p>
-                      <p className="text-gray-500 text-sm" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Junior, Northwestern</p>
+                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Sarah Chen</motion.p>
+                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Junior, Northwestern</motion.p>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Testimonial 2 */}
-                  <div className="group relative backdrop-blur-xl bg-white/90 rounded-[28px] p-6 md:p-8 border border-gray-200/20 shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0">
+                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
                     <div className="flex items-center mb-6">
                       <img
                         src="/people/269ea14ae1b312e9d73cc8a1acb868aa.jpg"
                         alt="Student"
-                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white shadow-lg"
+                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg"
                       />
                     </div>
-                    <p className="text-gray-700 text-sm sm:text-base mb-8 leading-relaxed" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
                       "The AI recommendations are spot on. It's like having a personal food guide that knows exactly what I like."
-                    </p>
+                    </motion.p>
                     <div>
-                      <p className="font-semibold text-gray-900 text-base sm:text-lg">Marcus Johnson</p>
-                      <p className="text-gray-500 text-sm" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Sophomore, Stanford</p>
+                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Marcus Johnson</motion.p>
+                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Sophomore, Stanford</motion.p>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Testimonial 3 */}
-                  <div className="group relative backdrop-blur-xl bg-white/90 rounded-[28px] p-6 md:p-8 border border-gray-200/20 shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0">
+                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
                     <div className="flex items-center mb-6">
                       <img
                         src="/people/569b3d16006db1361d8940a524993c52.jpg"
                         alt="Student"
-                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white shadow-lg"
+                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg"
                       />
                     </div>
-                    <p className="text-gray-700 text-sm sm:text-base mb-8 leading-relaxed" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
                       "Best way to find out where everyone's eating. I've discovered so many hidden gems around campus."
-                    </p>
+                    </motion.p>
                     <div>
-                      <p className="font-semibold text-gray-900 text-base sm:text-lg">Emily Rodriguez</p>
-                      <p className="text-gray-500 text-sm" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Senior, MIT</p>
+                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Emily Rodriguez</motion.p>
+                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Senior, MIT</motion.p>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Testimonial 4 */}
-                  <div className="group relative backdrop-blur-xl bg-white/90 rounded-[28px] p-6 md:p-8 border border-gray-200/20 shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0">
+                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
                     <div className="flex items-center mb-6">
                       <img
                         src="/people/816230758da3649866b5f4f7c6110456.jpg"
                         alt="Student"
-                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white shadow-lg"
+                        className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg"
                       />
                     </div>
-                    <p className="text-gray-700 text-sm sm:text-base mb-8 leading-relaxed" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
                       "Finally, a way to track my nutrition and connect with friends over food. It's brilliant!"
-                    </p>
+                    </motion.p>
                     <div>
-                      <p className="font-semibold text-gray-900 text-base sm:text-lg">Alex Kim</p>
-                      <p className="text-gray-500 text-sm" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Freshman, Duke</p>
+                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Alex Kim</motion.p>
+                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Freshman, Duke</motion.p>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Testimonial 5 */}
-                  <div className="group relative backdrop-blur-xl bg-white/90 rounded-[28px] p-6 md:p-8 border border-gray-200/20 shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0">
+                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-xl sm:text-2xl">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-xl sm:text-2xl">
                         J
                       </div>
                     </div>
-                    <p className="text-gray-700 text-sm sm:text-base mb-8 leading-relaxed" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
                       "The social features make campus dining so much more fun. Love seeing what my friends are eating!"
-                    </p>
+                    </motion.p>
                     <div>
-                      <p className="font-semibold text-gray-900 text-base sm:text-lg">Jessica Park</p>
-                      <p className="text-gray-500 text-sm" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Senior, Yale</p>
+                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Jessica Park</motion.p>
+                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Senior, Yale</motion.p>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Testimonial 6 */}
-                  <div className="group relative backdrop-blur-xl bg-white/90 rounded-[28px] p-6 md:p-8 border border-gray-200/20 shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.12),0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0">
+                  <motion.div className="group relative backdrop-blur-xl rounded-[28px] p-6 md:p-8 border shadow-[0_20px_50px_rgba(0,0,0,0.08),0_10px_25px_rgba(0,0,0,0.05),0_5px_10px_rgba(0,0,0,0.04)] transition-shadow duration-300 w-[280px] sm:w-[340px] md:w-[400px] flex-shrink-0" style={{ backgroundColor: testimonialCardBg, borderColor: testimonialBorderColor }}>
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-xl sm:text-2xl">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full object-cover ring-2 ring-white/50 shadow-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-xl sm:text-2xl">
                         M
                       </div>
                     </div>
-                    <p className="text-gray-700 text-sm sm:text-base mb-8 leading-relaxed" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+                    <motion.p className="text-sm sm:text-base mb-8 leading-relaxed" style={{ color: testimonialTextColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
                       "As an international student, CampusMeals helped me discover authentic food from my culture. Game changer!"
-                    </p>
+                    </motion.p>
                     <div>
-                      <p className="font-semibold text-gray-900 text-base sm:text-lg">Miguel Santos</p>
-                      <p className="text-gray-500 text-sm" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Junior, UC Berkeley</p>
+                      <motion.p className="font-semibold text-base sm:text-lg" style={{ color: testimonialNameColor }}>Miguel Santos</motion.p>
+                      <motion.p className="text-sm" style={{ color: testimonialRoleColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Junior, UC Berkeley</motion.p>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               ))}
             </div>
@@ -822,20 +824,24 @@ export default function LandingPage() {
         id="features"
         className="relative z-10 w-full py-12 md:py-16 lg:py-24 overflow-hidden"
         style={{
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-          paddingLeft: 'clamp(1rem, 4vw, 3rem)',
-          paddingRight: 'clamp(1rem, 4vw, 3rem)'
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif'
         }}
       >
         <div className="max-w-[1400px] mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-10 sm:mb-12 md:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-3 sm:mb-4">
+          <div className="mb-10 sm:mb-12 md:mb-16">
+            <motion.h2
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4"
+              style={{ color: sectionHeadingColor }}
+            >
               One Platform for All Your Campus Meals
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+            </motion.h2>
+            <motion.p
+              className="text-base sm:text-lg md:text-xl max-w-3xl"
+              style={{ color: sectionSubheadingColor }}
+            >
               Share what you eat, discover trending spots, and connect with your campus community.
-            </p>
+            </motion.p>
           </div>
 
           {/* Bento Grid Layout */}
@@ -1145,26 +1151,26 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer
-        className="relative z-10 w-full py-10 sm:py-12 border-t border-gray-200/30"
-        style={{
-          paddingLeft: 'clamp(1rem, 4vw, 3rem)',
-          paddingRight: 'clamp(1rem, 4vw, 3rem)'
-        }}
+      <motion.footer
+        className="relative z-10 w-full py-10 sm:py-12 border-t"
+        style={{ borderColor: navBorderColor }}
       >
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-            <div className="text-gray-500 text-xs sm:text-sm tracking-wide" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>
+            <motion.div
+              className="text-xs sm:text-sm tracking-wide"
+              style={{ color: paragraphColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}
+            >
               © 2026 CampusMeals. All rights reserved.
-            </div>
-            <div className="flex items-center gap-4 sm:gap-6 md:gap-8 text-gray-600">
-              <a href="#" className="text-xs sm:text-sm font-medium hover:text-gray-900 transition-colors duration-200" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Privacy</a>
-              <a href="#" className="text-xs sm:text-sm font-medium hover:text-gray-900 transition-colors duration-200" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Terms</a>
-              <a href="#" className="text-xs sm:text-sm font-medium hover:text-gray-900 transition-colors duration-200" style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Contact</a>
+            </motion.div>
+            <div className="flex items-center gap-4 sm:gap-6 md:gap-8">
+              <motion.a href="#" className="text-xs sm:text-sm font-medium hover:opacity-70 transition-opacity duration-200" style={{ color: sectionSubheadingColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Privacy</motion.a>
+              <motion.a href="#" className="text-xs sm:text-sm font-medium hover:opacity-70 transition-opacity duration-200" style={{ color: sectionSubheadingColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Terms</motion.a>
+              <motion.a href="#" className="text-xs sm:text-sm font-medium hover:opacity-70 transition-opacity duration-200" style={{ color: sectionSubheadingColor, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif' }}>Contact</motion.a>
             </div>
           </div>
         </div>
-      </footer>
+      </motion.footer>
 
       {/* Login Modal */}
       <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />

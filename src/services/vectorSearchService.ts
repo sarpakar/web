@@ -1,51 +1,57 @@
 // ============================================================================
 // Vector Search Service - Using Firestore Vector Search with Gemini Embeddings
 // Based on: https://cloud.google.com/blog/products/databases/build-ai-powered-apps-with-firestore-vector-search
+// Uses server-side API routes to protect API keys
 // ============================================================================
 
-import { db } from '@/lib/firebase';
-import { collection, query, where, getDocs, DocumentData } from 'firebase/firestore';
+import { db, auth } from '@/lib/firebase';
+import { collection, query, getDocs, DocumentData } from 'firebase/firestore';
 import { Post } from '@/types';
+import logger from '@/lib/logger';
 
-// Gemini API Configuration
-const GEMINI_API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-const EMBEDDING_MODEL = 'models/text-embedding-004';
-const EMBEDDING_DIMENSION = 768;
-
-interface GeminiEmbeddingResponse {
-  embedding: {
-    values: number[];
-  };
+/**
+ * Get the current user's Firebase ID token for API authentication
+ */
+async function getAuthToken(): Promise<string | null> {
+  const user = auth.currentUser;
+  if (!user) return null;
+  try {
+    return await user.getIdToken();
+  } catch (error) {
+    logger.error('Failed to get auth token:', error);
+    return null;
+  }
 }
 
 /**
- * Generate embedding for text using Gemini API
+ * Generate embedding for text using server-side API
  */
 async function generateEmbedding(text: string): Promise<number[]> {
+  const token = await getAuthToken();
+  if (!token) {
+    logger.warn('User not authenticated for embedding generation');
+    return [];
+  }
+
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/${EMBEDDING_MODEL}:embedContent?key=${GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: EMBEDDING_MODEL,
-          content: {
-            parts: [{ text }]
-          }
-        })
-      }
-    );
+    const response = await fetch('/api/ai/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ query: text, type: 'embedding' })
+    });
 
     if (!response.ok) {
       throw new Error(`Embedding API error: ${response.status}`);
     }
 
-    const data: GeminiEmbeddingResponse = await response.json();
-    return data.embedding.values;
+    const data = await response.json();
+    return data.embedding || [];
   } catch (error) {
-    console.error('Error generating embedding:', error);
-    throw error;
+    logger.error('Error generating embedding:', error);
+    return [];
   }
 }
 
@@ -105,12 +111,14 @@ export const vectorSearchService = {
    */
   async searchPosts(searchQuery: string, limit: number = 10): Promise<Post[]> {
     try {
-      console.log('🔍 Searching posts for:', searchQuery);
+      logger.log('🔍 Searching posts for:', searchQuery);
 
       // Generate embedding for the search query
       const queryEmbedding = await generateEmbedding(searchQuery);
 
-      console.log('✅ Generated query embedding with dimension:', queryEmbedding.length);
+      if (queryEmbedding.length > 0) {
+        logger.log('✅ Generated query embedding with dimension:', queryEmbedding.length);
+      }
 
       // TODO: Once Firestore vector search is fully set up with indexes,
       // we'll use the findNearest query here. For now, fall back to traditional search.
@@ -121,7 +129,7 @@ export const vectorSearchService = {
       return results;
 
     } catch (error) {
-      console.error('❌ Vector search error:', error);
+      logger.error('❌ Vector search error:', error);
       return [];
     }
   },
@@ -148,43 +156,46 @@ export const vectorSearchService = {
 
       return matchingPosts.slice(0, limit);
     } catch (error) {
-      console.error('Fallback search error:', error);
+      logger.error('Fallback search error:', error);
       return [];
     }
   },
 
   /**
    * Get AI-powered recommendations based on query
+   * Uses server-side API to protect API keys
    */
   async getRecommendations(searchQuery: string): Promise<{ summary: string; posts: Post[] }> {
     try {
-      // Use Gemini to understand the query and generate recommendations
-      const prompt = `Based on this food search query: "${searchQuery}"
+      const token = await getAuthToken();
+      if (!token) {
+        const posts = await this.searchPosts(searchQuery);
+        return { summary: 'Please sign in for AI-powered recommendations.', posts };
+      }
 
-Generate a brief, helpful summary (1-2 sentences) that would help someone find what they're looking for.
-Focus on specific food types, meal recommendations, or dining suggestions.`;
+      // Use the server-side API for recommendations
+      const response = await fetch('/api/ai/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ query: searchQuery, type: 'search' })
+      });
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }]
-          })
-        }
-      );
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
 
       const data = await response.json();
-      const summary = data.candidates?.[0]?.content?.parts?.[0]?.text ||
-        'Here are some posts that match your search.';
+      const summary = data.summary || 'Here are some posts that match your search.';
 
-      // Get matching posts
+      // Get matching posts from Firestore
       const posts = await this.searchPosts(searchQuery);
 
       return { summary, posts };
     } catch (error) {
-      console.error('Error getting recommendations:', error);
+      logger.error('Error getting recommendations:', error);
       const posts = await this.searchPosts(searchQuery);
       return { summary: 'Here are some posts that match your search.', posts };
     }
