@@ -50,6 +50,7 @@ interface AuthState {
   isAuthenticated: boolean;
   loading: boolean;
   isLoading: boolean;
+  isLoggingOut: boolean;
   error: string | null;
   setUser: (user: User | null) => void;
   setUserProfile: (profile: UserProfile | null) => void;
@@ -68,6 +69,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isAuthenticated: false,
   loading: true,
   isLoading: false,
+  isLoggingOut: false,
   error: null,
   
   setUser: (user) => set({ user, isAuthenticated: !!user }),
@@ -223,15 +225,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
-    set({ isLoading: true });
+    // Start the logout transition animation
+    set({ isLoggingOut: true });
+
+    // Wait for the fade-out animation to complete
+    await new Promise(resolve => setTimeout(resolve, 400));
+
     try {
       // Clear session cookie first
       await fetch('/api/auth/session', { method: 'DELETE' });
 
       await signOut(auth);
-      set({ user: null, userProfile: null, isAuthenticated: false, isLoading: false });
+      set({ user: null, userProfile: null, isAuthenticated: false, isLoggingOut: false });
     } catch (error: any) {
-      set({ error: error.message, isLoading: false });
+      set({ error: error.message, isLoggingOut: false });
       throw error;
     }
   },

@@ -184,13 +184,10 @@ export default function ProfilePage() {
       {activeTab === 'posts' && (
         <div className="px-4 pb-24">
           {isLoading ? (
-            <div className="backdrop-blur-lg bg-white/60 rounded-[32px] border border-gray-200 shadow-[0_8px_30px_rgba(0,0,0,0.04)] p-8">
-              <div className="flex flex-col items-center justify-center">
-                <div className="relative w-10 h-10">
-                  <div className="absolute inset-0 rounded-full border-2 border-gray-200" />
-                  <div className="absolute inset-0 rounded-full border-2 border-gray-900 border-t-transparent animate-spin" />
-                </div>
-                <p className="mt-3 text-sm text-gray-600">Loading posts...</p>
+            <div className="backdrop-blur-lg bg-white/60 rounded-[32px] border border-gray-200 shadow-[0_8px_30px_rgba(0,0,0,0.04)] p-8 loading-container">
+              <div className="flex flex-col items-center justify-center animate-loading-fade-in">
+                <div className="h-5 w-5 animate-premium-spin rounded-full border-[1.5px] border-gray-200 border-t-gray-800" />
+                <p className="mt-3 text-sm text-gray-500 animate-content-fade-in">Loading posts...</p>
               </div>
             </div>
           ) : recentMeals.length > 0 ? (

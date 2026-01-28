@@ -197,7 +197,9 @@ export default function CommunityPage() {
       {/* Loading State */}
       {isLoading && (
         <div className="flex justify-center py-8">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-blue-500" />
+          <div className="animate-loading-fade-in">
+            <div className="h-5 w-5 animate-premium-spin rounded-full border-[1.5px] border-gray-200 border-t-gray-800" />
+          </div>
         </div>
       )}
 

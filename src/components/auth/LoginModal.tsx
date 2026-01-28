@@ -61,7 +61,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
           className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50"
         >
           {isLoading ? (
-            <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+            <div className="h-4 w-4 animate-premium-spin rounded-full border-[1.5px] border-gray-200 border-t-gray-600 animate-loading-fade-in" />
           ) : (
             <>
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -138,7 +138,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-black text-white rounded-xl hover:bg-gray-800 transition-colors disabled:opacity-50"
           >
             {isLoading ? (
-              <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-400 border-t-white" />
+              <div className="h-4 w-4 animate-premium-spin rounded-full border-[1.5px] border-gray-500 border-t-white animate-loading-fade-in" />
             ) : (
               <>
                 <span className="font-medium">{isSignUp ? 'Create Account' : 'Sign In'}</span>

@@ -20,7 +20,7 @@ export function ClientTweetCard({ id, className }: ClientTweetCardProps) {
     return (
       <div className={className}>
         <div className="flex items-center justify-center w-full h-full min-h-[200px]">
-          <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+          <div className="w-5 h-5 border-[1.5px] border-gray-200 border-t-gray-600 rounded-full animate-premium-spin animate-loading-fade-in" />
         </div>
       </div>
     );

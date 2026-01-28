@@ -28,6 +28,7 @@ export default function LandingPage() {
   // Ref for the dark section scroll tracking
   const darkSectionRef = useRef<HTMLDivElement>(null);
 
+
   // Scroll-based background transition - Natural, organic feel
   const { scrollYProgress: rawProgress } = useScroll({
     target: darkSectionRef,
@@ -46,11 +47,11 @@ export default function LandingPage() {
   // Wider keyframes [0.12, 0.28] for buttery smooth color change
   const darkBgOpacity = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], [0, 0, 1, 1, 0, 0]);
 
-  // Card and text color transitions - smooth gradual change
-  const cardBgColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)', 'rgba(30,30,30,0.9)', 'rgba(30,30,30,0.9)', 'rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)']);
-  const cardBorderColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)', 'rgba(60,60,60,0.6)', 'rgba(60,60,60,0.6)', 'rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)']);
-  const headingColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['#000000', '#000000', '#ffffff', '#ffffff', '#000000', '#000000']);
-  const paragraphColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(156,163,175)', 'rgb(156,163,175)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
+  // Card and text color transitions - smooth gradual change with improved dark mode hierarchy
+  const cardBgColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)', 'rgba(18,18,18,0.95)', 'rgba(18,18,18,0.95)', 'rgba(250,250,250,0.8)', 'rgba(250,250,250,0.8)']);
+  const cardBorderColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)', 'rgba(255,255,255,0.12)', 'rgba(255,255,255,0.12)', 'rgba(229,229,229,0.6)', 'rgba(229,229,229,0.6)']);
+  const headingColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['#000000', '#000000', '#f5f5f7', '#f5f5f7', '#000000', '#000000']);
+  const paragraphColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgb(107,114,128)', 'rgb(107,114,128)', 'rgb(168,168,176)', 'rgb(168,168,176)', 'rgb(107,114,128)', 'rgb(107,114,128)']);
 
   // Navbar color transitions for dark mode
   const navBgColor = useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], ['rgba(255,255,255,0.6)', 'rgba(255,255,255,0.6)', 'rgba(0,0,0,0.6)', 'rgba(0,0,0,0.6)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.6)']);
@@ -112,6 +113,7 @@ export default function LandingPage() {
   const iphone1Y = useTransform(smoothProgress, [0, 0.5, 1], [80, 0, -80]);
   // iPhone 2 (back, further) - different parallax speed for depth
   const iphone2Y = useTransform(smoothProgress, [0, 0.5, 1], [120, 0, -120]);
+
 
   // Static images array to prevent recreation on every render
   const images = ['/img/IMG_6866.PNG', '/img/IMG_6867.PNG', '/img/IMG_6868.PNG'];
@@ -179,14 +181,14 @@ export default function LandingPage() {
 
               {/* Center: Navigation - Absolute center */}
               <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
-                <motion.a href="#features" className="text-[15px] font-medium hover:opacity-60 transition-opacity" style={{ color: navTextColor }}>
-                  Features
-                </motion.a>
                 <motion.a href="#about" className="text-[15px] font-medium hover:opacity-60 transition-opacity" style={{ color: navTextColor }}>
                   About
                 </motion.a>
-                <motion.a href="#testimonials" className="text-[15px] font-medium hover:opacity-60 transition-opacity" style={{ color: navTextColor }}>
-                  Community
+                <motion.a href="/landing/communities" className="text-[15px] font-medium hover:opacity-60 transition-opacity" style={{ color: navTextColor }}>
+                  Communities
+                </motion.a>
+                <motion.a href="/landing/pricing" className="text-[15px] font-medium hover:opacity-60 transition-opacity" style={{ color: navTextColor }}>
+                  Pricing
                 </motion.a>
               </div>
 
@@ -233,14 +235,6 @@ export default function LandingPage() {
           >
             <div className="py-4 space-y-1">
               <motion.a
-                href="#features"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block py-2 text-[15px] font-medium hover:opacity-60 transition-opacity"
-                style={{ color: navTextColor }}
-              >
-                Features
-              </motion.a>
-              <motion.a
                 href="#about"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block py-2 text-[15px] font-medium hover:opacity-60 transition-opacity"
@@ -249,12 +243,20 @@ export default function LandingPage() {
                 About
               </motion.a>
               <motion.a
-                href="#testimonials"
+                href="/landing/communities"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block py-2 text-[15px] font-medium hover:opacity-60 transition-opacity"
                 style={{ color: navTextColor }}
               >
-                Community
+                Communities
+              </motion.a>
+              <motion.a
+                href="/landing/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block py-2 text-[15px] font-medium hover:opacity-60 transition-opacity"
+                style={{ color: navTextColor }}
+              >
+                Pricing
               </motion.a>
               <RainbowButton
                 onClick={() => {
@@ -482,7 +484,7 @@ export default function LandingPage() {
                   ))}
                   {!imagesLoaded && (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-900">
-                      <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+                      <div className="w-5 h-5 border-[1.5px] border-gray-200 border-t-gray-600 rounded-full animate-premium-spin animate-loading-fade-in" />
                     </div>
                   )}
                 </div>
@@ -574,10 +576,22 @@ export default function LandingPage() {
       <div ref={darkSectionRef} className="relative">
         {/* Full-width Black Background Overlay */}
         <motion.div
-          className="fixed inset-0 bg-black pointer-events-none"
+          className="fixed inset-0 bg-[#0a0a0a] pointer-events-none"
           style={{
             opacity: darkBgOpacity,
             zIndex: 0,
+          }}
+        />
+
+        {/* Ambient glow effects for dark mode */}
+        <motion.div
+          className="fixed inset-0 pointer-events-none"
+          style={{
+            opacity: darkBgOpacity,
+            zIndex: 1,
+            background: `
+              radial-gradient(ellipse 100% 50% at 50% -20%, rgba(147, 197, 253, 0.08) 0%, transparent 50%)
+            `,
           }}
         />
 
@@ -596,7 +610,14 @@ export default function LandingPage() {
                 borderColor: cardBorderColor,
                 backdropFilter: cardBlurFilter,
                 WebkitBackdropFilter: cardBlurFilter,
-                boxShadow: '0 25px 100px -12px rgba(0, 0, 0, 0.25)',
+                boxShadow: useTransform(smoothProgress, [0, 0.12, 0.28, 0.72, 0.88, 1], [
+                  '0 25px 100px -12px rgba(0, 0, 0, 0.25)',
+                  '0 25px 100px -12px rgba(0, 0, 0, 0.25)',
+                  '0 25px 100px -12px rgba(0, 0, 0, 0.5), 0 0 80px -20px rgba(147, 197, 253, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                  '0 25px 100px -12px rgba(0, 0, 0, 0.5), 0 0 80px -20px rgba(147, 197, 253, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
+                  '0 25px 100px -12px rgba(0, 0, 0, 0.25)',
+                  '0 25px 100px -12px rgba(0, 0, 0, 0.25)'
+                ]),
               }}
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0">
@@ -700,7 +721,7 @@ export default function LandingPage() {
       </section>
       </div>
 
-      {/* Features Bento Grid Section - 2026 Design */}
+      {/* Pricing Bento Grid Section - 2026 Design */}
       <section
         id="features"
         className="relative z-10 w-full py-12 md:py-16 lg:py-24 overflow-hidden"

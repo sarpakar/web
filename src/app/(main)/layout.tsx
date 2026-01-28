@@ -17,7 +17,7 @@ export default function MainLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, loading } = useAuthStore();
+  const { user, loading, isLoggingOut } = useAuthStore();
   const { isSearchOpen } = useUIStore();
 
   const isFridgePage = pathname === '/fridge';
@@ -30,8 +30,10 @@ export default function MainLayout({
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC]">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC] loading-container">
+        <div className="animate-loading-fade-in">
+          <div className="h-5 w-5 animate-premium-spin rounded-full border-[1.5px] border-gray-200 border-t-gray-800" />
+        </div>
       </div>
     );
   }
@@ -41,7 +43,17 @@ export default function MainLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC]">
+    <div className={`min-h-screen bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC] ${isLoggingOut ? 'animate-logout-fade-out' : ''}`}>
+      {/* Logout overlay */}
+      {isLoggingOut && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center logout-overlay bg-white/60">
+          <div className="flex flex-col items-center gap-3 animate-loading-fade-in">
+            <div className="h-5 w-5 animate-premium-spin rounded-full border-[1.5px] border-gray-200 border-t-gray-800" />
+            <p className="text-sm text-gray-500 animate-content-fade-in">Signing out...</p>
+          </div>
+        </div>
+      )}
+
       {/* Left Sidebar */}
       <Sidebar />
 

@@ -1,9 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { usePathname, useRouter } from 'next/navigation';
+import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useEffect, useState } from 'react';
 import { socialService } from '@/services/socialService';
@@ -45,6 +44,8 @@ function normalizeURL(url: string | undefined | null): string {
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { logout, isLoggingOut } = useAuthStore();
   const { isSearchOpen, toggleSearch, closeSearch } = useUIStore();
   const [savedCommunities, setSavedCommunities] = useState<SavedCommunity[]>([]);
 
@@ -70,7 +71,8 @@ export default function Sidebar() {
 
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      await logout();
+      router.replace('/landing');
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -290,16 +292,25 @@ export default function Sidebar() {
       <div className="pb-4 px-4">
         <button
           onClick={handleLogout}
-          className="flex items-center justify-center gap-2 w-full p-2.5 text-gray-600 hover:text-red-600 hover:bg-red-50/50 rounded-lg text-sm font-medium transition-all duration-200 outline-none select-none"
+          disabled={isLoggingOut}
+          className={`flex items-center justify-center gap-2 w-full p-2.5 rounded-lg text-sm font-medium transition-all duration-200 outline-none select-none ${
+            isLoggingOut
+              ? 'text-gray-400 cursor-not-allowed'
+              : 'text-gray-600 hover:text-red-600 hover:bg-red-50/50'
+          }`}
           style={{ WebkitTapHighlightColor: 'transparent' }}
         >
-          <LogOut size={20} strokeWidth={1.75} className="flex-shrink-0" />
+          {isLoggingOut ? (
+            <div className="h-5 w-5 animate-premium-spin rounded-full border-[1.5px] border-gray-200 border-t-gray-500 animate-loading-fade-in" />
+          ) : (
+            <LogOut size={20} strokeWidth={1.75} className="flex-shrink-0" />
+          )}
           <span
             className={`hidden xl:block whitespace-nowrap transition-opacity duration-200 ${
               isCollapsed ? 'xl:opacity-0 xl:w-0 xl:overflow-hidden' : 'xl:opacity-100'
             }`}
           >
-            Log out
+            {isLoggingOut ? 'Logging out...' : 'Log out'}
           </span>
         </button>
       </div>

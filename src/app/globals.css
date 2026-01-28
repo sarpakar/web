@@ -874,6 +874,157 @@ body {
   }
 }
 
+/* ============================================================================
+   Premium Loading Animations - Industry Standard
+   Inspired by Vercel, Linear, Stripe loading states
+   ============================================================================ */
+
+/* Premium spinner with smooth acceleration */
+@keyframes premium-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Fade in with subtle scale - Vercel style */
+@keyframes loading-fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Smooth content fade - for page transitions */
+@keyframes content-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtle pulse glow for loading indicator */
+@keyframes loading-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Premium shimmer effect for skeleton loaders */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Smooth page transition overlay */
+@keyframes page-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Premium loading spinner classes */
+.animate-premium-spin {
+  animation: premium-spin 0.8s cubic-bezier(0.4, 0.15, 0.6, 0.85) infinite;
+}
+
+.animate-loading-fade-in {
+  animation: loading-fade-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-content-fade-in {
+  animation: content-fade-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-loading-pulse {
+  animation: loading-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* Loading container with smooth background */
+.loading-container {
+  animation: loading-fade-in 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Page content appearing smoothly */
+.page-content-enter {
+  animation: content-fade-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.05s;
+  opacity: 0;
+}
+
+/* ============================================================================
+   Logout Transition - Smooth fade out with blur
+   ============================================================================ */
+
+@keyframes logout-fade-out {
+  0% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    filter: blur(2px);
+    transform: scale(0.995);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.98);
+  }
+}
+
+@keyframes logout-overlay-in {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+.animate-logout-fade-out {
+  animation: logout-fade-out 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.logout-overlay {
+  animation: logout-overlay-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 @keyframes rainbow {
   0% {
     background-position: 0%;
@@ -1216,6 +1367,57 @@ body {
   animation-play-state: paused;
 }
 
+/* Horizontal scroll for pricing tickers */
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-horizontal {
+  animation: scroll-horizontal 10s linear infinite;
+}
+
+/* ============================================================================
+   iPhone Parallax Entrance Animations
+   ============================================================================ */
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ============================================================================
    MOBILE SAFE AREA - iOS notch/home indicator support
    ============================================================================ */
@@ -1235,3 +1437,4 @@ body {
 .safe-area-pr {
   padding-right: env(safe-area-inset-right);
 }
+

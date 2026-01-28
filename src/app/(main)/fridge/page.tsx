@@ -165,10 +165,10 @@ export default function FridgePage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC] flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-2 border-gray-300 border-t-gray-900 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading your fridge...</p>
+      <div className="min-h-screen bg-gradient-to-b from-[#FDFCFB] via-[#FCFBFF] to-[#F9FAFC] flex items-center justify-center loading-container">
+        <div className="text-center animate-loading-fade-in">
+          <div className="h-5 w-5 animate-premium-spin rounded-full border-[1.5px] border-gray-200 border-t-gray-800 mx-auto"></div>
+          <p className="mt-4 text-gray-500 text-sm animate-content-fade-in">Loading your fridge...</p>
         </div>
       </div>
     );
@@ -385,7 +385,7 @@ export default function FridgePage() {
                   >
                     {isSharing ? (
                       <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <div className="w-4 h-4 border-[1.5px] border-white/30 border-t-white rounded-full animate-premium-spin" />
                         Sharing...
                       </>
                     ) : (
